@@ -1,0 +1,8 @@
+<%# cache_products = (params[:sort_by] == "bestsellers") ? cache_key_for_best_sellers(products) : cache_key_for_products(products) %>
+<%# cache cache_products do %>
+<div  class="row row-cols-xl-4 row-cols-lg-4 row-cols-sm-2 no-gutters"  data-hook="homepage_products">
+  <% recipes.each_with_index do |recipe, index| %>
+    <%= render 'spree/shared/recipe', recipe: recipe, image_class: 'product-component-plp-image', taxon: taxon %>
+  <% end %>
+</div>
+<%# end %>

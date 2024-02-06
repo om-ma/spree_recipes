@@ -1,0 +1,47 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:recipes) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_recipe), new_admin_recipe_url, class: 'btn-success', icon: 'add', id: 'admin_new_tag_link' %>
+<% end if can?(:create, Spree::Recipe) %>
+<%= search_form_for [:admin, @search],  url: spree.admin_recipes_url do |f| %>
+  <div class="form-group">
+    <%= f.search_field (:name_cont) ,class:'form-control js-quick-search-target', placeholder: 'Enter recipe name to search'%>
+  </div>
+  <div class="form-actions">
+    <%= button Spree.t(:search), 'search.svg' %>
+  </div>
+<% end %>
+
+<table class="table" id="listing_tags" data-hook>
+  <thead>
+    <tr data-hook="admin_recipes_index_headers">
+      <th><%= t(:image) %></th>
+      <th><%= t(:name) %></th>
+      <th><%= t(:taxons) %></th>
+      <th><%= t(:description) %></th>
+      <th data-hook="admin_tags_index_header_actions" class="actions"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @recipes.each do |recipe| %>
+      <tr id="<%= spree_dom_id recipe %>" data-hook="admin_tags_index_rows" class="<%= cycle('odd', 'even')%>">
+        <td><% if recipe&.recipe_icon&.present? %>
+         <%#= image_tag(main_app.url_for(recipe.recipe_icon), :class => "thumbnail-image") %>
+        <% else %>
+          <p>No image available</p>
+        <% end %></td>
+        <td><%= recipe.name.capitalize %></td>
+        <td><%= recipe&.taxons&.pluck(:name)&.join(",") %></td>
+        <td><%= recipe&.description&.truncate(150) %></td>
+        <td data-hook="admin_tags_index_row_actions" class="actions text-right">
+          <%= link_to_edit recipe, no_text: true %>
+          <%= link_to_delete recipe, no_text: true %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @recipes %>

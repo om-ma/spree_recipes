@@ -1,0 +1,13 @@
+<div class="col-12 col-md-7 col-lg-7" data-hook="recipe_left_part">
+  <div
+    class="w-100 d-flex align-self-start justify-content-between"
+    data-hook="recipe_left_part_wrap">
+    <div class="recipe-details-single" data-hook="recipe_images">
+      <% if @recipe.recipe_icon.present? %>
+        <%= image_tag(main_app.url_for(@recipe.recipe_icon.my_cf_image_url(:large)), class: "recipe_image") %>
+      <% else %>
+        <%= image_tag(asset_path('noimage/default-product-image.jpg'), alt: @recipe.name) %>
+      <% end %>
+    </div>
+  </div>
+</div>

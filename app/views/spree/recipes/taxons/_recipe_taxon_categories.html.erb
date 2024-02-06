@@ -1,0 +1,79 @@
+<% cache cache_key_for_taxon_show_top_level_subcategories(recipes, recipe_taxon) do %>
+  
+  <div class="main-category-best">
+    <ul>
+      <li class="active-best">Most Popular</li>
+      <li>in <%= recipe_taxon.name %></li>
+     </ul>
+  </div>
+  <div class="row row-cols-xl-6 row-cols-lg-3 row-cols-sm-2 no-gutters">
+    <% recipes.each_with_index do |recipe, index| %>
+    <div class="col col-12">
+      <div class="product-wrap" data-hook="top_level_subcategories_product_list_item">
+        <%= link_to spree.product_path(recipe, taxon_id: @recipe_taxon&.id), 'aria-label': 'Most Popular: '+recipe.name, data: { turbolinks: false } do %>
+        <div class="product-img">
+          <% if recipe.recipe_icon.present? %>
+              <%= image_tag main_app.url_for(recipe.recipe_icon), alt:"#{recipe.name} Image", class: "product-component-plp-image" %> 
+          <% else %>
+              <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
+          <% end %>          
+        </div>
+        <div class="product-desc" title="<%= recipe.name %>" >
+          <div class="product-desc-title"><%= recipe.name %></div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="sub-categories text-center">
+    <% categories.each do |category| %>
+      <h3><%= category.name.humanize %> </h3>
+      <div class="row row-cols-xl-4 row-cols-lg-2 row-cols-sm-1 no-gutters mt-5">
+        <% if category.children.present? %>
+          <% category.children.each do |sub_category| %>
+            <div class="col col-12">
+              <% sub_recipe_id = sub_category.permalink.sub("recipes/", "") %>
+              <div class="sub-categories-preview" id="<%= "sub-categories-preview-#{sub_category.name}" %>">
+                <%= link_to nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, title: "All #{sub_category.name} Products" do %>
+                  <% if browser.device.mobile? || !browser.device.tablet? %>
+                    <% if sub_category.icon.present? %>
+                        <%= image_tag main_app.url_for(sub_category.icon.try(:attachment)), alt:"#{sub_category.name} Image" %> 
+                    <% else %>
+                        <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{sub_category.name} Image" %>
+                    <% end %>
+                  <% else %>
+                    <% if sub_category.icon.present? %>
+                        <%= image_tag main_app.url_for(sub_category.icon.my_cf_image_url(:large)), alt:"#{sub_category.name} Image" %> 
+                    <% else %>
+                        <%= image_tag "noimage/default-category-image.jpg", alt:"#{sub_category.name} Image" %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+
+                <h4>
+                  <%= link_to sub_category.name.upcase, nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, 'aria-label' => "List all #{sub_category.name}" %>
+                </h4>
+                <p>
+                  <%= raw(sub_category.short_description) %>
+                </p>
+                <% if sub_category.children %>
+                  <ul>
+                    <% sub_category.children.each do |subcategory| %>
+                      <% sub_recipe_id = subcategory.permalink.sub("recipes/", "") %>
+                      <li><%= link_to subcategory.name, nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, 'aria-label': "Subcategory #{subcategory.name}" %></li>
+                    <% end %>
+                  </ul>
+                <% end %>
+                <%= link_to nested_recipe_taxons_path(sub_recipe_id), class: 'btn btn-primary', data: { turbolinks: false }, 'aria-label' => "See All #{sub_category.name} Products" do %>
+                  <span>See All <%= sub_category.name %></span>
+                <% end %>
+              </div>
+            </div>    
+          <% end %>  
+        <% end %>
+      </div>
+    <% end %>  
+  </div>
+<% end %>

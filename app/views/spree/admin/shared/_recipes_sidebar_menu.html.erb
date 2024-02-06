@@ -1,0 +1,5 @@
+<% if can? :admin, Spree::Recipe %>
+  <ul class="nav nav-sidebar border-bottom" id="sidebarRecipe">
+    <%= main_menu_tree "Recipes", icon: "products.svg", sub_menu: "recipes", url: "#sidebar-recipe" %>
+  </ul>
+<% end %>

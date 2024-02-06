@@ -1,0 +1,11 @@
+<div data-hook="admin_instruction_form_fields" class="row">
+  <div class="col-md-6">
+
+    <%= f.field_container :description, class: ['form-group'] do %>
+      <%= f.label :description %>
+      <%= f.text_area :description, class: 'form-control' %>
+      <%= error_message_on :instruction, :description %>
+    <% end %>
+
+  </div>
+</div>

@@ -1,0 +1,5 @@
+$('.added-to-cart-toast').fadeIn();
+setTimeout(function() {
+  $('.added-to-cart-toast').fadeOut();
+}, 3000);
+$(".cart-counter").html("<%= @order.item_count %>")

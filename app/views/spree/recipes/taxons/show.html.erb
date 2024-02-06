@@ -1,0 +1,48 @@
+<div class="category-wrapper">
+  <div class="row no-gutters">
+    <% unless @recipe_taxons.present? %>
+      <div class="col-xl-2 col-lg-3 phone-hide">
+        <div class="sidebar-categories">
+            <div class="sidebar-categories-title">Categories:</div>
+            <%= render partial: 'spree/shared/taxonomies', locals: { taxon: @recipe_taxon }%>
+        </div>
+      </div>
+    <% end %>
+    <% klass = @recipe_taxons.present? ? "col-xl-12" : "col-xl-10 col-lg-9" %>
+    <div class=<%= klass %>>
+      <div class="products-wrapper">
+        <div class="category-banner phone-visible">
+          <% if browser.device.mobile? %>
+              <% if @recipe_taxon.icon.present? %>
+                <%= image_tag @recipe_taxon.icon.my_cf_image_url(:small), alt:"#{@recipe_taxon.name}" %> 
+              <% else %>
+                <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxon.name}" %>
+              <% end %>
+          <% else %>
+            <% if @recipe_taxon.icon.present? %>
+              <%= image_tag @recipe_taxon.icon.my_cf_image_url(:large), alt:"#{@recipe_taxon.name}" %> 
+            <% else %>
+              <%= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name}" %>
+            <% end %>
+          <% end %>
+        </div>
+        <%= render partial: 'spree/taxons/introduction', locals: { taxon: @recipe_taxon } %>
+        <% unless @recipe_taxons.present? %>
+          <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
+          <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %> 
+          <% if @recipes.present? %>
+            <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
+          <% end %>
+        <%end%>
+      </div>
+      <% unless @recipe_taxons.present? %>
+        <% if @recipes.present? %>
+          <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
+        <%end%>
+      <% end %>
+      <% if @recipe_taxons.present? %>
+        <%= render partial: 'recipe_taxon_categories', locals: { recipe_taxon: @recipe_taxon, categories: @recipe_taxons, recipes: @recipes } %>
+      <%end%>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div data-hook="admin_ingredient_form_fields" class="row">
+  <div class="col-md-6">
+    <%= f.field_container :name, class: ['form-group'] do %>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+      <%= error_message_on :ingredient, :name %>
+    <% end %>
+
+    <%= f.field_container :amount, class: ['form-group'] do %>
+      <%= f.label :amount %>
+      <%= f.text_field :amount, class: 'form-control' %>
+      <%= error_message_on :ingredient, :amount %>
+    <% end %>
+
+    <%= f.field_container :unit, class: ['form-group'] do %>
+      <%= f.label :unit %>
+      <%= f.text_field :unit, class: 'form-control' %>
+      <%= error_message_on :ingredient, :unit %>
+    <% end %>
+
+    <%= f.field_container :note, class: ['form-group'] do %>
+      <%= f.label :note %>
+      <%= f.text_area :note, class: 'form-control' %>
+      <%= error_message_on :ingredient, :note %>
+    <% end %>
+
+    <div class="form-group">
+      <%= label_tag :add_variant_name, "Select Product" %>
+      <%= label_tag :add_variant_name, Spree.t(:name_or_sku_short) %>
+      <% if Spree.version.to_d >= 4.2 %>
+        <%= select_tag "ingredient[variant_id]", f.object.variant_id , class: 'variant_autocomplete d-block w-100' %>
+      <% else %>
+        <%= hidden_field_tag "ingredient[variant_id]", '', class: 'variant_autocomplete', style: "display: block !important;" %>
+      <% end %>
+    </div>
+
+    <% if f.object.persisted? && f.object.variant.present? %>
+      <div class="form-group">
+        <% variant = f.object.variant %>
+        <% product = variant.product %>
+        <%= large_image product %>
+        <%= product.name %>
+        <%= variant.sku %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<%= content_for :head do %>
+  <script type="text/javascript">
+    $(function () {
+      $('#ingredient_variant_id.variant_autocomplete').variantAutocomplete();
+    });
+  </script>
+
+  <script type='text/template' id='variant_autocomplete_template'>
+    <div class='variant-autocomplete-item media align-items-center'>
+      <figure class='variant-image media-left mb-0 mr-3'>
+        {{#if variant.image }}
+          <div class="admin-product-image-container small-img">
+            <img src='{{variant.image}}' class="thumbnail mb-0" />
+          </div>
+        {{ else }}
+          <div class="admin-product-image-container small-img">
+            <%= inline_svg_tag "noimage/backend-missing-image.svg", class: "noimage", size: "60%*60%" %>
+          </div>
+        {{/if}}
+      </figure>
+
+      <div class='variant-details media-body'>
+        <h5 class="variant-name media-heading h6 mb-0">{{variant.name}}</h5>
+        {{#if variant.option_values}}
+          {{#each variant.option_values}}
+            <strong>{{this.option_type_presentation}}:</strong> {{name_or_presentation this}}<br/>
+          {{/each}}
+        {{/if}}
+        <strong><%= Spree.t(:sku) %>:</strong> {{variant.sku}}
+      </div>
+    </div>
+  </script>
+<% end %>

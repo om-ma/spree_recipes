@@ -1,0 +1,60 @@
+<main class="page-contents">
+  <div class="category-wrapper">
+    <div class="">
+      <div class="products-wrapper">
+        <div class="main-category-best text-center mb-4">
+          <h1> Recipes </h1>
+        </div>
+        <div class="sub-categories text-center">
+          <% @recipe_taxons.each do |category| %>
+            <h3><%= category.name.humanize %> </h3>
+            <div class="row row-cols-xl-4 row-cols-lg-2 row-cols-sm-1 no-gutters mt-5">
+              <% if category.children.present? %>
+                <% category.children.each do |sub_category| %>
+                  <div class="col col-12">
+                    <% sub_recipe_id = sub_category.permalink.sub("recipes/", "") %>
+                    <div class="sub-categories-preview" id="<%= "sub-categories-preview-#{sub_category.name}" %>">
+                      <%= link_to nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, title: "All #{sub_category.name} Products" do %>
+                        <% if browser.device.mobile? || !browser.device.tablet? %>
+                          <% if sub_category.icon.present? %>
+                              <%= image_tag main_app.url_for(sub_category.icon.try(:attachment)), alt:"#{sub_category.name} Image" %> 
+                          <% else %>
+                              <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{sub_category.name} Image" %>
+                          <% end %>
+                        <% else %>
+                          <% if sub_category.icon.present? %>
+                              <%= image_tag main_app.url_for(sub_category.icon.my_cf_image_url(:large)), alt:"#{sub_category.name} Image" %> 
+                          <% else %>
+                              <%= image_tag "noimage/default-category-image.jpg", alt:"#{sub_category.name} Image" %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+
+                      <h4>
+                        <%= link_to sub_category.name.upcase, nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, 'aria-label' => "List all #{sub_category.name}" %>
+                      </h4>
+                      <p>
+                        <%= raw(sub_category.short_description) %>
+                      </p>
+                      <% if sub_category.children %>
+                        <ul>
+                          <% sub_category.children.each do |subcategory| %>
+                            <% sub_recipe_id = subcategory.permalink.sub("recipes/", "") %>
+                            <li><%= link_to subcategory.name, nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false }, 'aria-label': "Subcategory #{subcategory.name}" %></li>
+                          <% end %>
+                        </ul>
+                      <% end %>
+                      <%= link_to nested_recipe_taxons_path(sub_recipe_id), class: 'btn btn-primary', data: { turbolinks: false }, 'aria-label' => "See All #{sub_category.name} Products" do %>
+                        <span>See All <%= sub_category.name %></span>
+                      <% end %>
+                    </div>
+                  </div>    
+                <% end %>  
+              <% end %>
+            </div>
+          <% end %>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

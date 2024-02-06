@@ -1,0 +1,34 @@
+
+<% if @recipe_category.present? %>
+  <li class="nav-item">
+    <%= link_to @recipe_category.name.humanize, recipe_taxons_path, class: "nav-link", 'aria-label': "Menu "+@recipe_category.name, data: { turbolinks: false } %>
+    <div class="dropdown-menu-wrap">
+      <ul>
+        <% main_recipe_taxons = @recipe_categories %>
+        <% main_recipe_taxons.in_groups_of(8) do |categories|%>
+          <% categories.compact.each do |category| %>
+            <li>
+                <!-- Sub Menu -->
+              <% if category.children.present? %>
+                <ul class="dropdown-menu-wrap-sub">
+                  <% category.children.each do |sub_category| %>
+                    <% sub_recipe_id = sub_category.permalink.sub("recipes/", "") %>
+                    <li><%= link_to sub_category.name.humanize, nested_recipe_taxons_path(sub_recipe_id), data: { turbolinks: false } %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+                <!-- Sub Menu End -->
+              <% recipe_id = category.permalink.sub("recipes/", "") %>
+              <% if category.children.any? %> 
+                <%= link_to category.name.humanize, nested_recipe_taxons_path(recipe_id), class: "dropdown-menu-sub", data: { turbolinks: false } %> 
+              <% else %>
+                <%= link_to category.name.humanize, nested_recipe_taxons_path(recipe_id), data: { turbolinks: false } %> 
+              <% end %> 
+            </li>
+          <% end %>
+        <% end %>
+        <%= link_to recipe_taxons_path, class: "menu-see-all", data: { turbolinks: false } do %>See All <strong><%= @recipe_category.name%></strong><% end %>
+      </ul>
+    </div>
+  </li>
+<% end %>

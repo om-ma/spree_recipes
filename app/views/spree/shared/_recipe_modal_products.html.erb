@@ -1,0 +1,75 @@
+<% products.each do |product| %>
+  <% default_variant = product.default_variant %>
+  <div class="recipe-added-item" >
+    <ul class="cart-items">
+      <li class="cart-item">
+        <div class="recipe-added-image-container" >
+          <div class="col-12 col-md-7 col-lg-7" data-hook="product_left_part">
+            <div
+              class="w-100 d-flex align-self-start justify-content-between product-details-images"
+              data-hook="product_left_part_wrap">
+              <div class="product-details-single" data-hook="product_images">
+                <%= small_image(product) %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cart-item-details d-flex justify-content-between align-items-center">
+          <div class="recipe-added-info-container" >
+            <h4>
+              <%= link_to product.name, spree.product_path(product) %>
+              <% unless product.variants.present? %>
+                - <span class="right js-product-sku-<%= product.id %>"><%= default_variant.sku %></span>
+              <% end %>           
+            </h4>
+            <!-- <p class="recipe-added-price price-size" >
+              <span>2x$21.77</span>
+              $45.00
+            </p> -->
+            <p class="recipe-added-price js-product-price-<%= product.id %>" >
+              <%= default_variant.display_amount.to_html %>
+            </p>
+          </div>
+          <div class="quantity-field quantity-select">
+            <%= number_field_tag "quantity", 1, min: 1, id: "js-quantity-field-#{product.id}", class: "d-none p-0 flex-grow-1 flex-shrink-1 text-center form-control border-left-10 border-right-10 js-recipe-quantity-field ", data: {id: product.id}, 'aria-label': Spree.t('pdp.quantity') %>
+            <%= select_tag 'quantity', options_for_select([[1, 1], [2, 2], [3, 3],[4, 4],[5, 5],[6, 6],[7, 7],[8, 8], [9, 9], [10, 10], ['10+', 11]]), id: "js-qunatity-select-#{product.id}", class: "custom-select js-recipe-qunatity-select", data: {id: product.id}, aria: { label: Spree.t('cart_page.change_quantity') }  %>
+          </div>
+          <%= hidden_field_tag :selected_variant_quantity, "1", id: "product-selected-variant-quantity-#{product.id}" %>
+        </div>
+      </li>
+    </ul>
+    
+    <div class="d-flex flex-column flex-md-row align-items-center align-items-lg-end recipe-modal-button-container mt-3 mt-lg-0" >
+      <%= hidden_field_tag :selected_variant, default_variant.id, id: "product-selected-variant-#{product.id}" %>
+      <% if product.variants.present? %>
+        <div class='w-100'>
+          <div class="product-options-header d-flex align-items-center justify-content-between">
+            <div class="left">Choose your <strong>option:</strong></div>
+            <div class="right js-product-sku-<%= product.id %>"><%= default_variant.sku %></div>
+          </div>
+          
+          <div class="dropdown listed-items">
+            <button type="button" class="btn btn-secondary" data-toggle="dropdown">Select Variant</button>
+            <ul class="dropdown-menu">
+              <% product.variants.each_with_index do |variant,index| %>
+                <% if variant.id == default_variant.id %>
+                  <% active_class = "bg-black text-white" %>
+                <% else %>
+                  <% active_class = "" %>
+                <% end %>
+                <li class="dropdown-item d-flex justify-content-between align-items-center <%= active_class %>" data-variant-id= <%= variant.id %> data-product-id=<%= product.id %> data-variant-sku=<%= variant.sku %> data-variant-price=<%= variant.display_amount.to_html %>>
+                  <span><%= variant.display_amount %></span>
+                  <span> <%= variant.option_values.map{ |o| o.presentation }.join(", ") %> </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to "", recipe_add_to_cart_path(id: default_variant.id, quantity: 1),method: :post , remote: true, id: "jsAddToCart-#{product.id}" %>
+      <%= link_to "javascript:void(0);", class: 'mt-3 mt-lg-0 ml-lg-4 btn btn-primary w-100 font-weight-bold text-uppercase product-added-modal-button', id: "addToCartRecipe", data: {product_id: product.id} do %>
+        <%= Spree.t(:add_to_cart) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

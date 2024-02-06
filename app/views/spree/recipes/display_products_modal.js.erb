@@ -1,0 +1,57 @@
+
+$('.recipe-added-container').html("<%= j render partial: 'spree/shared/recipe_modal_products', locals: {products: @recipe_products}  %>")
+<% if @recipe_products.count > 2 %>
+  $(".recipe_modal_footer").html("<%= j render partial: 'spree/shared/recipe_modal_products', locals: {products: @recipe_products}  %>")
+<% end %>
+
+$(".js-recipe-qunatity-select").on("change", function(){
+  let selectedQty = $(this).val()
+  let selectFieldId = $(this).data("id")
+  $("#js-quantity-field-" + selectFieldId).val(selectedQty)
+  if(selectedQty > 10 ){
+    $(this).hide()
+    $("#js-quantity-field-" + selectFieldId).removeClass("d-none");
+  }
+});
+
+$(".js-recipe-quantity-field").on("change", function(){
+  let selectedQty = $(this).val()
+  let selectFieldId = $(this).data("id")
+  if(selectedQty <= 10 ){
+    $(this).addClass("d-none");
+    $("#js-qunatity-select-" + selectFieldId).show();
+    $("#js-qunatity-select-" + selectFieldId).val(selectedQty);
+  }
+});
+
+$(".dropdown-item").on('click', function() {
+  $(".dropdown-item").removeClass("bg-black text-white")
+  $(this).addClass("bg-black text-white")
+  var productId = $(this).data("product-id");
+  var variantId = $(this).data("variant-id");
+  
+  $(".js-product-price-" + productId).html($(this).data("variant-price"))
+  $(".js-product-sku-" + productId).html($(this).data("variant-sku"))
+  $("#product-selected-variant-" + productId).val($(this).data("variant-id"))
+});
+
+$(".js-recipe-qunatity-select").on("change", function(){
+  let productId = $(this).data("id")
+  $("#product-selected-variant-quantity-" +  productId).val($(this).val())
+});
+
+$(".js-recipe-quantity-field").on("change", function(){
+  let productId = $(this).data("id")
+  $("#product-selected-variant-quantity-" +  productId).val($(this).val())
+});
+
+$("#addToCartRecipe").on('click', function() {
+  let productId = $(this).data("product-id")
+  let variantQty = $("#product-selected-variant-quantity-" +  productId).val()
+  let variantId = $("#product-selected-variant-" +  productId).val()
+
+  var updatedUrl = "/recipe_add_to_cart/" + variantId + "?quantity=" + variantQty
+
+  $("#jsAddToCart-" + productId).attr("href", updatedUrl);
+  $("#jsAddToCart-" + productId).click();
+});

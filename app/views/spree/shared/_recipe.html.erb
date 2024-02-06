@@ -1,0 +1,27 @@
+<%# cache cache_key_for_product_wihtout_version(product) do %>
+<%# url = spree.product_path(product, taxon_id: @taxon&.id) %>
+<div class="col col-12">
+  <div class="product-wrap" id="recipe_<%= recipe.id %>" data-hook="recipes_list_item">
+    <%= link_to recipe_product_path(recipe, taxon_id: taxon.id), data: { turbolinks: false } do %>
+      <div class="product-img">
+        <% if browser.device.mobile? || !browser.device.tablet? %>
+          <% if recipe.recipe_icon.present? %>
+              <%= image_tag main_app.url_for(recipe.recipe_icon.my_cf_image_url(:plp)), alt:"#{recipe.name} Image", class: "recipe_image #{image_class}" %> 
+          <% else %>
+              <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
+          <% end %>
+        <% else %>
+          <% if sub_category.recipe_icon.present? %>
+              <%= image_tag sub_category.recipe_icon.my_cf_image_url(:plp), alt:"#{recipe.name} Image", class: image_class %> 
+          <% else %>
+              <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="product-desc" title=<%= recipe.name %> >
+        <div class="product-desc-title"><%= recipe.name %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%# end %>
