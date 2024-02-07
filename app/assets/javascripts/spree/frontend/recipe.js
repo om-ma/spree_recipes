@@ -7,3 +7,4 @@ $(document).on('turbolinks:load', function() {
     $(".recipe-added-modal").show();
   });
 });
+

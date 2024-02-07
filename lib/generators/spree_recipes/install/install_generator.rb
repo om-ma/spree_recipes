@@ -1,14 +1,14 @@
 module SpreeRecipes
   module Generators
     class InstallGenerator < Rails::Generators::Base
-      class_option :migrate, type: :boolean, default: true
+      class_option :migrate, type: :boolean, default: false
 
       def add_javascripts
-        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/spree_recipe\n"
+        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/spree_recipes\n"
       end
 
       def add_stylesheets
-        inject_into_file 'vendor/assets/stylesheets/spree/frontend/all.css', "*= require spree/frontend/spree_recipe\n", before: %r{\*\/}, verbose: true
+        inject_into_file 'vendor/assets/stylesheets/spree/frontend/all.css', "*= require spree/frontend/spree_recipes\n", before: %r{\*\/}, verbose: true
       end
 
       def add_migrations
