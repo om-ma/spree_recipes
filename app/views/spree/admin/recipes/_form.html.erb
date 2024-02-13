@@ -1,5 +1,5 @@
 <div data-hook="admin_recipe_form_fields" class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <%= f.field_container :name, class: ['form-group'] do %>
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
@@ -16,23 +16,13 @@
 
     <%= f.field_container :description, class: ['form-group'] do %>
       <%= f.label :description %>
-      <%= f.text_area :description, class: 'form-control' %>
+      <%= f.text_area :description, class: "form-control spree-rte" %>
       <%= error_message_on :recipe, :description %>
     <% end %>
 
     <%= f.field_container :taxon_ids, class: ['form-group'] do %>
       <%= f.label :taxon_ids, "Taxons" %>
       <%= f.collection_select :taxon_ids, @recipe_taxons, :id, :name, { include_hidden: false } , {multiple: true, class: "select2"} %>
-    <% end %>
-
-    <%= f.field_container :ingredient_ids, class: ['form-group'] do %>
-      <%= f.label :ingredient_ids, "Ingredients" %>
-      <%= f.collection_select :ingredient_ids, @ingredients, :id, :name, { include_hidden: false } , {multiple: true, class: "select2"} %>
-    <% end %>
-
-    <%= f.field_container :instruction_ids, class: ['form-group'] do %>
-      <%= f.label :instruction_ids, "Instructions" %>
-      <%= f.collection_select :instruction_ids, @instructions, :id, :description, { include_hidden: false } , {multiple: true, class: "select2"} %>
     <% end %>
 
     <%= f.field_container :recipe_icon, class: ['form-group'] do %>

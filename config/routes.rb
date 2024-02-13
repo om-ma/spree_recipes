@@ -1,9 +1,18 @@
 Spree::Core::Engine.add_routes do
   # Add your extension routes here
   namespace :admin, path: Spree.admin_path do
-    resources :recipes
-    resources :ingredients
-    resources :instructions
+    resources :recipes do
+      resources :ingredients do
+        collection do
+          post :update_positions
+        end
+      end
+      resources :instructions do
+        collection do
+          post :update_positions
+        end
+      end
+    end
   end
 
   get '/recipes', to: 'recipes/taxons#index', as: 'recipe_taxons'

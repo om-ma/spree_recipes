@@ -1,0 +1,34 @@
+<% content_for :page_title do %>
+    <%= link_to Spree.t(:recipes), admin_recipes_path %> /
+    <%= @recipe.name %>
+  <% end %>
+  
+  <% content_for :sidebar do %>
+    <ul class="nav flex-column nav-pills" data-hook="admin_product_tabs">
+      <%= content_tag :li do %>
+        <%= link_to_with_icon 'edit.svg',
+          Spree.t(:details),
+          edit_admin_recipe_url(@recipe),
+          class: "nav-link #{'active' if current == :details}" %>
+  
+      <% end if can?(:admin, Spree::Recipe) %>
+      
+  
+      <%= content_tag :li do %>
+        <%= link_to_with_icon 'adjust.svg',
+          Spree.t(:Ingredients),
+          spree.admin_recipe_ingredients_url(@recipe),
+          class: "nav-link" %>
+  
+      <% end if can?(:admin, Spree::Ingredient) %>
+  
+      <%= content_tag :li do %>
+        <%= link_to_with_icon 'list.svg',
+          Spree.t(:instructions),
+          spree.admin_recipe_instructions_url(@recipe),
+          class: "nav-link" %>
+  
+      <% end if can?(:admin, Spree::Instruction) %>
+    </ul>
+  <% end %>
+  

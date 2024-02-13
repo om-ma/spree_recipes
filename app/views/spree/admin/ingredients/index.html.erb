@@ -1,54 +1,55 @@
-<% content_for :page_title do %>
-  <%= Spree.t(:ingredients) %>
-<% end %>
+<%= render 'spree/admin/shared/recipe_tabs', current: :ingredients %>
+<%= render 'spree/admin/shared/error_messages', target: @recipe %>
 
 <% content_for :page_actions do %>
-  <%= button_link_to Spree.t(:new_ingredient), new_admin_ingredient_url, class: 'btn-success', icon: 'add', id: 'admin_new_tag_link' %>
-<% end if can?(:create, Spree::Ingredient) %>
-<%= search_form_for [:admin, @search],  url: spree.admin_ingredients_url do |f| %>
-  <div class="form-group">
-    <%= f.search_field (:name_cont) ,class:'form-control js-quick-search-target', placeholder: 'Enter ingredient name to search'%>
-  </div>
-  <div class="form-actions">
-    <%= button Spree.t(:search), 'search.svg' %>
-  </div>
+
+  <%= button_link_to(
+    Spree.t(:add_recipe_ingredients),
+    "javascript:;",
+    { icon: 'add.svg', :'data-target' => "tbody#sortVert", class: 'btn-success spree_add_fields' }) %>
+
+  
+<% end if can? :create, Spree::Ingredient %>
+
+<%= form_for @recipe, url: spree.admin_recipe_url(@recipe), method: :put do |f| %>
+  <fieldset>
+    <div id="prototypes" data-hook></div>
+    <div class=" table-responsive mb-3">
+      <table id="recipe_ingredients" class="table sortable" data-hook data-sortable-link="<%= update_positions_admin_recipe_ingredients_url %>">
+        <thead>
+          <tr data-hook="recipe_ingredient_header">
+            <th></th>
+            <th style="width:120px;"><%= Spree.t(:amount) %></th>
+            <th style="width:120px;"><%= Spree.t(:unit) %></th>
+            <th style="width:220px;"><%= Spree.t(:name) %></th>
+            <th><%= Spree.t(:note) %></th>
+            <th><%= Spree.t(:external_link) %></th>
+            <th class="actions"></th>
+          </tr>
+        </thead>
+        <tbody id="sortVert">
+          <%= f.fields_for :ingredients do |pp_form| %>
+            <%= render 'recipe_ingredient_fields', f: pp_form %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= render('spree/admin/shared/edit_resource_links') if can? :update, Spree::Ingredient %>
+    <%= hidden_field_tag 'clear_product_properties', 'true' %>
+  </fieldset>
 <% end %>
 
-<table class="table" id="listing_tags" data-hook>
-  <thead>
-    <tr data-hook="admin_ingredients_index_headers">
-      <th><%= t(:name) %></th>
-      <th><%= t(:amount) %></th>
-      <th><%= t(:unit) %></th>
-      <th><%= t(:note) %></th>
-      <th data-hook="admin_tags_index_header_actions" class="actions"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @ingredients.each do |ingredient| %>
-        <td><%= ingredient.name.capitalize %></td>
-        <td><%= ingredient.amount %></td>
-        <td><%= ingredient.unit %></td>
-        <td><%= ingredient.note %></td>
-        <td data-hook="admin_tags_index_row_actions" class="actions text-right">
-          <%#= link_to_edit ingredient, no_text: true %>
-          <%#= link_to_delete ingredient, no_text: true %>
-          <%= link_to edit_admin_ingredient_path(ingredient) do%>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-            </svg>
-          <% end %>  
-          <%= link_to admin_ingredient_path(ingredient), data: {method: :delete} do%>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ff0000" class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+  var properties = <%= raw(@properties.to_json) %>;
+  $('#product_properties').on('keydown', 'input.autocomplete', function() {
+    already_auto_completed = $(this).is('ac_input');
+    if (!already_auto_completed) {
+      $(this).autocomplete({source: properties});
+      $(this).focus();
+    }
+  });
+</script>
 
-<%= paginate @ingredients %>
+<style>
+  div.ui-helper-hidden-accessible {display:none;}
+</style>

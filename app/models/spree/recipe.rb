@@ -8,10 +8,8 @@ module Spree
     has_one :recipe_icon, as: :viewable, dependent: :destroy, class_name: 'Spree::RecipeImage'
     has_many :recipes_taxons
     has_many :taxons, through: :recipes_taxons
-    has_many :recipes_ingredients
-    has_many :ingredients, through: :recipes_ingredients
-    has_many :recipes_instructions
-    has_many :instructions, through: :recipes_instructions
+    has_many :ingredients
+    has_many :instructions
 
     friendly_id :name, use: :history
     before_validation :set_slug, on: :create, if: :name
@@ -25,6 +23,9 @@ module Spree
     validates :slug, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }
 
     self.whitelisted_ransackable_attributes =  %w[name]
+
+    accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: ->(pp) { pp[:name].blank? }
+    accepts_nested_attributes_for :instructions, allow_destroy: true, reject_if: ->(pp) { pp[:description].blank? }
 
 
     def normalize_slug

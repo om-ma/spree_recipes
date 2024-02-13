@@ -7,7 +7,10 @@
         </div>
         <div class="sub-categories text-center">
           <% @recipe_taxons.each do |category| %>
-            <h3><%= category.name.humanize %> </h3>
+            <% category_recipe_id = category.permalink.sub("recipes/", "") %>
+            <h3>
+              <%= link_to category.name.humanize, nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, title: "All #{category.name} Products" %>
+            </h3>
             <div class="row row-cols-xl-4 row-cols-lg-2 row-cols-sm-1 no-gutters mt-5">
               <% if category.children.present? %>
                 <% category.children.each do |sub_category| %>

@@ -1,0 +1,40 @@
+<tr class="recipe_ingredient fields" id="spree_<%= dom_id(f.object) %>" data-hook="recipe_ingredient">
+  <% if f.object.persisted? && can?(:edit, f.object) %>
+  <td class="move-handle">
+    <%= svg_icon name: "sort.svg", width: '18', height: '18' %>
+    <%= f.hidden_field :id %>
+  </td>
+  <% else %>
+  <td style="opacity:0.2;">
+    <%= svg_icon name: "sort.svg", width: '18', height: '18' %>
+    <%= f.hidden_field :id %>
+  </td>
+  <% end %>
+  <td class='ingredient_amount'>
+    <%= f.text_field :amount, class: 'autocomplete form-control' %>
+  </td>
+  <td class='ingredient_unit'>
+    <%= f.text_field :unit, class: 'autocomplete form-control' %>
+  </td>
+  <td class='ingredient_name'>
+    <%= f.text_field :name, class: 'autocomplete form-control' %>
+  </td>
+  <td class='ingredient_note'>
+    <%= f.text_field :note, class: 'form-control' %>
+  </td>
+  <td class='ingredient_external_link'>
+    <%= f.text_field :external_link, class: 'form-control' %>
+  </td>
+  
+  <td class="actions">
+    <span class="d-flex justify-content-end">
+      <% if f.object.persisted? && can?(:destroy, f.object) %>
+        <%= link_to_delete f.object, no_text: true %>
+      <% else %>
+      <span class="btn btn-danger btn-sm icon-link disabled" style="opacity:0.2;">
+        <%= svg_icon name: "delete.svg", width: '18', height: '18' %>
+      </span>
+      <% end %>
+    </span>
+  </td>
+</tr>

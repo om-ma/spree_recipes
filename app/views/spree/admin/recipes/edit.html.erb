@@ -1,7 +1,7 @@
 <% content_for :page_title do %>
   <%= Spree.t(:editing_recipe) %>
 <% end %>
-
+<%= render partial: 'spree/admin/shared/recipe_tabs', locals: {current: :details} %>
 <div data-hook="admin_recipe_edit_form">
   <%= form_for [:admin, @recipe] do |f| %>
     <div class="row">

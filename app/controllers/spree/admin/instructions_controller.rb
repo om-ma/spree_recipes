@@ -1,25 +1,18 @@
 module Spree
   module Admin
     class InstructionsController < ResourceController
+      belongs_to 'spree/recipe', find_by: :slug
+      before_action :find_instructions
+      before_action :setup_instruction, only: :index
 
       private
 
-      def scope
-        Spree::Instruction.all
+      def find_instructions
+        @instruction = Spree::Instruction.pluck(:description)
       end
 
-      def find_resource
-        scope.find(params[:id])
-      end
-
-      def collection
-        return @collection if @collection.present?
-
-        params[:q] ||= {}
-        @collection = scope
-
-        @search = @collection.ransack(params[:q])
-        @collection = @search.result.order(:created_at).page(params[:page]).per(params[:per_page])
+      def setup_instruction
+        @recipe.instructions.build
       end
     end
   end

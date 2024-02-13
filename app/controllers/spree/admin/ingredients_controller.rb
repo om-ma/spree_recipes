@@ -1,26 +1,20 @@
 module Spree
   module Admin
     class IngredientsController < ResourceController
+      belongs_to 'spree/recipe', find_by: :slug
+      before_action :find_ingredients
+      before_action :setup_ingredient, only: :index
 
       private
 
-      def scope
-        Spree::Ingredient.all
+      def find_ingredients
+        @ingredients = Spree::Ingredient.pluck(:name)
       end
 
-      def find_resource
-        scope.find(params[:id])
-      end
-
-      def collection
-        return @collection if @collection.present?
-
-        params[:q] ||= {}
-        @collection = scope
-
-        @search = @collection.ransack(params[:q])
-        @collection = @search.result.order(:created_at).page(params[:page]).per(params[:per_page])
+      def setup_ingredient
+        @recipe.ingredients.build
       end
     end
   end
 end
+  
