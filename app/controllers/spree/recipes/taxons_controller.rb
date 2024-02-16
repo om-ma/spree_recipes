@@ -13,23 +13,19 @@ module Spree
       end
 
       def show
-        @recipe_taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
+        @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
 
-        if @recipe_taxon.children.present? && (@recipe_taxon.children.count < @recipe_taxon.descendants.count)
-          @recipe_taxons = @recipe_taxon.children
-          @recipes = @recipe_taxon&.recipes&.present? ? @recipe_taxon.recipes.limit(6) : []
+        if params[:sort_by].present? && params[:sort_by] == "name-z-a"
+          recipes = @taxon.recipes.order(name: :desc)
         else
-          if params[:sort_by].present? && params[:sort_by] == "name-z-a"
-            recipes = @recipe_taxon.recipes.order(name: :desc)
+          recipes = @taxon.recipes.order(name: :asc)
+        end
+
+        if recipes.present?
+          if (browser.device.mobile? || browser.device.tablet?)
+            @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
           else
-            recipes = @recipe_taxon.recipes.order(name: :asc)
-          end
-          if recipes.present?
-            if (browser.device.mobile? || browser.device.tablet?)
-              @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
-            else
-              @pagy, @recipes = pagy_array(recipes)
-            end
+            @pagy, @recipes = pagy_array(recipes)
           end
         end
       end

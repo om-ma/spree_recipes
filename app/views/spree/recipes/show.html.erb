@@ -1,10 +1,14 @@
 <% @body_id = 'recipe-details' %>
+
 <main class="page-contents">
   <div class="container bg-white pt-4 product-details">
+    <div class="container mb-3">
+      <%= spree_recipe_breadcrumbs(@taxon, '', @recipe) %>
+    </div>
     <div class="row" data-hook="product_show">
       <%= render partial: 'gallery' %>
       <div class="col-12 col-md-5" data-hook="product_right_part">
-        <div class="py-5" id="product-description" data-hook="product_right_part_wrap">
+        <div class="" id="product-description" data-hook="product_right_part_wrap">
           <h2 class="mt-3 mt-md-0">
             <%= @recipe.name %>
           </h2>
@@ -12,27 +16,32 @@
           <div class="mt-4" >
             <% if @recipe.ingredients.present? %>
               <div>
-                <h4>INGREDIENTS</h3>
+                <h4>INGREDIENTS</h4>
                 <ul class="mt-2" >
                   <% @recipe.ingredients.each do |ingredient| %>
                     <li>
-                      <%= ingredient.name %>
-                      <% if ingredient.variant.present? %>
-                        <% product = ingredient.variant.product %>
+                      <%= ingredient.amount %> <%= ingredient.unit %>. 
+                      <% if ingredient.product.present? %>
+                        <% product = ingredient.product %>
                         <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= product.name %>
+                          <%= ingredient.name %>
                         <% end %>
+                      <% elsif ingredient.external_link.present? %>
+                        <%= link_to ingredient.external_link , class: "ml-1", data: { turbolinks: false } do %>
+                          <%= ingredient.name %>
+                        <% end %>
+                      <% else %>
+                        <%= ingredient.name %>
                       <% end %>
                     </li>
                   <% end %>
                 </ul>  
-                <%#= render 'cart_form', variant_change_identifier: 'productCarousel' %>
               </div>
             <% end %>
             <div class="mt-4" >
               <%= @recipe&.description&.html_safe %>
             </div>
-            <div class="mt-4" >
+            <div class="mt-4 mb-4" >
               <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
               
               <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
@@ -47,32 +56,14 @@
                     </li>
                   <% end %>
                 </ol>
-                <%#= render 'cart_form', variant_change_identifier: 'productCarousel' %>
               </div>
             <% end %>
           </div>
         </div>
       </div>
     </div>
-    <div class="pb-4 pt-md-5 row" data-hook="product_description">
-      <div class="col-12 col-md-7 col-lg-6">
-        <%#= render partial: 'description' %>
-      </div>
-      <div class="d-none d-lg-block col-lg-1"></div>
-      <div class="col-12 col-md-5" data-hook="product_properties">
-        <%#= render partial: 'properties' %>
-      </div>
-      <div class="col-12" data-hook="promotions">
-        <%#= render partial: 'promotions' %>
-      </div>
-    </div>
-
-    <div id="no-product-available" class="no-product-available-dropdown">
-      <%#= render partial: 'spree/shared/no_product_available' %>
-    </div>
-
-    <%#= render partial: 'gallery_modal' %>
   </div>
+
   <% if @related_recipes.present? %>
     <div id="related-products">
       <div class="product-tabs-wrapper">
@@ -83,18 +74,7 @@
               <h3>Related Recipes</h3>
               <div class="products-wrapper d-sm-flex align-items-start">
                 <% @related_recipes.each do |recipe| %>
-                  <div class="product-wrap">
-                    <%= link_to recipe_product_path(recipe) do %>
-                      <% if recipe.recipe_icon.present? %>
-                        <div class="product-img">
-                          <%= image_tag main_app.url_for(recipe.recipe_icon), alt:"#{recipe.name} Image", class: "recipe_image product-component-plp-image" %> 
-                        </div>
-                      <% end %>
-                      <div class="product-desc">
-                        <h4><%= recipe.name %></h4>
-                      </div>
-                    <% end %>
-                  </div>
+                  <%= render 'spree/shared/recipe', recipe: recipe, image_class: 'product-component-plp-image', taxon: @taxon %>
                 <% end %>
               </div>
             </div>
@@ -103,8 +83,6 @@
       </div>
     </div>
   <% end %>
-
-
 
   <%= render 'spree/shared/recipe_added_modal' %>
 </main>

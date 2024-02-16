@@ -1,0 +1,23 @@
+<% if @recipe_category.present? %>
+  <li>
+    <span data-turbolinks="false" class="link" onclick="location=''">Recipes</span><a href="#" data-turbolinks="false" class="hidden-title" role="button" aria-label="recipes link">Recipes</a>
+    <ul>
+      <% @recipe_categories.each do |menu_category| %>
+        <li>
+          <% menu_category_id = menu_category.permalink.sub("recipes/", "") %>
+          <span data-turbolinks="false" class="link" onclick="location='<%= nested_recipe_taxons_path(menu_category_id) %>'"><%= menu_category.name %></span><% if menu_category.children.any? %><a href="#" data-turbolinks="false" class="hidden-title" role="button" aria-label="<%= menu_category.name %> link"><%= menu_category.name %></a><% end %>
+          <% if menu_category.children.present? %>
+            <ul>
+              <% menu_category.children.each do |sub_category| %>
+                <li>
+                  <% sub_category_id = sub_category.permalink.sub("recipes/", "") %>
+                  <span data-turbolinks="false" class="link" onclick="location='<%= nested_recipe_taxons_path(sub_category_id) %>'"><%= sub_category.name %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+<% end %>

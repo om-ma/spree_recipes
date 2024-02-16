@@ -1,0 +1,41 @@
+<% cache [taxon, browser.device.mobile?, browser.device.tablet?, params[:sort_by]] do %>
+   <div class="category-intro-wrapper">
+      <div class="row no-gutters">
+         <div class="col-xl-8">
+            <div class="category-banner-wrap">
+               <%= spree_recipe_breadcrumbs(taxon) %>
+               <h1 class="title">
+                  <%= (taxon.h1_title.blank? ? taxon.name : taxon.h1_title) %>
+               </h1>
+               <div class="category-banner phone-hide">
+               <% if browser.device.mobile? %>
+                  <% if taxon.icon.present? %>
+                     <%= image_tag taxon.icon.my_cf_image_url(:small), alt:"#{taxon.name}" %> 
+                  <% else %>
+                     <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{taxon.name}" %>
+                  <% end %>
+               <% else %>
+                  <% if taxon.icon.present? %>
+                     <%= image_tag taxon.icon.my_cf_image_url(:large), alt:"#{taxon.name}" %> 
+                  <% else %>
+                     <%= image_tag "noimage/default-category-image.jpg", alt:"#{taxon.name}" %>
+                  <% end %>
+               <% end %>
+               </div>
+               <% if (browser.device.mobile? || browser.device.tablet?) %>
+                  <div class="mobile-categories-wrap phone-visible">
+                  <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories</a></div>
+                     <%= render partial: 'spree/shared/taxonomies', locals: {taxon: taxon }%>
+                  </div>
+               <% end %>   
+            </div>
+         </div>
+         <div class="col-xl-4">
+            <div class="category-intro more">
+               <%= raw(taxon.short_description) %>
+               <% if taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= taxon.name %>"><strong>Read more</strong></a><% end %>
+            </div>
+         </div>
+      </div>
+   </div>
+<% end %>

@@ -28,7 +28,7 @@
     <% @recipes.each do |recipe| %>
       <tr id="<%= spree_dom_id recipe %>" data-hook="admin_tags_index_rows" class="<%= cycle('odd', 'even')%>">
         <td><% if recipe&.recipe_icon&.present? %>
-         <%#= image_tag(main_app.url_for(recipe.recipe_icon), :class => "thumbnail-image") %>
+         <%= image_tag(main_app.url_for(recipe.recipe_icon.try(:attachment)), :class => "thumbnail-image") %>
         <% else %>
           <p>No image available</p>
         <% end %></td>

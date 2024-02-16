@@ -4,6 +4,27 @@ module Spree
 
       before_action :load_recipe_data, only: [:new, :edit]
 
+      def create
+        @recipe = Spree::Recipe.new(permitted_resource_params.except(:recipe_icon))
+        if @recipe.save
+          @recipe.create_recipe_icon(attachment: permitted_resource_params[:recipe_icon]) if permitted_resource_params[:recipe_icon]
+          flash[:notice] = "Successfully created recipe."
+          redirect_to admin_recipes_url
+        else
+          render :action => 'new'
+        end
+      end
+
+      def update
+        @recipe.create_recipe_icon(attachment: permitted_resource_params[:recipe_icon]) if permitted_resource_params[:recipe_icon]
+        if @recipe.update(permitted_resource_params.except(:recipe_icon))
+          flash[:notice] = "Successfully updated recipe."
+          redirect_to admin_recipes_url
+        else
+          render :action => 'edit'
+        end
+      end
+
       private
 
       def scope

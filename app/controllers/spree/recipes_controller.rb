@@ -6,13 +6,15 @@ module Spree
 
     def show
       @recipe = Spree::Recipe.friendly.find(params[:id])
-      recipe_category = params[:taxon_id].present? ? Spree::Taxon.find_by_id(params[:taxon_id]) : @recipe&.taxons&.first
-      @related_recipes = recipe_category.recipes.where.not(id: @recipe.id).first(4)
+      @taxon = params[:taxon_id].present? ? Spree::Taxon.find_by_id(params[:taxon_id]) : @recipe&.taxons&.first
+      @related_recipes = Rails.cache.fetch("@related_recipes", expires_in: Rails.configuration.x.cache.expiration, race_condition_ttl: 30.seconds) do 
+        @taxon.recipes.where.not(id: @recipe.id).first(4)
+      end
     end
 
     def display_products_modal
       @recipe = Spree::Recipe.friendly.find(params[:id])
-      @recipe_products = @recipe.ingredients.joins(:variant).map { |ingredient| ingredient.variant.product }
+      @recipe_products = @recipe.ingredients.joins(:product).map { |ingredient| ingredient.product }
     end
 
     def generate_pdf
