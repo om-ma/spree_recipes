@@ -13,6 +13,8 @@ module Spree
 
       def setup_ingredient
         @recipe.ingredients.build
+        product_ids =  @recipe&.ingredients&.joins(:product)&.pluck(:product_id)
+        @ingredients_products = product_ids&.present? ? Spree::Product.where(id: product_ids) : []
       end
     end
   end

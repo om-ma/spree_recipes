@@ -15,15 +15,15 @@
   <fieldset>
     <div id="prototypes" data-hook></div>
     <div class=" table-responsive mb-3">
-      <table id="recipe_ingredients" class="table sortable" data-hook data-sortable-link="<%= update_positions_admin_recipe_ingredients_url %>">
+      <table id="recipe_ingredients" class="table sortable" style="width: 75rem;" data-hook data-sortable-link="<%= update_positions_admin_recipe_ingredients_url %>">
         <thead>
           <tr data-hook="recipe_ingredient_header">
-            <th></th>
-            <th style="width:120px;"><%= Spree.t(:amount) %></th>
-            <th style="width:120px;"><%= Spree.t(:unit) %></th>
-            <th style="width:220px;"><%= Spree.t(:name) %></th>
-            <th><%= Spree.t(:note) %></th>
-            <th><%= Spree.t(:external_link) %></th>
+            <th colspan="2"><%= Spree.t(:amount) %></th>
+            <th style="width:80px;"><%= Spree.t(:unit) %></th>
+            <th style="width: 300px;" ><%= Spree.t(:name) %></th>
+            <th style="width: 300px;" ><%= Spree.t(:note) %></th>
+            <th style="width: 300px;" ><%= Spree.t(:external_link) %></th>
+            <th style="width: 300px;" ><%= Spree.t(:product) %></th>
             <th class="actions"></th>
           </tr>
         </thead>

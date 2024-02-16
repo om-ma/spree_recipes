@@ -3,7 +3,7 @@ module Spree
 
     acts_as_list scope: :recipe
 
-    belongs_to :variant
+    belongs_to :product
     belongs_to :recipe
 
     self.whitelisted_ransackable_attributes =  %w[name]

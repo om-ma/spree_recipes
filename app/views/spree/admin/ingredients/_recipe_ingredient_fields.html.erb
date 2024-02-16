@@ -1,19 +1,19 @@
 <tr class="recipe_ingredient fields" id="spree_<%= dom_id(f.object) %>" data-hook="recipe_ingredient">
   <% if f.object.persisted? && can?(:edit, f.object) %>
-  <td class="move-handle">
+  <td class="move-handle" style="width:40px;">
     <%= svg_icon name: "sort.svg", width: '18', height: '18' %>
     <%= f.hidden_field :id %>
   </td>
   <% else %>
-  <td style="opacity:0.2;">
+  <td style="opacity:0.2;" style="width:80px;">
     <%= svg_icon name: "sort.svg", width: '18', height: '18' %>
     <%= f.hidden_field :id %>
   </td>
   <% end %>
-  <td class='ingredient_amount'>
+  <td class='ingredient_amount' style="width:80px;">
     <%= f.text_field :amount, class: 'autocomplete form-control' %>
   </td>
-  <td class='ingredient_unit'>
+  <td class='ingredient_unit' style="width:80px;">
     <%= f.text_field :unit, class: 'autocomplete form-control' %>
   </td>
   <td class='ingredient_name'>
@@ -24,6 +24,18 @@
   </td>
   <td class='ingredient_external_link'>
     <%= f.text_field :external_link, class: 'form-control' %>
+  </td>
+  <td>
+    <% if f.object.product_id.present? %>
+      <%= f.select :product_id, options_from_collection_for_select(@ingredients_products, :id, :name, f.object.product_id), { multiple: false, include_blank: true }, { class: 'product_picker' } %>
+    <% else %>
+      <%= f.select :product_id, options_for_select([]), { }, { multiple: false , class: 'product_picker ' } %>
+    <% end %>
+    <% unless f.object.persisted? %>
+      <small class="form-text text-muted">
+        Ingredient must be saved before added the product
+      </small>
+    <% end %>
   </td>
   
   <td class="actions">
@@ -38,3 +50,47 @@
     </span>
   </td>
 </tr>
+
+
+<%= content_for :head do %>
+  <script type="text/javascript">
+
+    $(function () {
+      $('.product_picker').productAutocomplete();
+      // $('.variant_autocomplete').variantAutocomplete();
+    });
+  </script>
+
+  <script type='text/template' id='variant_autocomplete_template'>
+    <div class='variant-autocomplete-item media align-items-center'>
+      <figure class='variant-image media-left mb-0 mr-3'>
+        {{#if variant.image }}
+          <div class="admin-product-image-container small-img">
+            <img src='{{variant.image}}' class="thumbnail mb-0" />
+          </div>
+        {{ else }}
+          <div class="admin-product-image-container small-img">
+            <%= inline_svg_tag "noimage/backend-missing-image.svg", class: "noimage", size: "60%*60%" %>
+          </div>
+        {{/if}}
+      </figure>
+
+      <div class='variant-details media-body'>
+        <h5 class="variant-name media-heading h6 mb-0">{{variant.name}}</h5>
+        <strong><%= Spree.t(:sku) %>:</strong> {{variant.sku}}
+      </div>
+    </div>
+  </script>
+<% end %>
+
+<script >
+  $(document).ready(function() {
+    $('.select2-selection__choice__remove').on('click', function() {
+      var prevSelect = $(this).closest('td').find('select.product_picker');
+      prevSelect.find('option:selected').removeAttr('selected');
+      prevSelect.find('option:first').attr('selected', 'selected');
+      var emptychip = $(this).closest('ul').find('li:first');
+      emptychip.remove(); 
+    });
+  });
+</script>
