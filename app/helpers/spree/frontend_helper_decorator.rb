@@ -1,6 +1,6 @@
 Spree::FrontendHelper.class_eval do
 
-  def taxons_tree(root_taxon, current_taxon, max_level = 3)
+  def recipe_taxons_tree(root_taxon, current_taxon, max_level = 3)
     return '' if max_level < 1
 
     if max_level == 3 && root_taxon.leaf?

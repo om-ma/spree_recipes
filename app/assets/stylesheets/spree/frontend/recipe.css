@@ -78,6 +78,7 @@
   color: white;
   background: linear-gradient(167deg, #d34047 16%, #a71e22 82%);
   opacity: 1;
+  z-index: 10000;
 }
 
 .recipe-added-modal #close-recipe-products-modal:hover {
@@ -141,4 +142,11 @@
 .recipe_image {
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+.default-variant-design {
+    width: 85%;
+    height: 35px;
+    padding: 13px;
+    border-radius: 15px;
 }

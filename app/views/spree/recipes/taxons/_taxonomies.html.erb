@@ -1,0 +1,29 @@
+<% max_level = 3 %>
+
+<% if taxon.present? %>
+  <% cache [I18n.locale, max_level, taxon] do %>
+    <% if taxon.children.where(hide_from_nav: false).any? %>
+      <%= recipe_taxons_tree(taxon, taxon, max_level) %>
+    <% else %>
+      <%= recipe_taxons_tree(taxon.parent, taxon.parent, max_level) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <% all_categories = Spree::Taxonomy.all %>
+  <% if all_categories.present? %>
+    <% cache cache_key_for_all_categories(all_categories) do %>
+    <% all_categories.each do |taxonomy| %>
+      <%= link_to taxonomy.name, seo_url(taxonomy), data: { turbolinks: false }, aria: { label: "#{taxonomy.name} link" } %>
+       <% if taxonomy.root.children.any? %>
+         <%= recipe_taxons_tree(taxonomy, @taxon, max_level) %>
+       <% end %>  
+    <% end %>
+    <% end %>
+  <% end %>  
+<% end %>
+<script type="text/javascript">
+  $( document ).on('turbolinks:load', function() {
+    $(".js_drop_down").click();
+    $('body').click()
+  });
+</script>

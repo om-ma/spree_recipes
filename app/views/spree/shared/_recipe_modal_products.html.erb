@@ -49,7 +49,12 @@
           </div>
           
           <div class="dropdown listed-items">
-            <button type="button" class="btn btn-secondary" data-toggle="dropdown">Select Variant</button>
+            <button type="button" class="btn btn-secondary" data-toggle="dropdown">
+              <div class="d-flex justify-content-between align-items-center bg-black text-white default-variant-design" id="selectedVariantDetail">
+                <span><%= default_variant.display_amount %></span>
+                <span> <%= default_variant.option_values.map{ |o| o.presentation }.join(", ") %> </span>
+              </div>
+            </button>
             <ul class="dropdown-menu">
               <% product.variants.each_with_index do |variant,index| %>
                 <% if variant.id == default_variant.id %>
@@ -57,9 +62,10 @@
                 <% else %>
                   <% active_class = "" %>
                 <% end %>
-                <li class="dropdown-item d-flex justify-content-between align-items-center <%= active_class %>" data-variant-id= <%= variant.id %> data-product-id=<%= product.id %> data-variant-sku=<%= variant.sku %> data-variant-price=<%= variant.display_amount.to_html %>>
+                <% variant_option_values = " #{variant.option_values.map{ |o| o.presentation }.join(", ")} " %>
+                <li class="dropdown-item d-flex justify-content-between align-items-center <%= active_class %>" data-variant-id= <%= variant.id %> data-product-id=<%= product.id %> data-variant-sku=<%= variant.sku %> data-variant-price=<%= variant.display_amount.to_html %> data-variant-option-value="<%= variant_option_values %>" >
                   <span><%= variant.display_amount %></span>
-                  <span> <%= variant.option_values.map{ |o| o.presentation }.join(", ") %> </span>
+                  <span> <%= variant_option_values %> </span>
                 </li>
               <% end %>
             </ul>

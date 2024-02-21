@@ -29,10 +29,13 @@ $(".dropdown-item").on('click', function() {
   $(this).addClass("bg-black text-white")
   var productId = $(this).data("product-id");
   var variantId = $(this).data("variant-id");
-  
-  $(".js-product-price-" + productId).html($(this).data("variant-price"))
+  var variantOptionValue = $(this).data("variant-option-value");
+  var variantPrice = $(this).data("variant-price")
+
+  $(".js-product-price-" + productId).html(variantPrice)
   $(".js-product-sku-" + productId).html($(this).data("variant-sku"))
   $("#product-selected-variant-" + productId).val($(this).data("variant-id"))
+  $("#selectedVariantDetail").html("<span>" + variantPrice + "</span><span>" + variantOptionValue + "</span>")
 });
 
 $(".js-recipe-qunatity-select").on("change", function(){

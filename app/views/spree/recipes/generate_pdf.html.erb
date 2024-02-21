@@ -33,13 +33,19 @@
                                                         <ul class="mt-2" >
                                                             <% @recipe.ingredients.each do |ingredient| %>
                                                                 <li>
-                                                                    <%= ingredient.name %>
-                                                                    <% if ingredient.product.present? %>
-                                                                        <% product = ingredient.product %>
-                                                                        <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
-                                                                            <%= product.name %>
-                                                                        <% end %>
+                                                                  <%= ingredient.amount %> <%= ingredient.unit %>. 
+                                                                  <% if ingredient.product.present? %>
+                                                                    <% product = ingredient.product %>
+                                                                    <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
+                                                                      <%= ingredient.name %>
                                                                     <% end %>
+                                                                  <% elsif ingredient.external_link.present? %>
+                                                                    <%= link_to ingredient.external_link , class: "ml-1", data: { turbolinks: false } do %>
+                                                                      <%= ingredient.name %>
+                                                                    <% end %>
+                                                                  <% else %>
+                                                                    <%= ingredient.name %>
+                                                                  <% end %>
                                                                 </li>
                                                             <% end %>
                                                         </ul>  
@@ -86,14 +92,8 @@
                 </tr>
             </thead>
         </table>
-        <table class="" >
+        <div class="" >
           <%= @recipe.description.html_safe %>
-        </table>
-    </div>
-    <div class="info-container" >
-        <div class="natures-logo" >
-            <%= image_tag 'https://dx1wqezomiae6.cloudfront.net/assets/v78/sister-sites/natures-logo-b7b0926bb8654028347b85c1e6446c3b345747d46db36853f4c6b375ce9175c5.png', width: 200 %>
         </div>
-        <h4 class="claim-text" >Property of NaturesFlavors , Donot Reproduce without persmisson</h4>
     </div>
 </div>

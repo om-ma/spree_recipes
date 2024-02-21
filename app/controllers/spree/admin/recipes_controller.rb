@@ -19,7 +19,7 @@ module Spree
         @recipe.create_recipe_icon(attachment: permitted_resource_params[:recipe_icon]) if permitted_resource_params[:recipe_icon]
         if @recipe.update(permitted_resource_params.except(:recipe_icon))
           flash[:notice] = "Successfully updated recipe."
-          redirect_to admin_recipes_url
+          redirect_to request.referrer
         else
           render :action => 'edit'
         end

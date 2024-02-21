@@ -1,10 +1,49 @@
-* HTML document text, ASCII text
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <%= wicked_pdf_stylesheet_link_tag 'pdf_styles' %>
+  <style>
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      border: 1px solid black;
+      border-radius: 40px;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    footer {
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <%= yield %>
+  <div class="wrapper">
+    <div class="content">
+    <%= yield %>
+    </div>
+    <footer>
+      <div class="" >
+          <div class="natures-logo" >
+              <%= image_tag 'https://dx1wqezomiae6.cloudfront.net/assets/v78/sister-sites/natures-logo-b7b0926bb8654028347b85c1e6446c3b345747d46db36853f4c6b375ce9175c5.png', width: 200 %>
+          </div>
+          <h4 class="claim-text" >Property of Natures Flavors. Do not reproduce without persmisson</h4>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>

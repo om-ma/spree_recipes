@@ -25,7 +25,7 @@
   <td class='ingredient_external_link'>
     <%= f.text_field :external_link, class: 'form-control' %>
   </td>
-  <td>
+  <td class= "ingredient_product">
     <% if f.object.product_id.present? %>
       <%= f.select :product_id, options_from_collection_for_select(@ingredients_products, :id, :name, f.object.product_id), { multiple: false, include_blank: true }, { class: 'product_picker' } %>
     <% else %>
