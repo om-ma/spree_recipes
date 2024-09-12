@@ -10,6 +10,9 @@ module Spree
       def index
         recipe_taxon = Spree::Taxon.find_by_name "Recipes"
         @recipe_taxons = recipe_taxon.children
+        recipe_slide_location_names = (1..4).map { |number| "recipe_#{number}" }
+
+        @recipe_slide_locations = Spree::SlideLocation.includes(:slides).where(name: recipe_slide_location_names)
       end
 
       def show
