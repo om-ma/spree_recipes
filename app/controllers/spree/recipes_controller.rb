@@ -28,6 +28,11 @@ module Spree
       end
     end
 
+    def search
+      @query = params[:q]
+      @recipes = Spree::Recipe.where("name ILIKE ?", "%#{@query}%")
+    end
+
     def add_to_cart
       variant = Spree::Variant.find_by(id:params[:id])
       quantity = params[:quantity] || 1
