@@ -1,110 +1,821 @@
-<% @body_id = 'recipe-details' %>
-<main class="page-contents">
-  <div class="container bg-white pt-4 product-details">
-    <div class="row" data-hook="product_show">
-      <%= render partial: 'gallery' %>
-      <div class="col-12 col-md-5" data-hook="product_right_part">
-        <div class="py-5" id="product-description" data-hook="product_right_part_wrap">
-          <h2 class="mt-3 mt-md-0">
-            <%= @recipe.name %>
-          </h2>
-          
-          <div class="mt-4" >
-            <% if @recipe.ingredients.present? %>
-              <div>
-                <h4>INGREDIENTS</h3>
-                <ul class="mt-2" >
-                  <% @recipe.ingredients.each do |ingredient| %>
-                    <li>
-                      <%= ingredient.name %>
-                      <% if ingredient.variant.present? %>
-                        <% product = ingredient.variant.product %>
-                        <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= product.name %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>  
-                <%#= render 'cart_form', variant_change_identifier: 'productCarousel' %>
-              </div>
-            <% end %>
-            <div class="mt-4" >
-              <%= @recipe&.description&.html_safe %>
-            </div>
-            <div class="mt-4" >
-              <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
-              
-              <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
-            </div>
-            <% if @recipe.instructions.present? %>
-              <div class="mt-4" >
-                <h4>INSTRUCTIONS</h4>
-                <ol class="mt-2" >
-                  <% @recipe.instructions.each do |instruction| %>
-                    <li>
-                      <%= instruction.description %>
-                    </li>
-                  <% end %>
-                </ol>
-                <%#= render 'cart_form', variant_change_identifier: 'productCarousel' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pb-4 pt-md-5 row" data-hook="product_description">
-      <div class="col-12 col-md-7 col-lg-6">
-        <%#= render partial: 'description' %>
-      </div>
-      <div class="d-none d-lg-block col-lg-1"></div>
-      <div class="col-12 col-md-5" data-hook="product_properties">
-        <%#= render partial: 'properties' %>
-      </div>
-      <div class="col-12" data-hook="promotions">
-        <%#= render partial: 'promotions' %>
-      </div>
-    </div>
+<!doctype html>
+<html lang="pt">
 
-    <div id="no-product-available" class="no-product-available-dropdown">
-      <%#= render partial: 'spree/shared/no_product_available' %>
-    </div>
+<head>
+  <title>Nature's Flavors - Since 1990</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/lightslider.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/slinky.css" rel="stylesheet">
+  <link href="assets/css/aos.css" rel="stylesheet">
+  <link href="assets/css/global.css" rel="stylesheet" type="text/css">
+</head>
 
-    <%#= render partial: 'gallery_modal' %>
-  </div>
-  <% if @related_recipes.present? %>
-    <div id="related-products">
-      <div class="product-tabs-wrapper">
-        <div class="row no-gutters">
-          <div class="col-xl-1 tablet-hide"></div>
-          <div class="col-xl-11">
-            <div class="latest-deals">
-              <h3>Related Recipes</h3>
-              <div class="products-wrapper d-sm-flex align-items-start">
-                <% @related_recipes.each do |recipe| %>
-                  <div class="product-wrap">
-                    <%= link_to recipe_product_path(recipe) do %>
-                      <% if recipe.recipe_icon.present? %>
-                        <div class="product-img">
-                          <%= image_tag main_app.url_for(recipe.recipe_icon), alt:"#{recipe.name} Image", class: "recipe_image product-component-plp-image" %> 
+<body>
+  <div id="wrapper">
+    <nav class="navbar navbar-expand-xl">
+      <div class="row no-gutters w-100">
+        <div class="col-xl-2"><a class="navbar-brand" href="#"><img src="assets/images/logo.svg"
+              alt="Nature's Flavors"></a></div>
+        <div class="col-xl-10 position-static">
+          <div class="navbar-collapse">
+            <ul class="navbar-nav tablet-hide">
+              <li class="nav-item"><a class="nav-link" href="#">Extracts &amp; Flavorings</a>
+                <div class="dropdown-menu-wrap">
+                  <div class="row no-gutters">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-7 has-gridlines">
+                      <div class="row no-gutters">
+                        <div class="col">
+                          <ul class="dropdown-menu d-flex flex-column">
+                            <li><a href="#">Flavor Extracts<span class="badge popular-badge">Popular</span></a></li>
+                            <li><a href="#">Flavor Concentrate</a></li>
+                            <li><a href="#">Flavor Compounds</a></li>
+                            <li><a href="#">Flavor Emulsions</a></li>
+                            <li><a href="#">Flavor Powsers<span class="badge popular-badge">Popular</span></a></li>
+                            <li><a href="#">Flavor Oils OILS</a></li>
+                          </ul>
                         </div>
-                      <% end %>
-                      <div class="product-desc">
-                        <h4><%= recipe.name %></h4>
+                        <div class="col">
+                          <ul class="dropdown-menu d-flex flex-column">
+                            <li><a href="#">Vanilla Extracts</a></li>
+                            <li><a href="#">Flavoring for Ice Cream</a></li>
+                            <li><a href="#">Flavoring for Water</a></li>
+                            <li><a href="#">Flavoring for Coffee &amp; Tea</a></li>
+                            <li><a href="#">Flavoring for Lip Balm</a></li>
+                            <li><a href="#">Flavoring for Chocolate</a></li>
+                          </ul>
+                        </div>
+                        <div class="col">
+                          <ul class="dropdown-menu d-flex flex-column">
+                            <li><a href="#">Keto Friendly Flavors</a></li>
+                            <li><a href="#">TTB Approved Flavors</a></li>
+                            <li><a href="#">Flavors without Diacetyl</a></li>
+                            <li><a href="#">Flavors sample packs</a></li>
+                          </ul>
+                        </div>
                       </div>
-                    <% end %>
+                    </div>
+                    <div class="col-lg-3"></div>
                   </div>
-                <% end %>
+                </div>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="#">Fragrances</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Syrups</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Baking Ingredients</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">More</a></li>
+              <li class="nav-item"><a class="nav-link" href="#"><strong>Deals</strong></a></li>
+            </ul>
+            <div class="quick-menu ml-auto">
+              <div class="header-search tablet-hide">
+                <input type="text" class="form-control" placeholder="Search..." />
               </div>
+              <a class="nav-search tablet-visible" href="#"><span>Find</span></a> <a class="nav-profile tablet-hide"
+                href="#"><span>Log In</span></a> <a class="nav-cart" href="#"><span>Cart</span><small
+                  class="cart-counter">4</small></a> <a class="mobile-menu-link collapsed tablet-visible" href="#"
+                data-toggle="collapse" data-target=".mobile-menu" area-expanded="false"><span>Menu</span></a>
             </div>
           </div>
         </div>
       </div>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Mobile navigation -->
+    <div class="mobile-menu">
+      <div class="menu-scroll">
+        <div class="sub-menu-header d-flex align-items-center">
+          <div class="left d-flex align-items-center flex-fill text-uppercase">Home</div>
+          <div class="right d-flex align-items-center flex-fill"><a href="#">Log in</a><a href="#" class="btn">or <em
+                class="text-uppercase">Register</em></a></div>
+        </div>
+        <div id="menu">
+          <ul class="product-menu">
+            <li><span class="link" onclick="location='https://www.google.com'">Extracts &amp; Flavorings</span><a
+                href="#" class="hidden-title">Extracts &amp; Flavorings</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">Extracts &amp; Flavorings</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">Fragrances</span><a href="#"
+                class="hidden-title">Fragrances</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All Fragrances</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">Syrups</span><a href="#"
+                class="hidden-title">Syrups</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All Syrups</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">Baking Ingredients</span><a href="#"
+                class="hidden-title">Baking Ingredients</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All Baking Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">Drinks</span><a href="#"
+                class="hidden-title">Drinks</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All Drinks</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">More</span><a href="#"
+                class="hidden-title">More</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All More</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+            <li><span class="link" onclick="location='https://www.google.com'">Deals</span><a href="#"
+                class="hidden-title">Deals</a>
+              <ul class="sub-product-menu">
+                <li><a href="#">See All Deals</a></li>
+                <li><a href="#">Gluten Free Baking</a></li>
+                <li><a href="#">Ingredients</a></li>
+                <li><a href="#">Gluten Free Baking Mix</a></li>
+                <li><a href="#">Organic Gluten Free Baking</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="sub-menu-wrap">
+          <ul class="sub-menu">
+            <li><a href="#" class="menuLink">Information</a>
+              <div class="sub-menu-lists">
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Best Sellers</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">New Products</a></li>
+                </ul>
+                <ul>
+                  <li><a href="#">Shipping</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Terms And Conditions</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Returns &amp; Replacements</a></li>
+                </ul>
+              </div>
+            </li>
+            <li><a href="#" class="menuLink">Product Info</a>
+              <div class="sub-menu-lists">
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Best Sellers</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">New Products</a></li>
+                </ul>
+                <ul>
+                  <li><a href="#">Shipping</a></li>
+                  <li><a href="#">Support</a></li>
+                  <li><a href="#">Terms And Conditions</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Returns &amp; Replacements</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="sub-menu-footer d-flex align-items-center">
+          <div class="footer-phone"><a href="tel:1-714-744-3700">1-714-744-3700</a></div>
+          <div class="footere-business-hours">
+            <p>8:00 am - 5:00 pm,<br>
+              Monday - Friday, Pacific Time</p>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
+    <!-- ./Mobile navigation -->
 
+    <!-- page contents -->
+    <main class="page-contents">
+      <div class="row no-gutters">
+        <div class="col-xl-1 col-lg-2 phone-hide"></div>
+        <div class="col-xl-10 col-lg-8">
+          <div class="recipe-details-wrapper">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Fragrances</a></li>
+              <li class="breadcrumb-item"><a href="#">Fragrance Oils</a></li>
+              <li class="breadcrumb-item active">Oil Soluble</li>
+            </ol>
+            <div class="ratings">
+              <img src="assets/images/star.svg" alt="star">
+              <img src="assets/images/star.svg" alt="star">
+              <img src="assets/images/star.svg" alt="star">
+              <img src="assets/images/star.svg" alt="star">
+              <img src="assets/images/star-off.svg" alt="star">
+              <span>5 Reviews</span>
+            </div>
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="recipe-gallery-wrap">
+                  <div id="gallery-slider" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="assets/images/product-detail.jpg" alt="image" />
+                      </div>
+                      <div class="carousel-item">
+                        <div class="embed-responsive embed-responsive-1by1">
+                          <iframe 
+                            class="embed-responsive-item" 
+                            src="https://www.youtube.com/embed/6MLo86XzhLk"
+                            allowfullscreen
+                          ></iframe>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="embed-responsive embed-responsive-1by1">
+                          <!--<iframe class="embed-responsive-item" id="instagramReel"
+                            src="https://www.instagram.com/reel/ChK6zsjPNbU/embed/"
+                            allowfullscreen></iframe>-->
+                          <iframe class="embed-responsive-item"
+                            src="https://scontent.cdninstagram.com/o1/v/t16/f1/m69/GNOxyxFIUwaMRfUEAKehwaEd8IAEbq_EAAAF.mp4?efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2xpcHMuYzIuNzIwLmJhc2VsaW5lIn0&_nc_ht=scontent.cdninstagram.com&_nc_cat=100&vs=1407996309711329_944743101&_nc_vs=HBksFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HTk94eXhGSVV3YU1SZlVFQUtlaHdhRWQ4SUFFYnFfRUFBQUYVAALIAQAVAhg6cGFzc3Rocm91Z2hfZXZlcnN0b3JlL0dGVmh4QkhvOVB5akdaWURBSWpfSU9TSGdkTWJicV9FQUFBRhUCAsgBACgAGAAbABUAACb8hrKb5pTsPxUCKAJDMywXQEREOVgQYk4YEmRhc2hfYmFzZWxpbmVfMV92MREAdf4HAA%3D%3D&_nc_rid=2feb4dc3e6&ccb=9-4&oh=00_AfB5ToShVO29VlAB_7EMwh8EA0QXJCRz8VOkYthRlLNWmA&oe=66062B92&_nc_sid=10d13b"
+                            allowfullscreen></iframe>
+                        </div>
+                      </div>
+                    </div>
+                    <ol class="carousel-indicators">
+                      <li data-target="#gallery-slider" data-slide-to="0" class="active">
+                        <img src="assets/images/product-detail-thumb1.jpg" alt="thumbnail">
+                      </li>
+                      <li data-target="#gallery-slider" data-slide-to="1">
+                        <img src="assets/images/product-detail-thumb2.jpg" alt="thumbnail">
+                      </li>
+                      <li data-target="#gallery-slider" data-slide-to="2">
+                        <img src="assets/images/product-detail-thumb1.jpg" alt="thumbnail">
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <h1 class="title mb-40">Natural Coconut Lime Fragrance Oil (Oil Soluble)</h1>
+                <div class="product-ingredients">
+                  <h5>Ingredients</h5>
+                  <ul>
+                    <li>1/3 cup. Tart Cherry Juice</li>
+                    <li>1/3 cup. Sparkling Water</li>
+                    <li>1/2 cup. <a href="#">Melatonin Chamomile Tea (Iced)</a></li>
+                    <li>1/2 tbsp. <a href="#">Organic Lemon Lime Syrup</a></li>
+                  </ul>
+                </div>
+                <h3 class="mb-20">Sleepy Girl Mocktail with Nature’s Flavors</h3>
+                <p>Did you know some fruits contain melatonin?</p>
+                <p>Yes, the sleep hormone we naturally produce is found in certain fruits. Studies have shown tart
+                  cherries, eggs, and goji berries contain levels of melatonin. And tart cherry juice has recently been
+                  trending for its unique ability to have a positive effect on sleep.</p>
+                <p>Tart cherry juice also contains tryptophan which is an amino acid responsible for producing
+                  melatonin. With melatonin and tryptophan packed into one fruit juice you are sure to get some
+                  shut-eye.</p>
+                <p>BUT just In case that wasn’t enough melatonin for you, we added Seelect Tea's Melatonin Chamomile Tea
+                  to really put you to rest.</p>
+                <div class="product-ingredients">
+                  <h5>Instructions</h5>
+                  <ol>
+                    <li>Steep one tea bag in 1/3 cup of boiling water. Full Boil (207-212 ° Fahrenheit) for 5-7 minutes.
+                      Set aside and let it cool down for a few minutes. Remove the tea bag or let it sit in after
+                      steeping.</li>
+                    <li>Add ice, cherry juice, syrup, sparkling water, and tea to a wine glass. Stir everything with a
+                      straw or bar spoon, and enjoy!</li>
+                  </ol>
+                </div>
+                <div class="mt-40">
+                  <a class="btn btn-primary" href="#">Shop the Flavor</a>
+                  <a class="ml-sm-2 btn btn-primary" target="_blank" href="#">Print / save recipe</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-1 col-lg-2 phone-hide"></div>
+      </div>
+    </main>
+    <!-- ./page contents -->
 
+    <!-- footer -->
+    <footer class="footer-wrapper">
+      <div class="footer-links-wrap">
+        <div class="row no-gutters">
+          <div class="col-xl-2 tablet-hide"></div>
+          <div class="col-xl-2 col-lg-4">
+            <div class="footer-logo-wrap">
+              <figure><img src="assets/images/footer-logo.svg" alt="Newport Flavors &amp; Fragrances"></figure>
+              <p>Family owned and run for over 40 years. It is our mission to spread the Natural and Organic bounty of
+                nature through our products.</p>
+            </div>
+            <ul class="footer-nav">
+              <li class="header">Information</li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Best Sellers</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">New Products</a></li>
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Support</a></li>
+              <li><a href="#">Terms and Conditions</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Returns &amp; Replacements</a></li>
+              <li><a href="#">*Site Map*</a></li>
+            </ul>
+          </div>
+          <div class="col-xl-2 col-lg-4">
+            <div class="footer-newsletter">
+              <h4>Sign up for updates</h4>
+              <form>
+                <input type="text" class="form-control" placeholder="Enter your email">
+                <button type="submit" class="icon-btn">Submit</button>
+              </form>
+              <div class="newsletter-msg">Be the first to learn about promotions special events, new arrivals and more.
+              </div>
+            </div>
+            <ul class="footer-nav">
+              <li class="header">My Account</li>
+              <li><a href="#">My Account</a></li>
+              <li><a href="#">My Orders</a></li>
+              <li><a href="#">My Credits</a></li>
+              <li><a href="#">My Address</a></li>
+              <li><a href="#">My Info</a></li>
+              <li><a href="#">My Wish List</a></li>
+            </ul>
+            <ul class="footer-nav">
+              <li class="header">Our Brands</li>
+              <li><a href="#">Naturlax</a></li>
+              <li><a href="#">Yum Matcha</a></li>
+              <li><a href="#">Seelect Tea</a></li>
+            </ul>
+          </div>
+          <div class="col-xl-2 col-lg-4">
+            <div class="footer-spacer"></div>
+            <ul class="footer-nav">
+              <li class="header">Product Info</li>
+              <li><a href="#">Flavor Powders</a></li>
+              <li><a href="#">Flavor Emulsions</a></li>
+              <li><a href="#">Flavor Concentrates</a></li>
+              <li><a href="#">Flavor Extracts</a></li>
+              <li><a href="#">Flavor Oils</a></li>
+              <li><a href="#">The Flavor Guy Videos</a></li>
+              <li><a href="#">Reviews</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
+          <div class="col-xl-2 col-lg-12">
+            <div class="row-tablet-only">
+              <div class="col-md-4 col-12">
+                <h4>Follow us</h4>
+                <ul class="social-nav d-flex flex-wrap align-items-center">
+                  <li><a href="#" class="facebook-icon">Facebook</a></li>
+                  <li><a href="#" class="instagram-icon">Intagram</a></li>
+                  <li><a href="#" class="pinterest-icon">Pinterest</a></li>
+                  <li><a href="#" class="youtube-icon">Youtube</a></li>
+                </ul>
+              </div>
+              <div class="col-lg-4 mobile-hide">
+                <div class="footer-address">
+                  <h5>Address</h5>
+                  <p>833 N. Elm Street, Orange,<br>
+                    California 92867</p>
+                </div>
+                <div class="footer-phone mobile-hide"><a href="tel:1-714-744-3700">1-714-744-3700</a></div>
+              </div>
+              <div class="col-lg-4 mobile-hide">
+                <div class="footere-business-hours">
+                  <h5>Business hours</h5>
+                  <p>8:00 am - 5:00 pm,<br>
+                    Monday - Friday, Pacific Time</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 tablet-hide"></div>
+          <!-- end col -->
+        </div>
+        <div class="banner-grid-wrap">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="row no-gutters">
+          <div class="col-xl-2 tablet-hide"></div>
+          <div class="col-xl-4 col-lg-6">
+            <p>Copyright &copy; 1990-2021 Natures Flavors, Inc. All rights reserved.</p>
+          </div>
+          <div class="col-xl-4 col-lg-6">
+            <div class="accepted-payment d-lg-flex flex-wrap align-items-center justify-content-end">
+              <p>Secure payment with</p>
+              <figure><img src="assets/images/footer-payment.svg" alt=""></figure>
+            </div>
+          </div>
+          <div class="col-xl-2 tablet-hide"></div>
+        </div>
+      </div>
+    </footer>
+    <!-- /.footer -->
+  </div>
+  <!-- /.wrapper -->
 
-  <%= render 'spree/shared/recipe_added_modal' %>
-</main>
+  <!-- cart sidebar -->
+  <aside class="cart-sidebar-wrapper">
+    <div class="overlay"></div>
+    <div class="cart-sidebar">
+      <div class="cart-sidebar-header">
+        <div class="cart-sidebar-title">My Cart</div>
+        <button type="button" class="btn close-sidebar-btn">Close</button>
+      </div>
+      <div class="cart-sidebar-body d-flex flex-column justify-content-between">
+        <ul class="cart-items">
+          <li class="cart-item">
+            <button type="button" class="btn btn-primary remove-btn">Close</button>
+            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-1.jpg" alt="product thumbnail"></a>
+            <div class="cart-item-details d-flex flex-column justify-content-between">
+              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+              <select class="custom-select qty-dropdown">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+              <div class="price-size text-right"><span>2 x .24</span>.48</div>
+            </div>
+          </li>
+          <li class="cart-item">
+            <button type="button" class="btn btn-primary remove-btn">Close</button>
+            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-2.jpg" alt="product thumbnail"></a>
+            <div class="cart-item-details d-flex flex-column justify-content-between">
+              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+              <select class="custom-select qty-dropdown">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+              <div class="price-size text-right"><span>2 x .24</span>.48</div>
+            </div>
+          </li>
+          <li class="grand-total d-flex align-items-center justify-content-between">Total:<strong>$52.87</strong></li>
+        </ul>
+        <div class="body-sidebar-footer">
+          <div class="cart-similar-item">
+            <div class="wrap">
+              <p>You might need this:</p>
+              <div class="similar-item-thumb"><a href="#"><img src="assets/images/product-thumb-1.jpg" alt=""></a></div>
+              <h4><a href="#">Acorn Flavored Powder, Natural (8 oz.)</a></h4>
+              <a href="#" class="btn btn-primary">$14.70 - Add to Cart</a>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary btn-block"><strong>$52.87 - Check Out</strong></button>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- /.cart sidebar -->
+
+  <!-- mobile search menu -->
+  <div class="mobile-search-menu">
+    <div class="search-wrap">
+      <input type="text" class="form-control" placeholder="Search...">
+    </div>
+  </div>
+  <!-- /.mobile search menu -->
+
+  <!-- video modal -->
+  <div class="modal fade video-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Video Title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+              aria-hidden="true">&times;</span> </button>
+        </div>
+        <div class="modal-body">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.video modal -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+  <script async src="https://www.instagram.com/embed.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/lightslider.js"></script>
+  <script src="assets/js/slinky.js"></script>
+  <script src="assets/js/aos.js"></script>
+
+  <!-- Initialize animations -->
+  <script>
+    AOS.init();
+  </script>
+
+  <!-- For mobile menu -->
+  <script>
+    const slinky = $('#menu').slinky({ title: true });
+  </script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+  <script>
+    $('.close-menu').on('click', function (e) {
+      $('.mobile-menu').toggleClass("show");
+      e.preventDefault();
+    });
+  </script>
+  <script>
+    $('.sub-menu > li').click(function (e) {
+      e.stopPropagation();
+      $(this).toggleClass('active');
+      $(this).children('div').slideToggle();
+      $(this).closest('.parent').siblings().children('div').slideUp();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#videos-slider').lightSlider({
+        item: 2,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 120,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
+        },
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slideMargin: 40,
+            }
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              item: 2,
+              slideMove: 1,
+              slideMargin: 30
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              item: 1,
+              slideMargin: 20
+            }
+          }
+        ]
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#blog-slider').lightSlider({
+        item: 2,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 120,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
+        },
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slideMargin: 40,
+            }
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              item: 2,
+              slideMove: 1,
+              slideMargin: 30
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              item: 1,
+              slideMargin: 20
+            }
+          }
+        ]
+      });
+    });  
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#reviews-slider').lightSlider({
+        item: 3,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 0,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
+        },
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              item: 2,
+              slideMove: 1,
+            }
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              item: 1,
+              slideMove: 1,
+            }
+          }
+        ]
+      });
+    });  
+  </script>
+  <script>
+    $('.nav-cart').on('click', function (e) {
+      $('.nav-search').removeClass('active');
+      $('.mobile-search-menu').removeClass('active');
+      $('.mobile-menu').removeClass('show');
+      $('.sidebar-menu-wrapper .overlay').removeClass('active');
+      // actual function
+      $('.mobile-menu-link').addClass('collapsed');
+      $('.cart-sidebar').toggleClass("active");
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
+
+    $('.close-sidebar-btn').on('click', function (e) {
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
+
+    $('.cart-sidebar-wrapper .overlay').on('click', function (e) {
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
+  </script>
+  <script>
+    $('.mobile-menu-link').on('click', function (e) {
+      $('.nav-search').removeClass('active');
+      $('.mobile-search-menu').removeClass('active');
+      $('.nav-cart').removeClass('active');
+      $('.cart-sidebar').removeClass('active');
+      $('.cart-sidebar-wrapper .overlay').removeClass('active');
+      $('body').removeClass("hide-scroll");
+    });
+  </script>
+  <script>
+    $('.nav-search').on('click', function (e) {
+      if ($('.nav-cart').hasClass('active')) {
+        $('.nav-cart').removeClass('active');
+      }
+      if ($('.cart-sidebar').hasClass('active')) {
+        $('.cart-sidebar').removeClass('active');
+      }
+      if ($('.cart-sidebar-wrapper .overlay').hasClass('active')) {
+        $('.cart-sidebar-wrapper .overlay').removeClass('active');
+      }
+      if ($('.mobile-menu').hasClass('show')) {
+        $('.mobile-menu').removeClass('show');
+      }
+      $('.mobile-menu-link').addClass('collapsed');
+      $('.mobile-search-menu').toggleClass("active");
+      $('.nav-search').toggleClass("active");
+      e.preventDefault();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      var showChar = 360;
+      var ellipsestext = "...";
+      var moretext = "more";
+      var lesstext = "less";
+      $('.more').each(function () {
+        var content = $(this).html();
+        if (content.length > showChar) {
+          var c = content.substr(0, showChar);
+          var h = content.substr(showChar - 1, content.length - showChar);
+          var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+          $(this).html(html);
+        }
+      });
+
+      $(".morelink").click(function () {
+        if ($(this).hasClass("less")) {
+          $(this).removeClass("less");
+          $(this).html(moretext);
+        } else {
+          $(this).addClass("less");
+          $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#product-gallery').lightSlider({
+        gallery: true,
+        item: 1,
+        loop: false,
+        controls: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 0,
+        enableTouch: true,
+        pager: true,
+        thumbItem: 3,
+        responsive: [
+          {
+            breakpoint: 991,
+            settings: {
+              slideMove: 1,
+              auto: true,
+              loop: true,
+            }
+          },
+        ]
+      });
+    });
+  </script>
+</body>
+</html>
