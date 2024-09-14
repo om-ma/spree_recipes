@@ -19,15 +19,11 @@ module Spree
         recipe_taxon = Spree::Taxon.find_by_name "Recipes"
         @recipe_taxons = recipe_taxon.children
         @recipe_taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
-
-        # Check if search query (params[:q]) is present
         if params[:q].present?
-          @query = params[:q]
-          recipes = @recipe_taxon.recipes.where("name ILIKE ?", "%#{@query}%")
-        elsif @recipe_taxon.children.present? && (@recipe_taxon.children.count < @recipe_taxon.descendants.count) && !params[:q].present?
-          
+          recipes = @recipe_taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")
+        elsif @recipe_taxon.children.present? && (@recipe_taxon.children.count < @recipe_taxon.descendants.count)
           @recipe_taxons = @recipe_taxon.children
-          @recipes = @recipe_taxon&.recipes&.present? ? @recipe_taxon.recipes.limit(6) : []
+          recipes = @recipe_taxon&.recipes&.present? ? @recipe_taxon.recipes.limit(6) : []
         else
           if params[:sort_by].present? && params[:sort_by] == "name-z-a"
             recipes = @recipe_taxon.recipes.order(name: :desc)
@@ -35,15 +31,10 @@ module Spree
             recipes = @recipe_taxon.recipes.order(name: :asc)
           end
         end
-        if recipes.present?
-          if (browser.device.mobile? || browser.device.tablet?)
-            @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
-          else
-            @pagy, @recipes = pagy_array(recipes)
-          end
+        if (browser.device.mobile? || browser.device.tablet?)
+          @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
         else
-           @recipes = []
-           @pagy = nil
+          @pagy, @recipes = pagy_array(recipes)
         end
       end
     end
