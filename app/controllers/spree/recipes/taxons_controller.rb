@@ -24,12 +24,11 @@ module Spree
         elsif @recipe_taxon.children.present? && (@recipe_taxon.children.count < @recipe_taxon.descendants.count)
           @recipe_taxons = @recipe_taxon.children
           recipes = @recipe_taxon&.recipes&.present? ? @recipe_taxon.recipes.limit(6) : []
+        end
+        if recipes.present? && params[:sort_by].present? && params[:sort_by] == "name-z-a"
+          recipes = @recipe_taxon.recipes.order(name: :desc)
         else
-          if params[:sort_by].present? && params[:sort_by] == "name-z-a"
-            recipes = @recipe_taxon.recipes.order(name: :desc)
-          else
-            recipes = @recipe_taxon.recipes.order(name: :asc)
-          end
+          recipes = @recipe_taxon.recipes.order(name: :asc)
         end
         if (browser.device.mobile? || browser.device.tablet?)
           @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])

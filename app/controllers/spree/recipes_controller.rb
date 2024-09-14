@@ -5,6 +5,8 @@ module Spree
     helper 'spree/products'
 
     def show
+      recipe_taxon = Spree::Taxon.find_by_name "Recipes"
+      @taxon = recipe_taxon.children.find_by(id: params[:taxon_id])
       @recipe = Spree::Recipe.friendly.find(params[:id])
       recipe_category = params[:taxon_id].present? ? Spree::Taxon.find_by_id(params[:taxon_id]) : @recipe&.taxons&.first
       @related_recipes = recipe_category.recipes.where.not(id: @recipe.id).first(4)

@@ -130,45 +130,24 @@
             </div>
           </div>
           <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
-          <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>               <div class="category-mobile-filter phone-visible">
+          <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>  <div class="category-mobile-filter phone-visible">
             <div class="header-search">
-              <input type="text" class="form-control" placeholder="Search...">
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="sort-by-title flex-fill">
-                <p>Sort by: <strong>Alphabetical Order</strong></p>
-              </div>
-              <div class="filter-btn-wrap"> <a href="#" class="filter-btn">Filters</a> </div>
-            </div>
-            <div class="shop-by-filter-mobile">
-              <div class="shop-by-filter text-center">
-                <label>Shop by Flavor:</label>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Flavors</button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
+              <% category_recipe_id = @recipe_taxon.permalink.sub("recipes/", "") %>
+              <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+                <%# <div class="header-search d-none d-sm-block"> %>
+                  <%= search_field_tag :q,
+                                      params[:q],
+                                      placeholder: "Search recipes",
+                                      class: "form-control",
+                                      id: "recipe-search",
+                                      autocomplete: "off" %>
                 </div>
-              </div>
-              <div class="shop-by-filter text-center">
-                <label>Shop by Type:</label>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Types</button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </div>
-              </div>
-              <button type="button" class="btn btn-primary btn-block">Apply</button>
+              <% end %>
             </div>
           </div>
           <% if @recipes.present? %>
-        <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
-      <% end %>
+           <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
+          <% end %>
         </div>
         <!-- /.Best seller products -->
         <div class="pagination-wrap">
@@ -545,13 +524,6 @@
       $(this).prev().toggle();
       return false;
     });
-  });
-</script>
-<script>
-  $('.filter-btn').on('click', function (e) {
-    $('.category-mobile-filter').toggleClass("open");
-    $('.shop-by-filter-mobile').toggleClass("show");
-    e.preventDefault();
   });
 </script>
 </body>
