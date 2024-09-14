@@ -1,616 +1,559 @@
 <main class="page-contents">
-      <div class="category-wrapper">
-        <div class="row no-gutters">
-          <div class="col-xl-2 col-lg-3 phone-hide">
-            <div class="sidebar-categories">
-              <h4>Categories:</h4>
-              <ul class="sidebar-sub-categories">
-              <% @recipe_taxons.each do |recipe_taxon| %>
-                <li>
-                  <% category_recipe_id = recipe_taxon.permalink.sub("recipes/", "") %>
-
-                  <%= link_to recipe_taxon.name, nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, aria: { label: "#{recipe_taxon.name} link" } %>
-                  <% if recipe_taxon.children.present? %>
-                    <button type="button" class="dropdown-toggle" data-toggle="dropdown">Toggle me</button>
-                    <ul class="dropdown-menu">
-                        <% recipe_taxon.children.each do |sub_recipe_taxon| %>
-                          <% sub_category_recipe_id = sub_recipe_taxon.permalink.sub("recipes/", "") %>
-                          <li>
-                            <%= link_to sub_recipe_taxon.name, nested_recipe_taxons_path(id: sub_category_recipe_id), data: { turbolinks: false }, aria: { label: "#{recipe_taxon.name} link" } %>
-                          </li>
-                        <% end %>
-                    </ul>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-            </div>
-          </div>
-          <div class="col-xl-10 col-lg-9">
-            <div class="recipes-wrapper">
-              <div class="category-intro-wrapper">
-                <div class="row">
-                  <div class="col-xl-4 col-lg-5">
-                    <div class="category-banner mb-20">
-                      <% if browser.device.mobile? %>
-                        <% if @recipe_taxon.icon.present? %>
-                          <%= image_tag @recipe_taxon.icon.my_cf_image_url(:small), alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
-                        <% else %>
-                          <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
-                        <% end %>
-                      <% else %>
-                        <% if @recipe_taxon.icon.present? %>
-                          <%= image_tag @recipe_taxon.icon.my_cf_image_url(:large), alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
-                        <% else %>
-                          <%#= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
-                        <% end %>
-                      <% end %>
-                    </div>
-                  </div>
-                  <div class="col-xl-8 col-lg-7">
-                      <%= spree_breadcrumbs(@recipe_taxon) %>
-                    <h1 class="title"><%= (@recipe_taxon.h1_title.blank? ? @recipe_taxon.name : taxon.h1_title) %></h1>
-                    <div class="mobile-categories-wrap phone-visible">
-                      <div class="header"><a href="#" class="mobile-category-toggle">Categories</a></div>
-                      <ul class="sidebar-sub-categories">
-                        <li><a href="#">Flavor Extracts</a>
-                          <button type="button" class="dropdown-toggle" data-toggle="dropdown">Toggle me</button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">Organic Flavor Emulsions (heat stable)</a></li>
-                            <li><a href="#">Natural Flavor Emulsions (heat stable)</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="#">Flavor Concentrate</a></li>
-                        <li><a href="#">Flavor Compund</a>
-                          <button type="button" class="dropdown-toggle" data-toggle="dropdown">Toggle me</button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">Organic Flavor Emulsions (heat stable)</a></li>
-                            <li><a href="#">Natural Flavor Emulsions (heat stable)</a></li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a href="#">Flavor Emulsions</a>
-                          <button type="button" class="dropdown-toggle" data-toggle="dropdown">Toggle me</button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">Organic Flavor Emulsions (heat stable)</a></li>
-                            <li><a href="#">Natural Flavor Emulsions (heat stable)</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="#">Flavor Powders</a></li>
-                        <li><a href="#">Flavor Oils</a></li>
-                        <li><a href="#">Vanilla Extracts</a></li>
-                        <li><a href="#">Flavoring for Ice Cream</a></li>
-                      </ul>
-                    </div>
-                    <div class="category-intro more">
-                      <%= raw(@recipe_taxon.short_description) %>
-                    </div>
-                  </div>
-                </div>
-                <div class="popular-categories-wrapper">
-                  <div class="title-wrap mb-30">
-                    <h2 class="title padding-0">Most popular in category</h2>
-                    <p class="d-none d-sm-block">
-                      He goes on adventures around the world in search of new flavors
-                    </p>
-                  </div>
-                  <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col col-6">
-                      <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                        <div class="product-img">
-                          <a href="#">
-                            <img src="assets/images/product-thumb-1.jpg" alt="">
-                          </a>
-                          <span class="badge">Spring</span>
-                        </div>
-                        <div class="product-desc text-center">
-                          <h4><a href="#">Acai Compound, Natural</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
-              <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>               <div class="category-mobile-filter phone-visible">
-                <div class="header-search">
-                  <input type="text" class="form-control" placeholder="Search...">
-                </div>
-                <div class="d-flex align-items-center">
-                  <div class="sort-by-title flex-fill">
-                    <p>Sort by: <strong>Alphabetical Order</strong></p>
-                  </div>
-                  <div class="filter-btn-wrap"> <a href="#" class="filter-btn">Filters</a> </div>
-                </div>
-                <div class="shop-by-filter-mobile">
-                  <div class="shop-by-filter text-center">
-                    <label>Shop by Flavor:</label>
-                    <div class="dropdown">
-                      <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Flavors</button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="shop-by-filter text-center">
-                    <label>Shop by Type:</label>
-                    <div class="dropdown">
-                      <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Types</button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-primary btn-block">Apply</button>
-                </div>
-              </div>
-              <% if @recipes.present? %>
-            <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
-          <% end %>
-            </div>
-            <!-- /.Best seller products -->
-            <div class="pagination-wrap">
-              <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
-            </div>
-          </div>
+  <div class="category-wrapper">
+    <div class="row no-gutters">
+      <div class="col-xl-2 col-lg-3 phone-hide">
+        <div class="sidebar-categories">
+          <h4>Categories:</h4>
+          <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
         </div>
-        <div class="category-intro-footer">
-          <div class="row no-gutters">
-            <div class="col-xl-2 col-lg-3 phone-hide"></div>
-            <div class="col-xl-10 col-lg-9">
-              <div class="text-block">
-                <p>
-                  <span class="more">More About Flavor Extracts</span>
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                  officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <p>
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                  nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+      </div>
+      <div class="col-xl-10 col-lg-9">
+        <div class="recipes-wrapper">
+          <div class="category-intro-wrapper">
+            <div class="row">
+              <div class="col-xl-4 col-lg-5">
+                <div class="category-banner mb-20">
+                  <% if browser.device.mobile? %>
+                    <% if @recipe_taxon.icon.present? %>
+                      <%= image_tag @recipe_taxon.icon.my_cf_image_url(:small), alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
+                    <% else %>
+                      <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
+                    <% end %>
+                  <% else %>
+                    <% if @recipe_taxon.icon.present? %>
+                      <%= image_tag @recipe_taxon.icon.my_cf_image_url(:large), alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
+                    <% else %>
+                      <%#= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-xl-8 col-lg-7">
+                  <%= spree_recipe_breadcrumbs(@recipe_taxon) %>
+                <h1 class="title"><%= (@recipe_taxon.h1_title.blank? ? @recipe_taxon.name : taxon.h1_title) %></h1>
+                <div class="mobile-categories-wrap phone-visible">
+                 <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
+                  <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
+                </div>
+                <div class="category-intro more">
+                  <%= raw(@recipe_taxon.short_description) %>
+                </div>
               </div>
             </div>
+            <div class="popular-categories-wrapper">
+              <div class="title-wrap mb-30">
+                <h2 class="title padding-0">Most popular in category</h2>
+                <p class="d-none d-sm-block">
+                  He goes on adventures around the world in search of new flavors
+                </p>
+              </div>
+              <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-6">
+                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                    <div class="product-img">
+                      <a href="#">
+                        <img src="assets/images/product-thumb-1.jpg" alt="">
+                      </a>
+                      <span class="badge">Spring</span>
+                    </div>
+                    <div class="product-desc text-center">
+                      <h4><a href="#">Acai Compound, Natural</a></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
+          <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>               <div class="category-mobile-filter phone-visible">
+            <div class="header-search">
+              <input type="text" class="form-control" placeholder="Search...">
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="sort-by-title flex-fill">
+                <p>Sort by: <strong>Alphabetical Order</strong></p>
+              </div>
+              <div class="filter-btn-wrap"> <a href="#" class="filter-btn">Filters</a> </div>
+            </div>
+            <div class="shop-by-filter-mobile">
+              <div class="shop-by-filter text-center">
+                <label>Shop by Flavor:</label>
+                <div class="dropdown">
+                  <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Flavors</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="shop-by-filter text-center">
+                <label>Shop by Type:</label>
+                <div class="dropdown">
+                  <button type="button" class="btn btn-secondary" data-toggle="dropdown">All Types</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary btn-block">Apply</button>
+            </div>
+          </div>
+          <% if @recipes.present? %>
+        <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
+      <% end %>
+        </div>
+        <!-- /.Best seller products -->
+        <div class="pagination-wrap">
+          <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
+        </div>
+      </div>
+    </div>
+    <div class="category-intro-footer">
+      <div class="row no-gutters">
+        <div class="col-xl-2 col-lg-3 phone-hide"></div>
+        <div class="col-xl-10 col-lg-9">
+          <div class="text-block">
+            <p>
+              <span class="more">More About Flavor Extracts</span>
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   </div>
-  <!-- /.wrapper -->
+</main>
 
   <!-- cart sidebar -->
-  <aside class="cart-sidebar-wrapper">
-    <div class="overlay"></div>
-    <div class="cart-sidebar">
-      <div class="cart-sidebar-header">
-        <div class="cart-sidebar-title">My Cart</div>
-        <button type="button" class="btn close-sidebar-btn">Close</button>
-      </div>
-      <div class="cart-sidebar-body d-flex flex-column justify-content-between">
-        <ul class="cart-items">
-          <li class="cart-item">
-            <button type="button" class="btn btn-primary remove-btn">Close</button>
-            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-1.jpg" alt="product thumbnail"></a>
-            <div class="cart-item-details d-flex flex-column justify-content-between">
-              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
-              <select class="custom-select qty-dropdown">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
-              <div class="price-size text-right"><span>2 x .24</span>.48</div>
-            </div>
-          </li>
-          <li class="cart-item">
-            <button type="button" class="btn btn-primary remove-btn">Close</button>
-            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-2.jpg" alt="product thumbnail"></a>
-            <div class="cart-item-details d-flex flex-column justify-content-between">
-              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
-              <select class="custom-select qty-dropdown">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
-              <div class="price-size text-right"><span>2 x .24</span>.48</div>
-            </div>
-          </li>
-          <li class="grand-total d-flex align-items-center justify-content-between">Total:<strong>$52.87</strong></li>
-        </ul>
-        <div class="body-sidebar-footer">
-          <div class="cart-similar-item">
-            <div class="wrap">
-              <p>You might need this:</p>
-              <div class="similar-item-thumb"><a href="#"><img src="assets/images/product-thumb-1.jpg" alt=""></a></div>
-              <h4><a href="#">Acorn Flavored Powder, Natural (8 oz.)</a></h4>
-              <a href="#" class="btn btn-primary">$14.70 - Add to Cart</a>
-            </div>
+<aside class="cart-sidebar-wrapper">
+  <div class="overlay"></div>
+  <div class="cart-sidebar">
+    <div class="cart-sidebar-header">
+      <div class="cart-sidebar-title">My Cart</div>
+      <button type="button" class="btn close-sidebar-btn">Close</button>
+    </div>
+    <div class="cart-sidebar-body d-flex flex-column justify-content-between">
+      <ul class="cart-items">
+        <li class="cart-item">
+          <button type="button" class="btn btn-primary remove-btn">Close</button>
+          <a href="#" class="thumbnail"><img src="assets/images/product-thumb-1.jpg" alt="product thumbnail"></a>
+          <div class="cart-item-details d-flex flex-column justify-content-between">
+            <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+            <select class="custom-select qty-dropdown">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+            <div class="price-size text-right"><span>2 x .24</span>.48</div>
           </div>
-          <button type="button" class="btn btn-primary btn-block"><strong>$52.87 - Check Out</strong></button>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <!-- /.cart sidebar -->
-
-  <!-- mobile search menu -->
-  <div class="mobile-search-menu">
-    <div class="search-wrap">
-      <input type="text" class="form-control" placeholder="Search...">
-    </div>
-  </div>
-  <!-- /.mobile search menu -->
-
-  <!-- video modal -->
-  <div class="modal fade video-modal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Video Title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-              aria-hidden="true">&times;</span> </button>
-        </div>
-        <div class="modal-body">
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-              allowfullscreen></iframe>
+        </li>
+        <li class="cart-item">
+          <button type="button" class="btn btn-primary remove-btn">Close</button>
+          <a href="#" class="thumbnail"><img src="assets/images/product-thumb-2.jpg" alt="product thumbnail"></a>
+          <div class="cart-item-details d-flex flex-column justify-content-between">
+            <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+            <select class="custom-select qty-dropdown">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+            <div class="price-size text-right"><span>2 x .24</span>.48</div>
+          </div>
+        </li>
+        <li class="grand-total d-flex align-items-center justify-content-between">Total:<strong>$52.87</strong></li>
+      </ul>
+      <div class="body-sidebar-footer">
+        <div class="cart-similar-item">
+          <div class="wrap">
+            <p>You might need this:</p>
+            <div class="similar-item-thumb"><a href="#"><img src="assets/images/product-thumb-1.jpg" alt=""></a></div>
+            <h4><a href="#">Acorn Flavored Powder, Natural (8 oz.)</a></h4>
+            <a href="#" class="btn btn-primary">$14.70 - Add to Cart</a>
           </div>
         </div>
+        <button type="button" class="btn btn-primary btn-block"><strong>$52.87 - Check Out</strong></button>
       </div>
     </div>
   </div>
-  <!-- /.video modal -->
+</aside>
+<!-- /.cart sidebar -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/lightslider.js"></script>
-  <script src="assets/js/slinky.js"></script>
-  <script src="assets/js/aos.js"></script>
+<!-- mobile search menu -->
+<div class="mobile-search-menu">
+  <div class="search-wrap">
+    <input type="text" class="form-control" placeholder="Search.TEST..">
+  </div>
+</div>
+<!-- /.mobile search menu -->
 
-  <!-- Initialize animations -->
-  <script>
-    AOS.init();
-  </script>
+<!-- video modal -->
+<div class="modal fade video-modal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Video Title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+            aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.video modal -->
 
-  <!-- For mobile menu -->
-  <script>
-    const slinky = $('#menu').slinky({ title: true });
-  </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/lightslider.js"></script>
+<script src="assets/js/slinky.js"></script>
+<script src="assets/js/aos.js"></script>
 
-  <!-- Bootstrap popver -->
-  <script>
-    $(function () {
-      $('[data-toggle="popover"]').popover();
-    })
-  </script>
-  <script>
-    $('.close-menu').on('click', function (e) {
-      $('.mobile-menu').toggleClass("show");
-      e.preventDefault();
-    });
-  </script>
-  <script>
-    $('.sub-menu > li').click(function (e) {
-      e.stopPropagation();
-      $(this).toggleClass('active');
-      $(this).children('div').slideToggle();
-      $(this).closest('.parent').siblings().children('div').slideUp();
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      $('#videos-slider').lightSlider({
-        item: 2,
-        loop: false,
-        slideMove: 1,
-        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-        speed: 600,
-        slideMargin: 120,
-        enableTouch: true,
-        pager: false,
-        onSliderLoad: function (el) {
-          var parent = el.parent();
-          var action = parent.find('.lSAction');
-          action.insertBefore(parent);
-        },
-        responsive: [
-          {
-            breakpoint: 1199,
-            settings: {
-              slideMargin: 40,
-            }
-          },
-          {
-            breakpoint: 991,
-            settings: {
-              item: 2,
-              slideMove: 1,
-              slideMargin: 30
-            }
-          },
-          {
-            breakpoint: 575,
-            settings: {
-              item: 1,
-              slideMargin: 20
-            }
+<!-- Initialize animations -->
+<script>
+  AOS.init();
+</script>
+
+<!-- For mobile menu -->
+<script>
+  const slinky = $('#menu').slinky({ title: true });
+</script>
+
+<!-- Bootstrap popver -->
+<script>
+  $(function () {
+    $('[data-toggle="popover"]').popover();
+  })
+</script>
+<script>
+  $('.close-menu').on('click', function (e) {
+    $('.mobile-menu').toggleClass("show");
+    e.preventDefault();
+  });
+</script>
+<script>
+  $('.sub-menu > li').click(function (e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $(this).children('div').slideToggle();
+    $(this).closest('.parent').siblings().children('div').slideUp();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#videos-slider').lightSlider({
+      item: 2,
+      loop: false,
+      slideMove: 1,
+      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+      speed: 600,
+      slideMargin: 120,
+      enableTouch: true,
+      pager: false,
+      onSliderLoad: function (el) {
+        var parent = el.parent();
+        var action = parent.find('.lSAction');
+        action.insertBefore(parent);
+      },
+      responsive: [
+        {
+          breakpoint: 1199,
+          settings: {
+            slideMargin: 40,
           }
-        ]
-      });
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      $('#blog-slider').lightSlider({
-        item: 2,
-        loop: false,
-        slideMove: 1,
-        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-        speed: 600,
-        slideMargin: 120,
-        enableTouch: true,
-        pager: false,
-        onSliderLoad: function (el) {
-          var parent = el.parent();
-          var action = parent.find('.lSAction');
-          action.insertBefore(parent);
         },
-        responsive: [
-          {
-            breakpoint: 1199,
-            settings: {
-              slideMargin: 40,
-            }
-          },
-          {
-            breakpoint: 991,
-            settings: {
-              item: 2,
-              slideMove: 1,
-              slideMargin: 30
-            }
-          },
-          {
-            breakpoint: 575,
-            settings: {
-              item: 1,
-              slideMargin: 20
-            }
+        {
+          breakpoint: 991,
+          settings: {
+            item: 2,
+            slideMove: 1,
+            slideMargin: 30
           }
-        ]
-      });
-    });  
-  </script>
-  <script>
-    $(document).ready(function () {
-      $('#reviews-slider').lightSlider({
-        item: 3,
-        loop: false,
-        slideMove: 1,
-        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-        speed: 600,
-        slideMargin: 0,
-        enableTouch: true,
-        pager: false,
-        onSliderLoad: function (el) {
-          var parent = el.parent();
-          var action = parent.find('.lSAction');
-          action.insertBefore(parent);
         },
-        responsive: [
-          {
-            breakpoint: 1199,
-            settings: {
-              item: 2,
-              slideMove: 1,
-            }
-          },
-          {
-            breakpoint: 767,
-            settings: {
-              item: 1,
-              slideMove: 1,
-            }
+        {
+          breakpoint: 575,
+          settings: {
+            item: 1,
+            slideMargin: 20
           }
-        ]
-      });
-    });  
-  </script>
-  <script>
-    $('.nav-cart').on('click', function (e) {
-      $('.nav-search').removeClass('active');
-      $('.mobile-search-menu').removeClass('active');
-      $('.mobile-menu').removeClass('show');
-      $('.sidebar-menu-wrapper .overlay').removeClass('active');
-      // actual function
-      $('.mobile-menu-link').addClass('collapsed');
-      $('.cart-sidebar').toggleClass("active");
-      $('.nav-cart').toggleClass("active");
-      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-      $('body').removeClass("hide-scroll");
-      e.preventDefault();
+        }
+      ]
     });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#blog-slider').lightSlider({
+      item: 2,
+      loop: false,
+      slideMove: 1,
+      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+      speed: 600,
+      slideMargin: 120,
+      enableTouch: true,
+      pager: false,
+      onSliderLoad: function (el) {
+        var parent = el.parent();
+        var action = parent.find('.lSAction');
+        action.insertBefore(parent);
+      },
+      responsive: [
+        {
+          breakpoint: 1199,
+          settings: {
+            slideMargin: 40,
+          }
+        },
+        {
+          breakpoint: 991,
+          settings: {
+            item: 2,
+            slideMove: 1,
+            slideMargin: 30
+          }
+        },
+        {
+          breakpoint: 575,
+          settings: {
+            item: 1,
+            slideMargin: 20
+          }
+        }
+      ]
+    });
+  });  
+</script>
+<script>
+  $(document).ready(function () {
+    $('#reviews-slider').lightSlider({
+      item: 3,
+      loop: false,
+      slideMove: 1,
+      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+      speed: 600,
+      slideMargin: 0,
+      enableTouch: true,
+      pager: false,
+      onSliderLoad: function (el) {
+        var parent = el.parent();
+        var action = parent.find('.lSAction');
+        action.insertBefore(parent);
+      },
+      responsive: [
+        {
+          breakpoint: 1199,
+          settings: {
+            item: 2,
+            slideMove: 1,
+          }
+        },
+        {
+          breakpoint: 767,
+          settings: {
+            item: 1,
+            slideMove: 1,
+          }
+        }
+      ]
+    });
+  });  
+</script>
+<script>
+  $('.nav-cart').on('click', function (e) {
+    $('.nav-search').removeClass('active');
+    $('.mobile-search-menu').removeClass('active');
+    $('.mobile-menu').removeClass('show');
+    $('.sidebar-menu-wrapper .overlay').removeClass('active');
+    // actual function
+    $('.mobile-menu-link').addClass('collapsed');
+    $('.cart-sidebar').toggleClass("active");
+    $('.nav-cart').toggleClass("active");
+    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+    $('body').removeClass("hide-scroll");
+    e.preventDefault();
+  });
 
-    $('.close-sidebar-btn').on('click', function (e) {
-      $('.nav-cart').toggleClass("active");
-      $('.cart-sidebar').toggleClass("active");
-      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-      $('body').removeClass("hide-scroll");
-      e.preventDefault();
-    });
+  $('.close-sidebar-btn').on('click', function (e) {
+    $('.nav-cart').toggleClass("active");
+    $('.cart-sidebar').toggleClass("active");
+    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+    $('body').removeClass("hide-scroll");
+    e.preventDefault();
+  });
 
-    $('.cart-sidebar-wrapper .overlay').on('click', function (e) {
-      $('.nav-cart').toggleClass("active");
-      $('.cart-sidebar').toggleClass("active");
-      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-      $('body').removeClass("hide-scroll");
-      e.preventDefault();
-    });
-  </script>
-  <script>
-    $('.mobile-menu-link').on('click', function (e) {
-      $('.nav-search').removeClass('active');
-      $('.mobile-search-menu').removeClass('active');
+  $('.cart-sidebar-wrapper .overlay').on('click', function (e) {
+    $('.nav-cart').toggleClass("active");
+    $('.cart-sidebar').toggleClass("active");
+    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+    $('body').removeClass("hide-scroll");
+    e.preventDefault();
+  });
+</script>
+<script>
+  $('.mobile-menu-link').on('click', function (e) {
+    $('.nav-search').removeClass('active');
+    $('.mobile-search-menu').removeClass('active');
+    $('.nav-cart').removeClass('active');
+    $('.cart-sidebar').removeClass('active');
+    $('.cart-sidebar-wrapper .overlay').removeClass('active');
+    $('body').removeClass("hide-scroll");
+  });
+</script>
+<script>
+  $('.nav-search').on('click', function (e) {
+    if ($('.nav-cart').hasClass('active')) {
       $('.nav-cart').removeClass('active');
+    }
+    if ($('.cart-sidebar').hasClass('active')) {
       $('.cart-sidebar').removeClass('active');
+    }
+    if ($('.cart-sidebar-wrapper .overlay').hasClass('active')) {
       $('.cart-sidebar-wrapper .overlay').removeClass('active');
-      $('body').removeClass("hide-scroll");
+    }
+    if ($('.mobile-menu').hasClass('show')) {
+      $('.mobile-menu').removeClass('show');
+    }
+    $('.mobile-menu-link').addClass('collapsed');
+    $('.mobile-search-menu').toggleClass("active");
+    $('.nav-search').toggleClass("active");
+    e.preventDefault();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    var showChar = 1450;
+    var ellipsestext = "...";
+    var moretext = "more";
+    var lesstext = "less";
+    $('.more').each(function () {
+      var content = $(this).html();
+      if (content.length > showChar) {
+        var c = content.substr(0, showChar);
+        var h = content.substr(showChar - 1, content.length - showChar);
+        var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+        $(this).html(html);
+      }
     });
-  </script>
-  <script>
-    $('.nav-search').on('click', function (e) {
-      if ($('.nav-cart').hasClass('active')) {
-        $('.nav-cart').removeClass('active');
-      }
-      if ($('.cart-sidebar').hasClass('active')) {
-        $('.cart-sidebar').removeClass('active');
-      }
-      if ($('.cart-sidebar-wrapper .overlay').hasClass('active')) {
-        $('.cart-sidebar-wrapper .overlay').removeClass('active');
-      }
-      if ($('.mobile-menu').hasClass('show')) {
-        $('.mobile-menu').removeClass('show');
-      }
-      $('.mobile-menu-link').addClass('collapsed');
-      $('.mobile-search-menu').toggleClass("active");
-      $('.nav-search').toggleClass("active");
-      e.preventDefault();
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      var showChar = 1450;
-      var ellipsestext = "...";
-      var moretext = "more";
-      var lesstext = "less";
-      $('.more').each(function () {
-        var content = $(this).html();
-        if (content.length > showChar) {
-          var c = content.substr(0, showChar);
-          var h = content.substr(showChar - 1, content.length - showChar);
-          var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
-          $(this).html(html);
-        }
-      });
 
-      $(".morelink").click(function () {
-        if ($(this).hasClass("less")) {
-          $(this).removeClass("less");
-          $(this).html(moretext);
-        } else {
-          $(this).addClass("less");
-          $(this).html(lesstext);
-        }
-        $(this).parent().prev().toggle();
-        $(this).prev().toggle();
-        return false;
-      });
+    $(".morelink").click(function () {
+      if ($(this).hasClass("less")) {
+        $(this).removeClass("less");
+        $(this).html(moretext);
+      } else {
+        $(this).addClass("less");
+        $(this).html(lesstext);
+      }
+      $(this).parent().prev().toggle();
+      $(this).prev().toggle();
+      return false;
     });
-  </script>
-  <script>
-    $('.mobile-category-toggle').on('click', function (e) {
-      <%# debugger %>
-      $('.mobile-category-toggle').toggleClass("clicked");
-      $('.sidebar-sub-categories').toggleClass("show");
-      e.preventDefault();
-    });
-  </script>
-  <script>
-    $('.filter-btn').on('click', function (e) {
-      $('.category-mobile-filter').toggleClass("open");
-      $('.shop-by-filter-mobile').toggleClass("show");
-      e.preventDefault();
-    });
-  </script>
+  });
+</script>
+<script>
+  $('.filter-btn').on('click', function (e) {
+    $('.category-mobile-filter').toggleClass("open");
+    $('.shop-by-filter-mobile').toggleClass("show");
+    e.preventDefault();
+  });
+</script>
 </body>
 
 </html>
