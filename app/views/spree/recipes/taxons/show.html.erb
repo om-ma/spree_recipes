@@ -1,490 +1,415 @@
-<main class="page-contents">
-  <div class="category-wrapper">
-    <div class="row no-gutters">
-      <div class="col-xl-2 col-lg-3 phone-hide">
-        <div class="sidebar-categories">
-          <h4>Categories:</h4>
-          <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
-        </div>
-      </div>
-      <div class="col-xl-10 col-lg-9">
-        <div class="recipes-wrapper">
-          <div class="category-intro-wrapper">
-            <div class="row">
-              <div class="col-xl-4 col-lg-5">
-                <div class="category-banner mb-20">
-                  <% if browser.device.mobile? %>
-                    <% if @recipe_taxon.icon.present? %>
-                      <%= image_tag @recipe_taxon.icon.my_cf_image_url(:small), alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
-                    <% else %>
-                      <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
-                    <% end %>
-                  <% else %>
-                    <% if @recipe_taxon.icon.present? %>
-                      <%= image_tag main_app.url_for(@recipe_taxon.icon.my_cf_image_url(:plp)), alt:"#{@recipe_taxon.name.humanize}", class:"d-block w-100" %>
-                      <%#= image_tag @recipe_taxon.icon, alt:"#{@recipe_taxon.name}", class:"d-block w-100" %> 
-                    <% else %>
-                      <%= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name}", class:"d-block w-100" %>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="col-xl-8 col-lg-7">
-                  <%= spree_recipe_breadcrumbs(@recipe_taxon) %>
-                <h1 class="title"><%= (@recipe_taxon.h1_title.blank? ? @recipe_taxon.name : taxon.h1_title) %></h1>
-                <div class="mobile-categories-wrap phone-visible">
-                 <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
-                  <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
-                </div>
-                <div class="category-intro more">
-                  <%= raw(@recipe_taxon.short_description) %><% if @recipe_taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @recipe_taxon.name %>"><strong>Read more</strong></a><% end %>
-                </div>
-              </div>
-            </div>
-            <div class="popular-categories-wrapper">
-              <div class="title-wrap mb-30">
-                <h2 class="title padding-0">Most popular in category</h2>
-                <p class="d-none d-sm-block">
-                  He goes on adventures around the world in search of new flavors
-                </p>
-              </div>
-              <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="col col-6">
-                  <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                    <div class="product-img">
-                      <a href="#">
-                        <img src="assets/images/product-thumb-1.jpg" alt="">
-                      </a>
-                      <span class="badge">Spring</span>
-                    </div>
-                    <div class="product-desc text-center">
-                      <h4><a href="#">Acai Compound, Natural</a></h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
-          <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>  <div class="category-mobile-filter phone-visible">
-            <div class="header-search">
-              <% category_recipe_id = @recipe_taxon.permalink.sub("recipes/", "") %>
-              <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
-                <%# <div class="header-search d-none d-sm-block"> %>
-                  <%= search_field_tag :q,
-                                      params[:q],
-                                      placeholder: "Search recipes",
-                                      class: "form-control",
-                                      id: "recipe-search",
-                                      autocomplete: "off" %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-          <% if @recipes.present? %>
-           <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
-          <% end %>
-        </div>
-        <!-- /.Best seller products -->
-        <div class="pagination-wrap">
-          <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
-        </div>
-      </div>
-    </div>
-    <div class="category-intro-footer">
+<% cache [cache_key_for_taxon_show(@taxon), params[:sort_by]] do %>
+
+  <main class="page-contents">
+    <div class="category-wrapper">
       <div class="row no-gutters">
-        <div class="col-xl-2 col-lg-3 phone-hide"></div>
+        <div class="col-xl-2 col-lg-3 phone-hide">
+          <div class="sidebar-categories">
+            <h4>Categories:</h4>
+            <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
+          </div>
+        </div>
         <div class="col-xl-10 col-lg-9">
-          <div class="text-block">
-            <% if @recipe_taxon.description.present? %>
-              <span id="more-category-description" class="more">More about <%= @recipe_taxon.name %></span><br><br>
-              <%= raw(@recipe_taxon.description) %>
+          <div class="recipes-wrapper">
+            <div class="category-intro-wrapper">
+              <div class="row">
+                <div class="col-xl-4 col-lg-5">
+                  <div class="category-banner mb-20">
+                     <% if browser.device.mobile? || !browser.device.tablet? %>
+                <% if @recipe_taxon.icon.present? %>
+                    <%= image_tag main_app.url_for(@recipe_taxon.icon.try(:attachment)), alt:"#{@recipe_taxon.name} Image" %> 
+                <% else %>
+                    <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxons.name} Image" %>
+                <% end %>
+              <% else %>
+                <% if @recipe_taxon.icon.present? %>
+                    <%= image_tag main_app.url_for(@recipe_taxon.icon.my_cf_image_url(:large)), alt:"#{@recipe_taxon.name} Image" %> 
+                <% else %>
+                    <%= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name} Image" %>
+                <% end %>
+              <% end %>
+                  </div>
+                </div>
+                <div class="col-xl-8 col-lg-7">
+                    <%= spree_recipe_breadcrumbs(@recipe_taxon) %>
+                  <h1 class="title"><%= (@recipe_taxon.h1_title.blank? ? @recipe_taxon.name : taxon.h1_title) %></h1>
+                  <div class="mobile-categories-wrap phone-visible">
+                   <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
+                    <%= render partial: 'spree/shared/recipes_taxonomies', locals: { recipe_taxons: @recipe_taxons } %>
+                  </div>
+                  <div class="category-intro more">
+                    <%= raw(@recipe_taxon.short_description) %><% if @recipe_taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @recipe_taxon.name %>"><strong>Read more</strong></a><% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="popular-categories-wrapper">
+                <div class="title-wrap mb-30">
+                  <% if @recipes.present? %>
+                    <h2 class="title padding-0">Most popular in category</h2>
+                    <p class="d-none d-sm-block">
+                      He goes on adventures around the world in search of new flavors
+                    </p>
+                    <%= render partial: 'spree/shared/recipes', locals: { recipes: @most_popular_recipes_in_category, taxon: @recipe_taxon } %>
+                  <% end %>    
+                </div>
+              </div>
+            </div>
+            <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
+            <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>  <div class="category-mobile-filter phone-visible">
+              <div class="header-search">
+                <% category_recipe_id = @recipe_taxon.permalink.sub("recipes/", "") %>
+                <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+                  <%# <div class="header-search d-none d-sm-block"> %>
+                    <%= search_field_tag :q,
+                                        params[:q],
+                                        placeholder: "Search recipes",
+                                        class: "form-control",
+                                        id: "recipe-search",
+                                        autocomplete: "off" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <% if @recipes.present? %>
+             <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
             <% end %>
-            </p>
+          </div>
+          <!-- /.Best seller products -->
+          <div class="pagination-wrap">
+            <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
+          </div>
+        </div>
+      </div>
+      <div class="category-intro-footer">
+        <div class="row no-gutters">
+          <div class="col-xl-2 col-lg-3 phone-hide"></div>
+          <div class="col-xl-10 col-lg-9">
+            <div class="text-block">
+              <% if @recipe_taxon.description.present? %>
+                <span id="more-category-description" class="more">More about <%= @recipe_taxon.name %></span><br><br>
+                <%= raw(@recipe_taxon.description) %>
+              <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <!-- cart sidebar -->
+  <aside class="cart-sidebar-wrapper">
+    <div class="overlay"></div>
+    <div class="cart-sidebar">
+      <div class="cart-sidebar-header">
+        <div class="cart-sidebar-title">My Cart</div>
+        <button type="button" class="btn close-sidebar-btn">Close</button>
+      </div>
+      <div class="cart-sidebar-body d-flex flex-column justify-content-between">
+        <ul class="cart-items">
+          <li class="cart-item">
+            <button type="button" class="btn btn-primary remove-btn">Close</button>
+            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-1.jpg" alt="product thumbnail"></a>
+            <div class="cart-item-details d-flex flex-column justify-content-between">
+              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+              <select class="custom-select qty-dropdown">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+              <div class="price-size text-right"><span>2 x .24</span>.48</div>
+            </div>
+          </li>
+          <li class="cart-item">
+            <button type="button" class="btn btn-primary remove-btn">Close</button>
+            <a href="#" class="thumbnail"><img src="assets/images/product-thumb-2.jpg" alt="product thumbnail"></a>
+            <div class="cart-item-details d-flex flex-column justify-content-between">
+              <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
+              <select class="custom-select qty-dropdown">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+              <div class="price-size text-right"><span>2 x .24</span>.48</div>
+            </div>
+          </li>
+          <li class="grand-total d-flex align-items-center justify-content-between">Total:<strong>$52.87</strong></li>
+        </ul>
+        <div class="body-sidebar-footer">
+          <div class="cart-similar-item">
+            <div class="wrap">
+              <p>You might need this:</p>
+              <div class="similar-item-thumb"><a href="#"><img src="assets/images/product-thumb-1.jpg" alt=""></a></div>
+              <h4><a href="#">Acorn Flavored Powder, Natural (8 oz.)</a></h4>
+              <a href="#" class="btn btn-primary">$14.70 - Add to Cart</a>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary btn-block"><strong>$52.87 - Check Out</strong></button>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- /.cart sidebar -->
+
+  <!-- mobile search menu -->
+  <div class="mobile-search-menu">
+    <div class="search-wrap">
+      <input type="text" class="form-control" placeholder="Search.TEST..">
+    </div>
+  </div>
+  <!-- /.mobile search menu -->
+
+  <!-- video modal -->
+  <div class="modal fade video-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Video Title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+              aria-hidden="true">&times;</span> </button>
+        </div>
+        <div class="modal-body">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
+              allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </div>
   </div>
-</main>
+  <!-- /.video modal -->
 
-  <!-- cart sidebar -->
-<aside class="cart-sidebar-wrapper">
-  <div class="overlay"></div>
-  <div class="cart-sidebar">
-    <div class="cart-sidebar-header">
-      <div class="cart-sidebar-title">My Cart</div>
-      <button type="button" class="btn close-sidebar-btn">Close</button>
-    </div>
-    <div class="cart-sidebar-body d-flex flex-column justify-content-between">
-      <ul class="cart-items">
-        <li class="cart-item">
-          <button type="button" class="btn btn-primary remove-btn">Close</button>
-          <a href="#" class="thumbnail"><img src="assets/images/product-thumb-1.jpg" alt="product thumbnail"></a>
-          <div class="cart-item-details d-flex flex-column justify-content-between">
-            <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
-            <select class="custom-select qty-dropdown">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-            <div class="price-size text-right"><span>2 x .24</span>.48</div>
-          </div>
-        </li>
-        <li class="cart-item">
-          <button type="button" class="btn btn-primary remove-btn">Close</button>
-          <a href="#" class="thumbnail"><img src="assets/images/product-thumb-2.jpg" alt="product thumbnail"></a>
-          <div class="cart-item-details d-flex flex-column justify-content-between">
-            <h4><a href="#">Sample Pack of Flavor Powder</a></h4>
-            <select class="custom-select qty-dropdown">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-            <div class="price-size text-right"><span>2 x .24</span>.48</div>
-          </div>
-        </li>
-        <li class="grand-total d-flex align-items-center justify-content-between">Total:<strong>$52.87</strong></li>
-      </ul>
-      <div class="body-sidebar-footer">
-        <div class="cart-similar-item">
-          <div class="wrap">
-            <p>You might need this:</p>
-            <div class="similar-item-thumb"><a href="#"><img src="assets/images/product-thumb-1.jpg" alt=""></a></div>
-            <h4><a href="#">Acorn Flavored Powder, Natural (8 oz.)</a></h4>
-            <a href="#" class="btn btn-primary">$14.70 - Add to Cart</a>
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary btn-block"><strong>$52.87 - Check Out</strong></button>
-      </div>
-    </div>
-  </div>
-</aside>
-<!-- /.cart sidebar -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/lightslider.js"></script>
+  <script src="assets/js/slinky.js"></script>
+  <script src="assets/js/aos.js"></script>
 
-<!-- mobile search menu -->
-<div class="mobile-search-menu">
-  <div class="search-wrap">
-    <input type="text" class="form-control" placeholder="Search.TEST..">
-  </div>
-</div>
-<!-- /.mobile search menu -->
+  <!-- Initialize animations -->
+  <script>
+    AOS.init();
+  </script>
 
-<!-- video modal -->
-<div class="modal fade video-modal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Video Title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-            aria-hidden="true">&times;</span> </button>
-      </div>
-      <div class="modal-body">
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /.video modal -->
+  <!-- For mobile menu -->
+  <script>
+    const slinky = $('#menu').slinky({ title: true });
+  </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/lightslider.js"></script>
-<script src="assets/js/slinky.js"></script>
-<script src="assets/js/aos.js"></script>
-
-<!-- Initialize animations -->
-<script>
-  AOS.init();
-</script>
-
-<!-- For mobile menu -->
-<script>
-  const slinky = $('#menu').slinky({ title: true });
-</script>
-
-<!-- Bootstrap popver -->
-<script>
-  $(function () {
-    $('[data-toggle="popover"]').popover();
-  })
-</script>
-<script>
-  $('.close-menu').on('click', function (e) {
-    $('.mobile-menu').toggleClass("show");
-    e.preventDefault();
-  });
-</script>
-<script>
-  $('.sub-menu > li').click(function (e) {
-    e.stopPropagation();
-    $(this).toggleClass('active');
-    $(this).children('div').slideToggle();
-    $(this).closest('.parent').siblings().children('div').slideUp();
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    $('#videos-slider').lightSlider({
-      item: 2,
-      loop: false,
-      slideMove: 1,
-      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-      speed: 600,
-      slideMargin: 120,
-      enableTouch: true,
-      pager: false,
-      onSliderLoad: function (el) {
-        var parent = el.parent();
-        var action = parent.find('.lSAction');
-        action.insertBefore(parent);
-      },
-      responsive: [
-        {
-          breakpoint: 1199,
-          settings: {
-            slideMargin: 40,
-          }
-        },
-        {
-          breakpoint: 991,
-          settings: {
-            item: 2,
-            slideMove: 1,
-            slideMargin: 30
-          }
-        },
-        {
-          breakpoint: 575,
-          settings: {
-            item: 1,
-            slideMargin: 20
-          }
-        }
-      ]
+  <!-- Bootstrap popver -->
+  <script>
+    $(function () {
+      $('[data-toggle="popover"]').popover();
+    })
+  </script>
+  <script>
+    $('.close-menu').on('click', function (e) {
+      $('.mobile-menu').toggleClass("show");
+      e.preventDefault();
     });
-  });
-</script>
-<script>
-  $(document).ready(function () {
-    $('#blog-slider').lightSlider({
-      item: 2,
-      loop: false,
-      slideMove: 1,
-      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-      speed: 600,
-      slideMargin: 120,
-      enableTouch: true,
-      pager: false,
-      onSliderLoad: function (el) {
-        var parent = el.parent();
-        var action = parent.find('.lSAction');
-        action.insertBefore(parent);
-      },
-      responsive: [
-        {
-          breakpoint: 1199,
-          settings: {
-            slideMargin: 40,
-          }
-        },
-        {
-          breakpoint: 991,
-          settings: {
-            item: 2,
-            slideMove: 1,
-            slideMargin: 30
-          }
-        },
-        {
-          breakpoint: 575,
-          settings: {
-            item: 1,
-            slideMargin: 20
-          }
-        }
-      ]
+  </script>
+  <script>
+    $('.sub-menu > li').click(function (e) {
+      e.stopPropagation();
+      $(this).toggleClass('active');
+      $(this).children('div').slideToggle();
+      $(this).closest('.parent').siblings().children('div').slideUp();
     });
-  });  
-</script>
-<script>
-  $(document).ready(function () {
-    $('#reviews-slider').lightSlider({
-      item: 3,
-      loop: false,
-      slideMove: 1,
-      easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-      speed: 600,
-      slideMargin: 0,
-      enableTouch: true,
-      pager: false,
-      onSliderLoad: function (el) {
-        var parent = el.parent();
-        var action = parent.find('.lSAction');
-        action.insertBefore(parent);
-      },
-      responsive: [
-        {
-          breakpoint: 1199,
-          settings: {
-            item: 2,
-            slideMove: 1,
-          }
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#videos-slider').lightSlider({
+        item: 2,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 120,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
         },
-        {
-          breakpoint: 767,
-          settings: {
-            item: 1,
-            slideMove: 1,
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slideMargin: 40,
+            }
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              item: 2,
+              slideMove: 1,
+              slideMargin: 30
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              item: 1,
+              slideMargin: 20
+            }
           }
-        }
-      ]
+        ]
+      });
     });
-  });  
-</script>
-<script>
-  $('.nav-cart').on('click', function (e) {
-    $('.nav-search').removeClass('active');
-    $('.mobile-search-menu').removeClass('active');
-    $('.mobile-menu').removeClass('show');
-    $('.sidebar-menu-wrapper .overlay').removeClass('active');
-    // actual function
-    $('.mobile-menu-link').addClass('collapsed');
-    $('.cart-sidebar').toggleClass("active");
-    $('.nav-cart').toggleClass("active");
-    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-    $('body').removeClass("hide-scroll");
-    e.preventDefault();
-  });
-
-  $('.close-sidebar-btn').on('click', function (e) {
-    $('.nav-cart').toggleClass("active");
-    $('.cart-sidebar').toggleClass("active");
-    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-    $('body').removeClass("hide-scroll");
-    e.preventDefault();
-  });
-
-  $('.cart-sidebar-wrapper .overlay').on('click', function (e) {
-    $('.nav-cart').toggleClass("active");
-    $('.cart-sidebar').toggleClass("active");
-    $('.cart-sidebar-wrapper .overlay').toggleClass("active");
-    $('body').removeClass("hide-scroll");
-    e.preventDefault();
-  });
-</script>
-<script>
-  $('.mobile-menu-link').on('click', function (e) {
-    $('.nav-search').removeClass('active');
-    $('.mobile-search-menu').removeClass('active');
-    $('.nav-cart').removeClass('active');
-    $('.cart-sidebar').removeClass('active');
-    $('.cart-sidebar-wrapper .overlay').removeClass('active');
-    $('body').removeClass("hide-scroll");
-  });
-</script>
-<script>
-  $('.nav-search').on('click', function (e) {
-    if ($('.nav-cart').hasClass('active')) {
-      $('.nav-cart').removeClass('active');
-    }
-    if ($('.cart-sidebar').hasClass('active')) {
-      $('.cart-sidebar').removeClass('active');
-    }
-    if ($('.cart-sidebar-wrapper .overlay').hasClass('active')) {
-      $('.cart-sidebar-wrapper .overlay').removeClass('active');
-    }
-    if ($('.mobile-menu').hasClass('show')) {
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#blog-slider').lightSlider({
+        item: 2,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 120,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
+        },
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slideMargin: 40,
+            }
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              item: 2,
+              slideMove: 1,
+              slideMargin: 30
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              item: 1,
+              slideMargin: 20
+            }
+          }
+        ]
+      });
+    });  
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#reviews-slider').lightSlider({
+        item: 3,
+        loop: false,
+        slideMove: 1,
+        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+        speed: 600,
+        slideMargin: 0,
+        enableTouch: true,
+        pager: false,
+        onSliderLoad: function (el) {
+          var parent = el.parent();
+          var action = parent.find('.lSAction');
+          action.insertBefore(parent);
+        },
+        responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              item: 2,
+              slideMove: 1,
+            }
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              item: 1,
+              slideMove: 1,
+            }
+          }
+        ]
+      });
+    });  
+  </script>
+  <script>
+    $('.nav-cart').on('click', function (e) {
+      $('.nav-search').removeClass('active');
+      $('.mobile-search-menu').removeClass('active');
       $('.mobile-menu').removeClass('show');
-    }
-    $('.mobile-menu-link').addClass('collapsed');
-    $('.mobile-search-menu').toggleClass("active");
-    $('.nav-search').toggleClass("active");
-    e.preventDefault();
-  });
-</script>
-</body>
+      $('.sidebar-menu-wrapper .overlay').removeClass('active');
+      // actual function
+      $('.mobile-menu-link').addClass('collapsed');
+      $('.cart-sidebar').toggleClass("active");
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
 
-</html>
+    $('.close-sidebar-btn').on('click', function (e) {
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
+
+    $('.cart-sidebar-wrapper .overlay').on('click', function (e) {
+      $('.nav-cart').toggleClass("active");
+      $('.cart-sidebar').toggleClass("active");
+      $('.cart-sidebar-wrapper .overlay').toggleClass("active");
+      $('body').removeClass("hide-scroll");
+      e.preventDefault();
+    });
+  </script>
+  <script>
+    $('.mobile-menu-link').on('click', function (e) {
+      $('.nav-search').removeClass('active');
+      $('.mobile-search-menu').removeClass('active');
+      $('.nav-cart').removeClass('active');
+      $('.cart-sidebar').removeClass('active');
+      $('.cart-sidebar-wrapper .overlay').removeClass('active');
+      $('body').removeClass("hide-scroll");
+    });
+  </script>
+  <script>
+    $('.nav-search').on('click', function (e) {
+      if ($('.nav-cart').hasClass('active')) {
+        $('.nav-cart').removeClass('active');
+      }
+      if ($('.cart-sidebar').hasClass('active')) {
+        $('.cart-sidebar').removeClass('active');
+      }
+      if ($('.cart-sidebar-wrapper .overlay').hasClass('active')) {
+        $('.cart-sidebar-wrapper .overlay').removeClass('active');
+      }
+      if ($('.mobile-menu').hasClass('show')) {
+        $('.mobile-menu').removeClass('show');
+      }
+      $('.mobile-menu-link').addClass('collapsed');
+      $('.mobile-search-menu').toggleClass("active");
+      $('.nav-search').toggleClass("active");
+      e.preventDefault();
+    });
+  </script>
+  </body>
+
+  </html>
+<% end %>

@@ -4,6 +4,8 @@ module Spree
     include Spree::CacheHelper
     helper 'spree/products'
 
+    after_action :update_recipe_popularity, only: :show
+
     def show
       recipe_taxon = Spree::Taxon.find_by_name "Recipes"
       @taxon = recipe_taxon.children.find_by(id: params[:taxon_id])
@@ -49,6 +51,14 @@ module Spree
       respond_to do |format|
         format.html { redirect_to request.referer }
         format.js
+      end
+    end
+
+    private
+     def update_recipe_popularity
+      ActiveRecord::Base.connected_to(role: :writing) do
+        @recipe.popularity += 1
+        @recipe.save
       end
     end
 

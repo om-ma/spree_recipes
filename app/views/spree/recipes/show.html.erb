@@ -5,15 +5,14 @@
         <div class="col-xl-10 col-lg-8">
           <div class="recipe-details-wrapper">
             <ol class="breadcrumb">
-              <% debugger %>
               <%= spree_recipe_breadcrumbs(@taxon, "", @recipe) %>
             </ol>
             <div class="ratings">
-              <img src="assets/images/star.svg" alt="star">
-              <img src="assets/images/star.svg" alt="star">
-              <img src="assets/images/star.svg" alt="star">
-              <img src="assets/images/star.svg" alt="star">
-              <img src="assets/images/star-off.svg" alt="star">
+              <%= image_tag asset_path("star.svg"), alt: "star" %>
+              <%= image_tag asset_path("star.svg"), alt: "star" %>
+              <%= image_tag asset_path("star.svg"), alt: "star" %>
+              <%= image_tag asset_path("star.svg"), alt: "star" %>
+              <%= image_tag asset_path("star.svg"), alt: "star" %>
               <span>5 Reviews</span>
             </div>
             <div class="row">
@@ -21,77 +20,78 @@
                 <div class="recipe-gallery-wrap">
                   <div id="gallery-slider" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <div class="embed-responsive embed-responsive-16by9">
-                          <video
-                            preload
-                            plays-inline
-                            controls
-                            class="embed-responsive-item"
-                          >
-                            <source src="assets/videos/natures_flavors_GNOxyxFIUwaMRfUEAKehwaEd8IAEbq_EAAAF.mp4" type="video/mp4">
-                          </video>
+                      <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
+                        <div class="carousel-item <%= 'active' if index == 0 %>">
+                          <img class="d-block w-100" src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:plp)) %>" alt="Image <%= index + 1 %>">
                         </div>
-                      </div>
-                      <div class="carousel-item">
-                        <div class="embed-responsive embed-responsive-16by9">
-                          <iframe class="embed-responsive-item"
-                            src="https://www.youtube.com/embed/6MLo86XzhLk"
-                            allowfullscreen></iframe>
-                        </div>
-                      </div>
-                      <div class="carousel-item">
-                        <img src="assets/images/product-detail.jpg" alt="image" />
-                      </div>
+                      <% end %>
+                      <% if @recipe.recipe_videos.present? %>
+                        <% @recipe.recipe_videos.each_with_index do |video, index| %>
+                          <div class="carousel-item <%= 'active' if index == @recipe.recipe_icons.size %>">
+                            <div class="embed-responsive embed-responsive-16by9">
+                              <iframe class="embed-responsive-item"
+                                src="<%= video.video_url %>"
+                                allowfullscreen></iframe>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
                     </div>
+
+                    <!-- Carousel Indicators -->
                     <ol class="carousel-indicators">
-                      <li data-target="#gallery-slider" data-slide-to="0" class="active">
-                        <img src="assets/images/product-detail-thumb1.jpg" alt="thumbnail">
-                      </li>
-                      <li data-target="#gallery-slider" data-slide-to="1">
-                        <img src="assets/images/product-detail-thumb2.jpg" alt="thumbnail">
-                      </li>
-                      <li data-target="#gallery-slider" data-slide-to="2">
-                        <img src="assets/images/product-detail-thumb1.jpg" alt="thumbnail">
-                      </li>
+                      <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
+                        <li data-target="#gallery-slider" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>">
+                          <img src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:thumb)) %>" alt="Thumbnail <%= index + 1 %>">
+                        </li>
+                      <% end %>
+                      <% if @recipe.recipe_videos.present? %>
+                        <% @recipe&.recipe_videos.each_with_index do |video, index| %>
+                          <li data-target="#gallery-slider" data-slide-to="<%= @recipe.recipe_icons.size + index %>" class="<%= 'active' if index == 0 %>">
+                            <img src="<%= video.video_url %>" alt="Video Thumbnail <%= index + 1 %>">
+                          </li>
+                        <% end %>
+                      <% end %>
                     </ol>
-                  </div>
+                </div>
                 </div>
               </div>
               <div class="col-xl-6">
-                <h1 class="title mb-40">Natural Coconut Lime Fragrance Oil (Oil Soluble)</h1>
+                <h1 class="title mb-40"><%= @recipe.name %></h1>
+                <% if @recipe.ingredients.present? %>
                 <div class="product-ingredients">
                   <h5>Ingredients</h5>
                   <ul>
-                    <li>1/3 cup. Tart Cherry Juice</li>
-                    <li>1/3 cup. Sparkling Water</li>
-                    <li>1/2 cup. <a href="#">Melatonin Chamomile Tea (Iced)</a></li>
-                    <li>1/2 tbsp. <a href="#">Organic Lemon Lime Syrup</a></li>
-                  </ul>
+                    <% @recipe.ingredients.each do |ingredient| %>
+                    <li>
+                      <%= ingredient.name %>
+                      <% if ingredient.variant.present? %>
+                        <% product = ingredient.variant.product %>
+                        <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
+                          <%= product.name %>
+                        <% end %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                 </ul>
                 </div>
-                <h3 class="mb-20">Sleepy Girl Mocktail with Nature’s Flavors</h3>
-                <p>Did you know some fruits contain melatonin?</p>
-                <p>Yes, the sleep hormone we naturally produce is found in certain fruits. Studies have shown tart
-                  cherries, eggs, and goji berries contain levels of melatonin. And tart cherry juice has recently been
-                  trending for its unique ability to have a positive effect on sleep.</p>
-                <p>Tart cherry juice also contains tryptophan which is an amino acid responsible for producing
-                  melatonin. With melatonin and tryptophan packed into one fruit juice you are sure to get some
-                  shut-eye.</p>
-                <p>BUT just In case that wasn’t enough melatonin for you, we added Seelect Tea's Melatonin Chamomile Tea
-                  to really put you to rest.</p>
-                <div class="product-ingredients">
-                  <h5>Instructions</h5>
-                  <ol>
-                    <li>Steep one tea bag in 1/3 cup of boiling water. Full Boil (207-212 ° Fahrenheit) for 5-7 minutes.
-                      Set aside and let it cool down for a few minutes. Remove the tea bag or let it sit in after
-                      steeping.</li>
-                    <li>Add ice, cherry juice, syrup, sparkling water, and tea to a wine glass. Stir everything with a
-                      straw or bar spoon, and enjoy!</li>
-                  </ol>
-                </div>
+                <%end%>
+                <%= @recipe&.description&.html_safe %>
+                <% if @recipe.instructions.present? %>
+                  <div class="product-ingredients">
+                    <h5>Instructions</h5>
+                    <ol>
+                      <% @recipe.instructions.each do |instruction| %>
+                    <li>
+                      <%= instruction.description %>
+                    </li>
+                  <% end %>
+                    </ol>
+                  </div>
+                 <% end %> 
                 <div class="mt-40">
-                  <a class="btn btn-primary" href="#">Shop the Flavor</a>
-                  <a class="ml-sm-2 btn btn-primary" target="_blank" href="#">Print / save recipe</a>
+                  <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
+                  <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
                 </div>
               </div>
             </div>
