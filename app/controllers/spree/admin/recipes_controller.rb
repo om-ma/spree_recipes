@@ -16,7 +16,7 @@ module Spree
       end
 
       def update
-        @recipe.create_recipe_icons(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icon]
+        @recipe.recipe_icons.create(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icons]
         if @recipe.update(permitted_resource_params.except(:recipe_icons))
           flash[:notice] = "Successfully updated recipe."
           redirect_to request.referrer

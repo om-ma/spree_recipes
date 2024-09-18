@@ -1,4 +1,4 @@
-<% cache [cache_key_for_taxon_show(@recipe_taxon), params[:sort_by]] do %>
+<% cache [cache_key_for_taxon_show(@taxon), params[:sort_by]] do %>
 
   <main class="page-contents">
     <div class="category-wrapper">
@@ -6,7 +6,7 @@
         <div class="col-xl-2 col-lg-3 phone-hide">
           <div class="sidebar-categories">
             <h4>Categories:</h4>
-            <%= render partial: 'taxonomies', locals: { taxon: @recipe_taxon } %>
+            <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
           </div>
         </div>
         <div class="col-xl-10 col-lg-9">
@@ -15,68 +15,87 @@
               <div class="row">
                 <div class="col-xl-4 col-lg-5">
                   <div class="category-banner mb-20">
-                     <% if browser.device.mobile? || !browser.device.tablet? %>
-                <% if @recipe_taxon.icon.present? %>
-                    <%= image_tag main_app.url_for(@recipe_taxon.icon.try(:attachment)), alt:"#{@recipe_taxon.name} Image" %> 
-                <% else %>
-                    <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@recipe_taxons.name} Image" %>
-                <% end %>
-              <% else %>
-                <% if @recipe_taxon.icon.present? %>
-                    <%= image_tag main_app.url_for(@recipe_taxon.icon.my_cf_image_url(:large)), alt:"#{@recipe_taxon.name} Image" %> 
-                <% else %>
-                    <%= image_tag "noimage/default-category-image.jpg", alt:"#{@recipe_taxon.name} Image" %>
-                <% end %>
-              <% end %>
+                    <% if browser.device.mobile? || !browser.device.tablet? %>
+                      <% if @taxon.icon.present? %>
+                          <%= image_tag main_app.url_for(@taxon.icon.try(:attachment)), alt:"#{@taxon.name} Image" %> 
+                      <% else %>
+                          <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@taxons.name} Image" %>
+                      <% end %>
+                    <% else %>
+                      <% if @taxon.icon.present? %>
+                          <%= image_tag main_app.url_for(@taxon.icon.my_cf_image_url(:large)), alt:"#{@taxon.name} Image" %> 
+                      <% else %>
+                          <%= image_tag "noimage/default-category-image.jpg", alt:"#{@taxon.name} Image" %>
+                      <% end %>
+                    <% end %>
                   </div>
                 </div>
                 <div class="col-xl-8 col-lg-7">
-                    <%= spree_recipe_breadcrumbs(@recipe_taxon) %>
-                  <h1 class="title"><%= (@recipe_taxon.h1_title.blank? ? @recipe_taxon.name : taxon.h1_title) %></h1>
+                    <%= spree_recipe_breadcrumbs(@taxon) %>
+                  <h1 class="title"><%= (@taxon.h1_title.blank? ? @taxon.name : taxon.h1_title) %></h1>
                   <div class="mobile-categories-wrap phone-visible">
                    <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
-                    <%= render partial: 'taxonomies', locals: { taxon: @recipe_taxon } %>
+                    <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
                   </div>
                   <div class="category-intro more">
-                    <%= raw(@recipe_taxon.short_description) %><% if @recipe_taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @recipe_taxon.name %>"><strong>Read more</strong></a><% end %>
+                    <%= raw(@taxon.short_description) %><% if @taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @taxon.name %>"><strong>Read more</strong></a><% end %>
                   </div>
                 </div>
               </div>
               <div class="popular-categories-wrapper">
                 <div class="title-wrap mb-30">
-                  <% if @recipes.present? %>
-                    <h2 class="title padding-0">Most popular in category</h2>
-                    <p class="d-none d-sm-block">
-                      He goes on adventures around the world in search of new flavors
-                    </p>
-                    <%= render partial: 'spree/shared/recipes', locals: { recipes: @most_popular_recipes_in_category, taxon: @recipe_taxon } %>
-                  <% end %>    
+                  <h2 class="title padding-0">Most popular in category</h2>
+                  <p class="d-none d-sm-block">
+                    He goes on adventures around the world in search of new flavors
+                  </p>
                 </div>
-              </div>
-            </div>
-            <%= render partial: 'filters', locals: { taxon: @recipe_taxon } %>
-            <%= render partial: 'mobile_filters', locals: { taxon: @recipe_taxon } %>  <div class="category-mobile-filter phone-visible">
-              <div class="header-search">
-                <% category_recipe_id = @recipe_taxon.permalink.sub("recipes/", "") %>
-                <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
-                  <%# <div class="header-search d-none d-sm-block"> %>
-                    <%= search_field_tag :q,
-                                        params[:q],
-                                        placeholder: "Search recipes",
-                                        class: "form-control",
-                                        id: "recipe-search",
-                                        autocomplete: "off" %>
+                <% if @popular_recipes_category.present? %>
+                  <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
+                    <%  @popular_recipes_category.each do |recipe| %>
+                      <div class="col col-6">
+                        <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                          <div class="product-img">
+                            <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
+                              <% if recipe.recipe_icons.present? %>
+                                <%= image_tag main_app.url_for(recipe.recipe_icons.first.my_cf_image_url(:plp)), alt:"#{recipe.name} Image" %> 
+                              <% end %>
+                            <% end %>
+                          </div>
+                          <div class="product-desc text-center">
+                            <h4>
+                              <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
+                                <%= recipe.name %></a></h4>
+                              <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
                   </div>
                 <% end %>
               </div>
             </div>
+            <%= render partial: 'filters', locals: { taxon: @taxon } %>
+            <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
+            <div class="category-mobile-filter phone-visible">
+              <div class="header-search">
+                <% category_recipe_id = @taxon.permalink.sub("recipes/", "") %>
+                <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+                  <%= search_field_tag :q,
+                                          params[:q],
+                                          placeholder: "Search recipes",
+                                          class: "form-control",
+                                          id: "recipe-search",
+                                          autocomplete: "off" %>
+                <% end %>
+              </div>
+            </div>
             <% if @recipes.present? %>
-             <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @recipe_taxon } %>
+             <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
             <% end %>
           </div>
           <!-- /.Best seller products -->
           <div class="pagination-wrap">
-            <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @recipe_taxon }  %>
+            <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon }  %>
           </div>
         </div>
       </div>
@@ -85,9 +104,9 @@
           <div class="col-xl-2 col-lg-3 phone-hide"></div>
           <div class="col-xl-10 col-lg-9">
             <div class="text-block">
-              <% if @recipe_taxon.description.present? %>
-                <span id="more-category-description" class="more">More about <%= @recipe_taxon.name %></span><br><br>
-                <%= raw(@recipe_taxon.description) %>
+              <% if @taxon.description.present? %>
+                <span id="more-category-description" class="more">More about <%= @taxon.name %></span><br><br>
+                <%= raw(@taxon.description) %>
               <% end %>
               </p>
             </div>
@@ -96,8 +115,7 @@
       </div>
     </div>
   </main>
-
-    <!-- cart sidebar -->
+  <!-- cart sidebar -->
   <aside class="cart-sidebar-wrapper">
     <div class="overlay"></div>
     <div class="cart-sidebar">
@@ -168,7 +186,15 @@
   <!-- mobile search menu -->
   <div class="mobile-search-menu">
     <div class="search-wrap">
-      <input type="text" class="form-control" placeholder="Search.TEST..">
+      <% category_recipe_id = @taxon.permalink.sub("recipes/", "") %>
+      <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+        <%= search_field_tag :q,
+                                params[:q],
+                                placeholder: "Search recipes",
+                                class: "form-control",
+                                id: "recipe-search",
+                                autocomplete: "off" %>
+      <% end %>
     </div>
   </div>
   <!-- /.mobile search menu -->
@@ -409,7 +435,41 @@
       e.preventDefault();
     });
   </script>
-  </body>
+  <script>
+    $(document).ready(function () {
+      var showChar = 1450;
+      var ellipsestext = "...";
+      var moretext = "more";
+      var lesstext = "less";
+      $('.more').each(function () {
+        var content = $(this).html();
+        if (content.length > showChar) {
+          var c = content.substr(0, showChar);
+          var h = content.substr(showChar - 1, content.length - showChar);
+          var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+          $(this).html(html);
+        }
+      });
 
-  </html>
-<% end %>
+      $(".morelink").click(function () {
+        if ($(this).hasClass("less")) {
+          $(this).removeClass("less");
+          $(this).html(moretext);
+        } else {
+          $(this).addClass("less");
+          $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+      });
+    });
+  </script>
+  <script>
+    $('.filter-btn').on('click', function (e) {
+      $('.category-mobile-filter').toggleClass("open");
+      $('.shop-by-filter-mobile').toggleClass("show");
+      e.preventDefault();
+    });
+  </script>
+  <% end %>

@@ -16,17 +16,15 @@ module Spree
       end
 
       def show
-        recipe_taxon = Spree::Taxon.find_by_name "Recipes"
-        @recipe_taxons = recipe_taxon.children
-        @recipe_taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
-        @most_popular_recipes_in_category = @recipe_taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
+        @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
+        @popular_recipes_category = @taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
 
         if params[:q].present?
-          recipes = @recipe_taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")
+          recipes = @taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")
         elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
-          recipes = @recipe_taxon.recipes.order(name: :desc)
+          recipes = @taxon.recipes.order(name: :desc)
         else
-          recipes = @recipe_taxon.recipes.order(name: :asc)
+          recipes = @taxon.recipes.order(name: :asc)
         end
 
         if browser.device.mobile? || browser.device.tablet?
