@@ -31,13 +31,5 @@
       <%= error_message_on :recipe, :recipe_icons %>
     <% end %>
 
-    <%= f.fields_for :recipe_videos, Spree::RecipeVideo.new do |video_form| %>
-    <div class="form-group">
-      <%= video_form.label :video_url, 'YouTube Video URL' %>
-      <%= video_form.text_field :video_url, class: 'form-control' %>
-      <%= error_message_on :recipe, :recipe_videos %>
-    </div>
-  <% end %>
-
   </div>
 </div>

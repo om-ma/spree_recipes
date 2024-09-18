@@ -5,7 +5,7 @@ module Spree
       before_action :load_recipe_data, only: [:new, :edit]
 
       def create
-        @recipe = Spree::Recipe.new(permitted_resource_params.except(:recipe_icon))
+        @recipe = Spree::Recipe.new(permitted_resource_params.except(:recipe_icons))
         if @recipe.save
           @recipe.create_recipe_icons(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icon]
           flash[:notice] = "Successfully created recipe."
@@ -17,7 +17,7 @@ module Spree
 
       def update
         @recipe.create_recipe_icons(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icon]
-        if @recipe.update(permitted_resource_params.except(:recipe_icon))
+        if @recipe.update(permitted_resource_params.except(:recipe_icons))
           flash[:notice] = "Successfully updated recipe."
           redirect_to request.referrer
         else
