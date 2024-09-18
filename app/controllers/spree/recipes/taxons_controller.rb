@@ -7,26 +7,32 @@ module Spree
       include Spree::CacheHelper
       helper 'spree/products'
 
-      def index
+       def index
         recipe_taxon = Spree::Taxon.find_by_name "Recipes"
         @recipe_taxons = recipe_taxon.children
+        recipe_slide_location_names = (1..4).map { |number| "recipe_#{number}" }
+
+        @recipe_slide_locations = Spree::SlideLocation.includes(:slides).where(name: recipe_slide_location_names)
       end
 
       def show
-        @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
+        recipe_taxon = Spree::Taxon.find_by_name "Recipes"
+        @recipe_taxons = recipe_taxon.children
+        @recipe_taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
+        @most_popular_recipes_in_category = @recipe_taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
 
-        if params[:sort_by].present? && params[:sort_by] == "name-z-a"
-          recipes = @taxon.recipes.order(name: :desc)
+        if params[:q].present?
+          recipes = @recipe_taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")
+        elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
+          recipes = @recipe_taxon.recipes.order(name: :desc)
         else
-          recipes = @taxon.recipes.order(name: :asc)
+          recipes = @recipe_taxon.recipes.order(name: :asc)
         end
 
-        if recipes.present?
-          if (browser.device.mobile? || browser.device.tablet?)
-            @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
-          else
-            @pagy, @recipes = pagy_array(recipes)
-          end
+        if browser.device.mobile? || browser.device.tablet?
+          @pagy, @recipes = pagy_array(recipes, size: Pagy::DEFAULT[:size_mobile])
+        else
+          @pagy, @recipes = pagy_array(recipes)
         end
       end
 

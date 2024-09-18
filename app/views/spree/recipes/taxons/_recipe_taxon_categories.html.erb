@@ -12,8 +12,8 @@
       <div class="product-wrap" data-hook="top_level_subcategories_product_list_item">
         <%= link_to spree.product_path(recipe, taxon_id: @recipe_taxon&.id), 'aria-label': 'Most Popular: '+recipe.name, data: { turbolinks: false } do %>
         <div class="product-img">
-          <% if recipe.recipe_icon.present? %>
-              <%= image_tag main_app.url_for(recipe.recipe_icon), alt:"#{recipe.name} Image", class: "product-component-plp-image" %> 
+          <% if recipe.recipe_icons.present? %>
+              <%= image_tag main_app.url_for(recipe.recipe_icons.first), alt:"#{recipe.name} Image", class: "product-component-plp-image" %> 
           <% else %>
               <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
           <% end %>          
