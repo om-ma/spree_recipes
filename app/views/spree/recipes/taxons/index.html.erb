@@ -90,28 +90,31 @@
               <span>See More</span>
             <% end %>
           </div>
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                <div class="product-img">
-                  <img src="assets/images/product-thumb-1.jpg" alt="">
-                  <span class="badge">Spring</span>
-                </div>
-                <div class="product-desc text-center">
-                  <h4>Acai Compound, Natural</h4>
-                  <p class="d-none d-sm-block">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                  <a href="#" class="btn btn-primary d-none d-sm-block">
-                    <span>See More</span>
-                  </a>
+           <div class="row">
+          <% popular_recipes.limit(4).each do |recipe| %>
+           
+              <div class="col-lg-3 col-6">
+                <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+                  <div class="product-img">
+                    <% if recipe.recipe_icons.present? %>
+                     <%= image_tag main_app.url_for(recipe.recipe_icons.first.my_cf_image_url(:plp)), alt:"#{recipe.name} Image" %> 
+                    <% end %>
+                    <%# <span class="badge">Spring</span> %>
+                  </div>
+                  <div class="product-desc text-center">
+                    <h4><%= recipe.name %></h4>
+                    <p class="d-none d-sm-block">
+                      <%= recipe&.description&.truncate(50, omission: '...')&.html_safe %>
+                    </p>
+                    <%= link_to recipe_product_path(recipe, taxon_id: category.id), class: "btn btn-primary d-none d-sm-block", data: { turbolinks: false } do %>
+                      <span>See More</span>
+                    <% end %>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+          <% end %>
+                      </div>
+
           <div class="text-center d-block d-sm-none">
             <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline d-none d-sm-block" do %>
               <span>See More</span>
