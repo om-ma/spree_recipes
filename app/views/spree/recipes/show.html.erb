@@ -22,9 +22,11 @@
                     <div class="carousel-inner">
                       <% if @recipe.recipe_icons.present? %>
                         <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
-                          <div class="carousel-item <%= 'active' if index == 0 %>">
-                            <img class="d-block w-100" src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:plp)) %>" alt="Image <%= index + 1 %>">
-                          </div>
+                          <% if recipe_icon.attachment.blob.present? %>
+                            <div class="carousel-item <%= 'active' if index == 0 %>">
+                              <img class="d-block w-100" src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:plp)) %>" alt="Image <%= index + 1 %>">
+                            </div>
+                          <% end %>
                         <% end %>
                       <% end %>
                       <% if @recipe.recipe_videos.present? %>
@@ -44,16 +46,19 @@
                     <ol class="carousel-indicators">
                       <% if @recipe.recipe_icons.present? %>
                         <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
-                          <li data-target="#gallery-slider" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>">
-                            <img src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:thumb)) %>" alt="Thumbnail <%= index + 1 %>">
-                          </li>
+                          <% if recipe_icon.attachment.blob.present? %>
+                            <li data-target="#gallery-slider" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>">
+                              <img src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:thumb)) %>" alt="Thumbnail <%= index + 1 %>">
+                            </li>
+                          <% end %>
                         <% end %>
                       <% end %>
                       <% if @recipe.recipe_videos.present? %>
-                        <% @recipe&.recipe_videos.each_with_index do |video, index| %>
+                        <% @recipe.recipe_videos.each_with_index do |video, index| %>
+                          <% youtube_id = video.video_url.split('v=')&.last %>
+                          <% thumbnail_url = "https://img.youtube.com/vi/#{youtube_id}/hqdefault.jpg" %>
                           <li data-target="#gallery-slider" data-slide-to="<%= (@recipe&.recipe_icons&.size || 0) + index %>" class="<%= 'active' if index == 0 %>">
-
-                            <img src="<%= video.video_url %>" alt="Video Thumbnail <%= index + 1 %>">
+                            <img src="<%= thumbnail_url %>" alt="Video Thumbnail <%= index + 1 %>">
                           </li>
                         <% end %>
                       <% end %>
