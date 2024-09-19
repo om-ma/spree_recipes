@@ -113,14 +113,13 @@
                 </div>
               </div>
           <% end %>
-                      </div>
-
-          <div class="text-center d-block d-sm-none">
-            <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline d-none d-sm-block" do %>
-              <span>See More</span>
-            <% end %>
-          </div>
         </div>
+        <div class="text-center d-block d-sm-none">
+          <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline d-none d-sm-block" do %>
+            <span>See More</span>
+          <% end %>
+        </div>
+      </div>
       </div>
     <% end %>
   </div>
