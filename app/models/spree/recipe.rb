@@ -10,6 +10,7 @@ module Spree
     has_many :taxons, through: :recipes_taxons
     has_many :ingredients
     has_many :instructions
+    has_many :recipe_videos
 
     friendly_id :name, use: :history
     before_validation :set_slug, on: :create, if: :name
