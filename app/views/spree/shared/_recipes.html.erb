@@ -1,6 +1,12 @@
 <div class="row row-cols-lg-4 row-cols-sm-2 no-gutters" data-hook="homepage_products">
-  <% recipes.each_with_index do |recipe, index| %>
-    <%   @recipe = recipe %>
-    <%= render 'spree/shared/recipe', recipe: recipe, image_class: 'product-component-plp-image', taxon: taxon %>
+  <% if @recipes.present? %>
+    <% @recipes.each do |recipe| %>
+      <%= render 'spree/shared/recipe', recipe: recipe, image_class: 'product-component-plp-image', taxon: taxon %>
+    <% end %>
+  <% else %>
+    <div class="no-recipes">
+      <p class="text-red-500 font-bold text-center">No recipes available.</p>
+
+    </div>
   <% end %>
 </div>

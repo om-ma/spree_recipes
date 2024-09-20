@@ -9,7 +9,6 @@ Spree::FrontendHelper.class_eval do
   selected_parent_taxon_name = params["id"]
   show_klass = (root_taxon.children.where(hide_from_nav: false).pluck("permalink").include?(selected_parent_taxon_name) && root_taxon.parent.present?) ? 'show' : ''
   
-  # Apply 'sidebar-sub-categories' for the parent class
   parent_klass = (root_taxon.children.where(hide_from_nav: false).present? && ((root_taxon&.parent&.name == "Recipes") || (root_taxon == current_taxon))) ? 'sidebar-sub-categories' : "dropdown-menu sub-child-manu-js #{show_klass}"
 
   content_tag :ul, class: parent_klass do
@@ -18,18 +17,25 @@ Spree::FrontendHelper.class_eval do
       selected_taxon_klass = selected_parent_taxon_name == taxon_permalink ? 'active-tab' : ''
 
       content_tag :li do
-        # Apply 'dropdown-toggle' for taxons with children and 'dropdown-menu' for the dropdown list
         css_class = taxon.children.present? ? 'dropdown-toggle tab-width border-0 p-0' : 'border-0 p-0'
 
-        link_to(taxon.name, nested_recipe_taxons_path(taxon.permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Category ' + taxon.name, class: selected_taxon_klass) + 
-        (taxon.children.any? ? '<button type="button" class="dropdown-toggle js_drop_down" data-toggle="dropdown">Toggle me</button>'.html_safe : '') +
-        recipe_taxons_tree(taxon, current_taxon, max_level - 1)
+        link_to(taxon.name, nested_recipe_taxons_path(taxon.permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Category ' + taxon.name, class: selected_taxon_klass) +
+        (taxon.children.any? ?
+          content_tag(:button, 'Toggle me', type: 'button', class: 'dropdown-toggle', data: { toggle: 'dropdown' }) +
+          content_tag(:ul, class: 'dropdown-menu') do
+            safe_join(taxon.children.map do |sub_taxon|
+              sub_taxon_permalink = sub_taxon.permalink
+              content_tag(:li) do
+                link_to(sub_taxon.name, nested_recipe_taxons_path(sub_taxon_permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Subcategory ' + sub_taxon.name)
+              end
+            end, "\n")
+          end
+        : '')
       end
     end
     safe_join(taxons, "\n")
   end
 end
-
 
 	def spree_recipe_breadcrumbs(taxon, _separator = '', product = nil)
     return '' if current_page?('/') || taxon.nil?

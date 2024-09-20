@@ -86,13 +86,15 @@
                  </ul>
                 </div>
                 <%end%>
+                <div class="wrap-long-words">
                 <%= @recipe&.description&.html_safe %>
+              </div>
                 <% if @recipe.instructions.present? %>
-                  <div class="product-ingredients">
+                  <div class="product-ingredients ">
                     <h5>Instructions</h5>
                     <ol>
                       <% @recipe.instructions.each do |instruction| %>
-                    <li>
+                    <li class="wrap-long-words">
                       <%= instruction.description %>
                     </li>
                   <% end %>

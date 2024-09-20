@@ -15,7 +15,8 @@
               <div class="row">
                 <div class="col-xl-4 col-lg-5">
                   <div class="category-banner mb-20">
-                    <% if browser.device.mobile? || !browser.device.tablet? %>
+                    <div class="img">
+                      <% if browser.device.mobile? || !browser.device.tablet? %>
                       <% if @taxon.icon.present? %>
                           <%= image_tag main_app.url_for(@taxon.icon.try(:attachment)), alt:"#{@taxon.name} Image" %> 
                       <% else %>
@@ -28,16 +29,17 @@
                           <%= image_tag "noimage/default-category-image.jpg", alt:"#{@taxon.name} Image" %>
                       <% end %>
                     <% end %>
+                    </div>
                   </div>
                 </div>
                 <div class="col-xl-8 col-lg-7">
                     <%= spree_recipe_breadcrumbs(@taxon) %>
-                  <h1 class="title"><%= (@taxon.h1_title.blank? ? @taxon.name : taxon.h1_title) %></h1>
+                  <h1 class="title"><%= (@taxon.h1_title.blank? ? @taxon.name : @taxon.h1_title) %></h1>
                   <div class="mobile-categories-wrap phone-visible">
                    <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
                     <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
                   </div>
-                  <div class="category-intro more">
+                  <div class="category-intro more wrap-long-words">
                     <%= raw(@taxon.short_description) %><% if @taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @taxon.name %>"><strong>Read more</strong></a><% end %>
                   </div>
                 </div>
@@ -89,9 +91,7 @@
                 <% end %>
               </div>
             </div>
-            <% if @recipes.present? %>
              <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
-            <% end %>
           </div>
           <!-- /.Best seller products -->
           <div class="pagination-wrap">
@@ -103,7 +103,7 @@
         <div class="row no-gutters">
           <div class="col-xl-2 col-lg-3 phone-hide"></div>
           <div class="col-xl-10 col-lg-9">
-            <div class="text-block">
+            <div class="text-block wrap-long-words">
               <% if @taxon.description.present? %>
                 <span id="more-category-description" class="more">More about <%= @taxon.name %></span><br><br>
                 <%= raw(@taxon.description) %>

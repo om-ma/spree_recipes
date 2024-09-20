@@ -5,9 +5,10 @@ module Spree
       before_action :load_recipe_data, only: [:new, :edit]
 
       def create
-        @recipe = Spree::Recipe.new(permitted_resource_params.except(:recipe_icons))
+        @recipe = Spree::Recipe.new(permitted_resource_params.except(:recipe_icons, :recipe_videos))
         if @recipe.save
-          @recipe.create_recipe_icons(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icon]
+          @recipe.create_recipe_icons(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icons]
+          @recipe.recipe_videos.create(video_url: permitted_resource_params[:recipe_videos][:video_url]) if permitted_resource_params[:recipe_videos][:video_url].present?
           flash[:notice] = "Successfully created recipe."
           redirect_to admin_recipes_url
         else
@@ -17,7 +18,7 @@ module Spree
 
       def update
         @recipe.recipe_icons.create(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icons]
-        @recipe.recipe_videos.create(video_url: permitted_resource_params[:recipe_videos][:video_url]) if permitted_resource_params[:recipe_videos]
+        @recipe.recipe_videos.create(video_url: permitted_resource_params[:recipe_videos][:video_url]) if permitted_resource_params[:recipe_videos][:video_url].present?
         if @recipe.update(permitted_resource_params.except(:recipe_icons, :recipe_videos))
           flash[:notice] = "Successfully updated recipe."
           redirect_to request.referrer
