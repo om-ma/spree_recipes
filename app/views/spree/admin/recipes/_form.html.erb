@@ -22,7 +22,7 @@
 
     <%= f.field_container :taxon_ids, class: ['form-group'] do %>
       <%= f.label :taxon_ids, "Taxons" %>
-      <%= f.collection_select :taxon_ids, @recipe_taxons, :id, :name, { include_hidden: false } , {multiple: true, class: "select2"} %>
+      <%= f.collection_select :taxon_ids, @recipe_taxons || [], :id, :name, { include_hidden: false } , {multiple: true, class: "select2"} %>
     <% end %>
 
     <%= f.field_container :recipe_icons, class: ['form-group'] do %>
@@ -38,7 +38,5 @@
         <%= error_message_on :recipe, :recipe_videos %>
       </div>
     <% end %>
-
-
   </div>
 </div>

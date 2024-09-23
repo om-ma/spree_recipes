@@ -17,6 +17,7 @@ module Spree
 
     after_destroy :punch_slug
     # after_restore :update_slug_history
+    validates :name, presence: true, uniqueness: true
 
     before_validation :downcase_slug
     before_validation :normalize_slug, on: :update

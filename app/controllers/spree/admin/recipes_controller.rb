@@ -17,7 +17,6 @@ module Spree
       end
 
       def update
-        debugger
         @recipe.recipe_icons.create(attachment: permitted_resource_params[:recipe_icons]) if permitted_resource_params[:recipe_icons].present?
         if permitted_resource_params[:recipe_videos] && permitted_resource_params[:recipe_videos][:video_url].present?
           @recipe.recipe_videos.create(video_url: permitted_resource_params[:recipe_videos][:video_url])
