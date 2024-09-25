@@ -7,7 +7,7 @@
         <div class="carousel-item <%= 'active' if !active_class_assigned %>">
           <img class="d-block w-100" src="<%= main_app.url_for(recipe_image.my_cf_image_url(:plp)) %>" alt="Image <%= index + 1 %>">
         </div>
-        <% active_class_assigned = true %> <!-- Set active class to first image -->
+        <% active_class_assigned = true %>
       <% end %>
     <% end %>
   <% end %>
@@ -34,7 +34,7 @@
 
 <!-- Carousel Indicators -->
   <ol class="carousel-indicators">
-    <% active_class_assigned = false %> <!-- Reset active flag for indicators -->
+    <% active_class_assigned = false %>
 
     <% if recipe.recipe_icons.present? %>
       <% recipe.recipe_icons.each_with_index do |recipe_image, index| %>
@@ -55,7 +55,7 @@
         <li data-target="#gallery-slider" data-slide-to="<%= (recipe.recipe_icons.present? ? recipe.recipe_icons.size : 0) + index %>" class="<%= 'active' if !active_class_assigned %>">
           <img src="<%= thumbnail_url %>" alt="Video Thumbnail <%= index + 1 %>">
         </li>
-        <% active_class_assigned = true %> <!-- Set active class for first video indicator if no images were active -->
+        <% active_class_assigned = true %>
       <% end %>
     <% end %>
   </ol>
