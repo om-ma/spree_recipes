@@ -8,6 +8,7 @@ module Spree
       helper 'spree/products'
 
        def index
+        @first_recipe = Spree::Recipe.first
         recipe_taxon = Spree::Taxon.find_by_name "Recipes"
         @recipe_taxons = recipe_taxon.children
         recipe_slide_location_names = (1..4).map { |number| "recipe_#{number}" }
@@ -17,7 +18,7 @@ module Spree
 
       def show
         @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
-        @popular_recipes_category = @taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
+        @popular_recipes = @taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
 
         if params[:q].present?
           recipes = @taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")

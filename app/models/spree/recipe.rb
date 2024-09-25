@@ -26,6 +26,14 @@ module Spree
 
     self.whitelisted_ransackable_attributes =  %w[name]
 
+    def recipe_image
+      recipe_icons.first if recipe_icons.present?
+    end
+
+    def recipe_image_tag
+      recipe_image.my_cf_image_url(:plp) if recipe_image.present?
+    end
+
     accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: ->(pp) { pp[:name].blank? }
     accepts_nested_attributes_for :instructions, allow_destroy: true, reject_if: ->(pp) { pp[:description].blank? }
 

@@ -16,65 +16,28 @@
                 <div class="col-xl-4 col-lg-5">
                   <div class="category-banner mb-20">
                     <div class="img">
-                      <% if browser.device.mobile? || !browser.device.tablet? %>
-                      <% if @taxon.icon.present? %>
-                          <%= image_tag main_app.url_for(@taxon.icon.try(:attachment)), alt:"#{@taxon.name} Image" %> 
-                      <% else %>
-                          <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@taxon.name} Image" %>
-                      <% end %>
-                    <% else %>
-                      <% if @taxon.icon.present? %>
-                          <%= image_tag main_app.url_for(@taxon.icon.my_cf_image_url(:large)), alt:"#{@taxon.name} Image" %> 
-                      <% else %>
-                          <%= image_tag "noimage/default-category-image.jpg", alt:"#{@taxon.name} Image" %>
-                      <% end %>
-                    <% end %>
+                      <%= category_image(@taxon) %>
                     </div>
                   </div>
                 </div>
                 <div class="col-xl-8 col-lg-7">
                     <%= spree_recipe_breadcrumbs(@taxon) %>
-                  <h1 class="title"><%= (@taxon.h1_title.blank? ? @taxon.name : @taxon.h1_title) %></h1>
+                  <h1 class="title"><%= taxon_title(@taxon) %></h1>
                   <div class="mobile-categories-wrap phone-visible">
                    <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
                     <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
                   </div>
                   <div class="category-intro more wrap-long-words">
-                    <%= raw(@taxon.short_description) %><% if @taxon.description.present? %><a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @taxon.name %>"><strong>Read more</strong></a><% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="popular-categories-wrapper">
-                <div class="title-wrap mb-30">
-                  <h2 class="title padding-0">Most popular in category</h2>
-                  <p class="d-none d-sm-block">
-                    He goes on adventures around the world in search of new flavors
-                  </p>
-                </div>
-                <% if @popular_recipes_category.present? %>
-                  <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
-                    <%  @popular_recipes_category.each do |recipe| %>
-                      <div class="col col-6">
-                        <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                          <div class="product-img">
-                            <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
-                              <% if recipe.recipe_icons.present? %>
-                                <%= image_tag main_app.url_for(recipe.recipe_icons.first.my_cf_image_url(:plp)), alt:"#{recipe.name} Image" %> 
-                              <% end %>
-                            <% end %>
-                          </div>
-                          <div class="product-desc text-center">
-                            <h4>
-                              <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
-                                <%= recipe.name %></a></h4>
-                              <% end %>
-                          </div>
-                        </div>
-                      </div>
+                    <%= raw(@taxon.short_description) %>
+                    <% if @taxon.description.present? %>
+                      <a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @taxon.name %>">
+                        <strong>Read more</strong>
+                      </a>
                     <% end %>
                   </div>
-                <% end %>
+                </div>
               </div>
+              <%= render "popular_recipes", popular_recipes: @popular_recipes%>
             </div>
             <%= render partial: 'filters', locals: { taxon: @taxon } %>
             <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>

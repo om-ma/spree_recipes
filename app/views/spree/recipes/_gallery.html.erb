@@ -4,7 +4,7 @@
     data-hook="recipe_left_part_wrap">
     <div class="recipe-details-single" data-hook="recipe_images">
       <% if @recipe.recipe_icons.present? %>
-        <%= image_tag(main_app.url_for(@recipe.recipe_icons.first.my_cf_image_url(:large)), class: "recipe_image") %>
+        <%= image_tag(main_app.url_for(@recipe.recipe_image.my_cf_image_url(:large)), class: "recipe_image") %>
       <% else %>
         <%= image_tag(asset_path('noimage/default-product-image.jpg'), alt: @recipe.name) %>
       <% end %>

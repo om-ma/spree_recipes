@@ -10,13 +10,13 @@
       <div class="product-img">
         <% if browser.device.mobile? || !browser.device.tablet? %>
           <% if recipe.recipe_icons.present? %>
-              <%= image_tag main_app.url_for(recipe.recipe_icons.first.my_cf_image_url(:plp)), alt:"#{recipe.name} Image" %> 
+              <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
           <% else %>
               <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
           <% end %>
         <% else %>
           <% if sub_category.recipe_icons.present? %>
-              <%= image_tag sub_category.recipe_icons.first.my_cf_image_url(:plp), alt:"#{recipe.name} Image" %> 
+              <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %> 
           <% else %>
               <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
           <% end %>
