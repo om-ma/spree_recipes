@@ -93,26 +93,12 @@ end
   end
 
   def category_image(category)
-    image_url = if category.icon.present?
-                  main_app.url_for(category.icon.try(:attachment))
+    image_url = if category.taxon_icon.present?
+                  main_app.url_for(category.taxon_icon)
                 else
                   asset_path("noimage/default-category-image-small.jpg")
                 end
 
     image_tag(image_url, alt: "#{category.name} Image", size: "160x160")
-  end
-
-  def popular_recipes(category)
-    category.recipes.where.not(popularity: 0).order(popularity: :desc)
-  end
-
-  def taxon_title(taxon)
-    taxon.h1_title.present? ? taxon.h1_title : taxon.name
-  end
-
-  def recipe_image(recipe, sub_category)
-    icons = (browser.device.mobile? || !browser.device.tablet?) ? recipe.recipe_icons : sub_category.recipe_icons
-    image_path = icons.present? ? recipe.recipe_image_tag : "noimage/default-product-image.jpg"
-    image_tag image_path, alt: "#{recipe.name} Image"
   end
 end

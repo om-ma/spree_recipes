@@ -1,0 +1,46 @@
+<div class="col-xl-6">
+  <h1 class="title mb-40"><%= recipe.name %></h1>
+  <% if recipe.ingredients.present? %>
+    <div class="product-ingredients">
+      <h5>Ingredients</h5>
+      <ul>
+        <% recipe.ingredients.each do |ingredient| %>
+          <li>
+            <%= ingredient.amount %> <%= ingredient.unit %>. 
+            <% if ingredient.product.present? %>
+              <% product = ingredient.product %>
+              <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
+                <%= ingredient.name %>
+              <% end %>
+            <% elsif ingredient.external_link.present? %>
+              <%= link_to ingredient.external_link , class: "ml-1", data: { turbolinks: false } do %>
+                <%= ingredient.name %>
+              <% end %>
+            <% else %>
+              <%= ingredient.name %>
+            <% end %>
+          </li>
+        <% end %>
+     </ul>
+    </div>
+  <%end%>
+  <div class="wrap-long-words">
+    <%= recipe.description.html_safe %>
+  </div>
+  <% if recipe.instructions.present? %>
+    <div class="product-ingredients ">
+      <h5>Instructions</h5>
+      <ol>
+        <% recipe.instructions.each do |instruction| %>
+          <li class="wrap-long-words">
+            <%= instruction.description %>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  <% end %> 
+  <div class="mt-40">
+    <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
+    <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
+  </div>
+</div>

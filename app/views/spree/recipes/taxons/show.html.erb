@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-xl-8 col-lg-7">
                     <%= spree_recipe_breadcrumbs(@taxon) %>
-                  <h1 class="title"><%= taxon_title(@taxon) %></h1>
+                  <h1 class="title"><%= @taxon.title %></h1>
                   <div class="mobile-categories-wrap phone-visible">
                    <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
                     <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
@@ -37,14 +37,14 @@
                   </div>
                 </div>
               </div>
-              <%= render "popular_recipes", popular_recipes: @popular_recipes%>
+              <%= render "popular_recipes", taxon: @taxon %>
             </div>
             <%= render partial: 'filters', locals: { taxon: @taxon } %>
             <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
             <div class="category-mobile-filter phone-visible">
               <div class="header-search">
-                <% category_recipe_id = @taxon.permalink.sub("recipes/", "") %>
-                <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+                <% category_id = category_recipe_id(@taxon) %> %>
+                <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
                   <%= search_field_tag :q,
                                           params[:q],
                                           placeholder: "Search recipes",

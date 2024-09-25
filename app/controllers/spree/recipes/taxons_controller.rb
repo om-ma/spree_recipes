@@ -21,7 +21,8 @@ module Spree
         @popular_recipes = @taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
 
         if params[:q].present?
-          recipes = @taxon.recipes.where("name ILIKE ?", "%#{params[:q]}%")
+          @q = Spree::Recipe.ransack(name_matches: "%#{params[:q]}%")
+          recipes = @q.result
         elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
           recipes = @taxon.recipes.order(name: :desc)
         else

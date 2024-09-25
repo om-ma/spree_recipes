@@ -31,8 +31,8 @@ module Spree
     end
 
     def search
-      @query = params[:q]
-      @recipes = Spree::Recipe.where("name ILIKE ?", "%#{@query}%")
+      @q = Spree::Recipe.ransack(name_matches: "%#{params[:q]}%")
+      @recipes = @q.result
     end
 
     def add_to_cart

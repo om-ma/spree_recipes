@@ -19,99 +19,11 @@
               <div class="col-xl-6">
                 <div class="recipe-gallery-wrap">
                   <div id="gallery-slider" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <% if @recipe.recipe_icons.present? %>
-                        <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
-                          <% if recipe_icon.attachment.blob.present? %>
-                            <div class="carousel-item <%= 'active' if index == 0 %>">
-                              <img class="d-block w-100" src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:plp)) %>" alt="Image <%= index + 1 %>">
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                      <% if @recipe.recipe_videos.present? %>
-                        <% @recipe.recipe_videos.each_with_index do |video, index| %>
-                          <div class="carousel-item <%= 'active' if index == @recipe&.recipe_icons&.size %>">
-                            <div class="embed-responsive embed-responsive-16by9">
-                              <iframe class="embed-responsive-item"
-                                src="<%= video.video_url %>"
-                                allowfullscreen></iframe>
-                            </div>
-                          </div>
-                        <% end %>
-                      <% end %>
-                    </div>
-
-                    <!-- Carousel Indicators -->
-                    <ol class="carousel-indicators">
-                      <% if @recipe.recipe_icons.present? %>
-                        <% @recipe.recipe_icons.each_with_index do |recipe_icon, index| %>
-                          <% if recipe_icon.attachment.blob.present? %>
-                            <li data-target="#gallery-slider" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>">
-                              <img src="<%= main_app.url_for(recipe_icon.my_cf_image_url(:thumb)) %>" alt="Thumbnail <%= index + 1 %>">
-                            </li>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                      <% if @recipe.recipe_videos.present? %>
-                        <% @recipe.recipe_videos.each_with_index do |video, index| %>
-                          <% youtube_id = video.video_url.split('v=')&.last %>
-                          <% thumbnail_url = "https://img.youtube.com/vi/#{youtube_id}/hqdefault.jpg" %>
-                          <li data-target="#gallery-slider" data-slide-to="<%= (@recipe&.recipe_icons&.size || 0) + index %>" class="<%= 'active' if index == 0 %>">
-                            <img src="<%= thumbnail_url %>" alt="Video Thumbnail <%= index + 1 %>">
-                          </li>
-                        <% end %>
-                      <% end %>
-                    </ol>
-                </div>
-                </div>
-              </div>
-              <div class="col-xl-6">
-                <h1 class="title mb-40"><%= @recipe.name %></h1>
-                <% if @recipe.ingredients.present? %>
-                <div class="product-ingredients">
-                  <h5>Ingredients</h5>
-                  <ul>
-                    <% @recipe.ingredients.each do |ingredient| %>
-                    <li>
-                      <%= ingredient.amount %> <%= ingredient.unit %>. 
-                      <% if ingredient.product.present? %>
-                        <% product = ingredient.product %>
-                        <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= ingredient.name %>
-                        <% end %>
-                      <% elsif ingredient.external_link.present? %>
-                        <%= link_to ingredient.external_link , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= ingredient.name %>
-                        <% end %>
-                      <% else %>
-                        <%= ingredient.name %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                 </ul>
-                </div>
-                <%end%>
-                <div class="wrap-long-words">
-                <%= @recipe&.description&.html_safe %>
-              </div>
-                <% if @recipe.instructions.present? %>
-                  <div class="product-ingredients ">
-                    <h5>Instructions</h5>
-                    <ol>
-                      <% @recipe.instructions.each do |instruction| %>
-                    <li class="wrap-long-words">
-                      <%= instruction.description %>
-                    </li>
-                  <% end %>
-                    </ol>
+                    <%= render "recipe_gallery_slider", recipe: @recipe %>
                   </div>
-                 <% end %> 
-                <div class="mt-40">
-                  <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
-                  <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
                 </div>
               </div>
+              <%= render "recipe_detail", recipe: @recipe %>
             </div>
           </div>
         </div>

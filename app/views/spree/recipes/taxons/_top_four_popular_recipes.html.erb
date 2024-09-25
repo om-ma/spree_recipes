@@ -15,7 +15,7 @@
             <% end %>
           </div>
           <div class="row">
-          <% popular_recipes(category).limit(4).each do |recipe| %>
+          <% category.popular_recipes.limit(4).each do |recipe| %>
           <div class="col-lg-3 col-6">
             <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
               <div class="product-img">

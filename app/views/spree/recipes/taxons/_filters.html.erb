@@ -20,8 +20,8 @@
       </div>
       <div class="col-xl-4 col-lg-5">
         <div class="header-search">
-          <% category_recipe_id = taxon.permalink.sub("recipes/", "") %>
-          <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
+          <% category_id = category_recipe_id(taxon) %>
+          <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
           <div class="header-search d-none d-sm-block">
             <%= search_field_tag :q,
                                 params[:q],
