@@ -10,7 +10,7 @@ module Spree
       @recipe = Spree::Recipe.friendly.find(params[:id])
       @taxon = params[:taxon_id].present? ? Spree::Taxon.find_by_id(params[:taxon_id]) : @recipe&.taxons&.first
       @related_recipes = Rails.cache.fetch("@related_recipes", expires_in: Rails.configuration.x.cache.expiration, race_condition_ttl: 30.seconds) do 
-      @taxon.recipes.where.not(id: @recipe.id).first(4)
+      @taxon.recipes.where.not(id: @recipe.id).first(4) if @taxon && @taxon.recipes.present?
       end
     end
 
