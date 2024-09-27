@@ -1,7 +1,7 @@
 <div class="col-xl-6">
   <h1 class="title mb-40"><%= recipe.name %></h1>
   <% if recipe.ingredients.present? %>
-    <div class="product-ingredients">
+    <div class="product-ingredients wrap-long-words">
       <h5>Ingredients</h5>
       <ul>
         <% recipe.ingredients.each do |ingredient| %>
@@ -25,7 +25,7 @@
     </div>
   <%end%>
   <div class="wrap-long-words">
-    <%= recipe.description.html_safe %>
+    <%= recipe.description.html_safe if recipe.description.present? %>
   </div>
   <% if recipe.instructions.present? %>
     <div class="product-ingredients ">

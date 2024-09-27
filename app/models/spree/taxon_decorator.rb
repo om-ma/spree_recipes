@@ -10,6 +10,10 @@ module Spree
       recipes.where.not(popularity: 0).order(popularity: :desc)
     end
 
+    def top_four_pop_recipes
+      popular_recipes.limit(4) if popular_recipes.present?
+    end
+
     def title
       h1_title.present? ? h1_title : name
     end

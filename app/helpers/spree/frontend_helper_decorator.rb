@@ -60,13 +60,23 @@ end
       end
 
       # breadcrumbs for current taxon
-      crumbs << content_tag(:li, content_tag(
-        :a, content_tag(
-          :span, taxon.name, itemprop: 'name'
-        ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 1), itemprop: 'url', href: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)
-      ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
+      if product
+        # Agar product exist karta hai, taxon clickable ho ga
+        crumbs << content_tag(:li, content_tag(
+          :a, content_tag(
+            :span, taxon.name, itemprop: 'name'
+          ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 1), itemprop: 'url', href: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)
+        ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
+      else
+        # Agar sirf taxon hai, link ke bagair show hoga
+        crumbs << content_tag(:li, content_tag(
+          :span, content_tag(
+            :span, taxon.name, itemprop: 'name'
+          ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 1)
+        ), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
+      end
 
-      # breadcrumbs for product
+      # breadcrumbs for product agar exist karta hai
       if product
         crumbs << content_tag(:li, content_tag(
           :span, content_tag(
@@ -75,11 +85,13 @@ end
         ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: recipe_product_path(product, taxon_id: taxon&.id)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end
     else
-      # breadcrumbs for product on PDP
+      # breadcrumbs for product agar sirf PDP pe hain
       crumbs << content_tag(:li, content_tag(
         :span, Spree.t(:products), itemprop: 'item'
       ) << content_tag(:meta, nil, itemprop: 'position', content: '1'), class: 'active', itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement')
     end
+
+    # Breadcrumb list ka final content_tag
     crumb_list = content_tag(:ol, raw(crumbs.flatten.map(&:mb_chars).join), class: 'breadcrumb', itemscope: 'itemscope', itemtype: 'https://schema.org/BreadcrumbList')
     content_tag(:nav, crumb_list, id: 'breadcrumbs', class: 'col-12 mt-1 mt-sm-3 mt-lg-4', aria: { label: Spree.t(:breadcrumbs) })
   end
@@ -96,7 +108,7 @@ end
     image_url = if category.taxon_icon.present?
                   main_app.url_for(category.taxon_icon)
                 else
-                  asset_path("noimage/default-category-image-small.jpg")
+                  asset_path("product-thumb-1.jpg")
                 end
 
     image_tag(image_url, alt: "#{category.name} Image", size: "160x160")

@@ -7,13 +7,7 @@
             <% if recipe.recipe_icons.present? %>
                 <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
             <% else %>
-                <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
-            <% end %>
-          <% else %>
-            <% if sub_category.recipe_icons.present? %>
-                <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %> 
-            <% else %>
-                <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
+                <%= image_tag "product-thumb-1.jpg", alt:"#{recipe.name} Image" %>
             <% end %>
           <% end %>
         </div>

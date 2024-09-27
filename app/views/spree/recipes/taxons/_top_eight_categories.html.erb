@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="wrap d-flex align-items-center justify-content-between">
-      <% @recipe_taxons.limit(8).each do |category| %>
+      <% recipe_taxons.each do |category| %>
         <% category_id = category_recipe_id(category) %>
         <div class="recipe-category text-center">
           <%= link_to nested_recipe_taxons_path(category_id), data: { turbolinks: false }, title: "All #{category.name} Products" do %>

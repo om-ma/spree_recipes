@@ -11,6 +11,8 @@ module Spree
         @first_recipe = Spree::Recipe.first
         recipe_taxon = Spree::Taxon.find_by_name "Recipes"
         @recipe_taxons = recipe_taxon.children
+        @top_eight_categories = @recipe_taxons.limit(8)
+        @top_four_categories = @recipe_taxons.limit(4)
         recipe_slide_location_names = (1..4).map { |number| "recipe_#{number}" }
 
         @recipe_slide_locations = Spree::SlideLocation.includes(:slides).where(name: recipe_slide_location_names)
@@ -18,10 +20,9 @@ module Spree
 
       def show
         @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
-        @popular_recipes = @taxon.recipes.where.not(popularity: 0).order(popularity: :desc)
 
         if params[:q].present?
-          @q = Spree::Recipe.ransack(name_matches: "%#{params[:q]}%")
+          @q = @taxon.recipes.ransack(name_matches: "%#{params[:q]}%")
           recipes = @q.result
         elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
           recipes = @taxon.recipes.order(name: :desc)

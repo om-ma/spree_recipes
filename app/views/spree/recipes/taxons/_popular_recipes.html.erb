@@ -7,7 +7,7 @@
   </div>
   <% if taxon.popular_recipes.present? %>
     <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
-      <%  @popular_recipes.each do |recipe| %>
+      <%  taxon.popular_recipes.each do |recipe| %>
         <div class="col col-6">
           <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
             <div class="product-img">
@@ -15,7 +15,7 @@
                 <% if recipe.recipe_icons.present? %>
                 <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
             <% else %>
-                <%= image_tag "noimage/default-product-image.jpg", alt:"#{recipe.name} Image" %>
+                <%= image_tag "product-thumb-1.jpg", alt:"#{recipe.name} Image" %>
             <% end %>
               <% end %>
             </div>
