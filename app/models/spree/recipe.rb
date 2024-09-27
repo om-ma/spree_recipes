@@ -3,18 +3,21 @@ module Spree
 
     extend FriendlyId
 
-    validates_associated :recipe_icon
+    validates_associated :recipe_icons
 
-    has_one :recipe_icon, as: :viewable, dependent: :destroy, class_name: 'Spree::RecipeImage'
+    has_many :recipe_icons, as: :viewable, dependent: :destroy, class_name: 'Spree::RecipeImage'
     has_many :recipes_taxons
     has_many :taxons, through: :recipes_taxons
     has_many :ingredients
     has_many :instructions
+    has_many :recipe_videos
 
     friendly_id :name, use: :history
     before_validation :set_slug, on: :create, if: :name
 
     after_destroy :punch_slug
+      accepts_nested_attributes_for :recipe_videos, allow_destroy: true
+
     # after_restore :update_slug_history
 
     before_validation :downcase_slug

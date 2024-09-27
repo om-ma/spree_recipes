@@ -25,11 +25,18 @@
       <%= f.collection_select :taxon_ids, @recipe_taxons, :id, :name, { include_hidden: false } , {multiple: true, class: "select2"} %>
     <% end %>
 
-    <%= f.field_container :recipe_icon, class: ['form-group'] do %>
-      <%= f.label :recipe_icon %>
-      <%= f.file_field :recipe_icon %>
-      <%= error_message_on :recipe, :recipe_icon %>
+    <%= f.field_container :recipe_icons, class: ['form-group'] do %>
+      <%= f.label :recipe_icons %>
+      <%= f.file_field :recipe_icons, multiple: true %>
+      <%= error_message_on :recipe, :recipe_icons %>
     <% end %>
 
+    <%= f.fields_for :recipe_videos, Spree::RecipeVideo.new do |video_form| %>
+    <div class="form-group">
+      <%= video_form.label :video_url, 'YouTube Video URL' %>
+      <%= video_form.text_field :video_url, class: 'form-control' %>
+      <%= error_message_on :recipe, :recipe_videos %>
+    </div>
+  <% end %>
   </div>
 </div>

@@ -43,15 +43,34 @@
             <% category_recipe_id = category.permalink.sub("recipes/", "") %>
           <div class="recipe-category text-center">
             <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, title: "All #{category.name} Products" do %>
-              <%= image_tag("https://placehold.co/160x160", alt: category.name.humanize) %>
+              <% if browser.device.mobile? || !browser.device.tablet? %>
+                <% if category.icon.present? %>
+                    <%= image_tag main_app.url_for(category.icon.try(:attachment)), alt:"#{category.name} Image" %> 
+                <% else %>
+                    <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{category.name} Image" %>
+                <% end %>
+              <% else %>
+                <% if category.icon.present? %>
+                    <%= image_tag main_app.url_for(category.icon.my_cf_image_url(:large)), alt:"#{category.name} Image" %> 
+                <% else %>
+                    <%= image_tag "noimage/default-category-image.jpg", alt:"#{category.name} Image" %>
+                <% end %>
+              <% end %>
               <h4><%= category.name.humanize %></h4>
             <% end %>
           </div>
         <% end %>
       </div>
-      <div class="header-search d-block d-sm-none">
-        <input type="text" class="form-control" placeholder="Search recipes">
-      </div>
+      <%= form_tag recipe_search_path, method: :get, id: 'recipe-search-form' do %>
+          <div class="header-search d-block d-sm-none">
+            <%= search_field_tag :q, 
+                                params[:q], 
+                                placeholder: "Search recipes", 
+                                class: "form-control", 
+                                id: "recipe-search", 
+                                autocomplete: "off" %>
+          </div>
+        <% end %>
     </div>
   </div>
   <div class="popular-categories-wrapper">

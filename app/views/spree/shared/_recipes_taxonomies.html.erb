@@ -1,0 +1,20 @@
+<ul class="sidebar-sub-categories">
+                <% recipe_taxons.each do |recipe_taxon| %>
+                  <li>
+                    <% category_recipe_id = recipe_taxon.permalink.sub("recipes/", "") %>
+
+                    <%= link_to recipe_taxon.name, nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, aria: { label: "#{recipe_taxon.name} link" } %>
+                    <% if recipe_taxon.children.present? %>
+                      <button type="button" class="dropdown-toggle" data-toggle="dropdown">Toggle me</button>
+                      <ul class="dropdown-menu">
+                          <% recipe_taxon.children.each do |sub_recipe_taxon| %>
+                            <% sub_category_recipe_id = sub_recipe_taxon.permalink.sub("recipes/", "") %>
+                            <li>
+                              <%= link_to sub_recipe_taxon.name, nested_recipe_taxons_path(id: sub_category_recipe_id), data: { turbolinks: false }, aria: { label: "#{recipe_taxon.name} link" } %>
+                            </li>
+                          <% end %>
+                      </ul>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>

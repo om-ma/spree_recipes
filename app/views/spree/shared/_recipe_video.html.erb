@@ -1,0 +1,7 @@
+<%= f.fields_for :recipe_video do |video_form| %>
+  <%= video_form.field_container :video_url, class: ['form-group'] do %>
+    <%= video_form.label :video_url %>
+    <%= video_form.text_field :video_url, class: 'form-control' %>
+    <%= video_form.error_message_on :recipe_video, :video_url %>
+  <% end %>
+<% end %>
