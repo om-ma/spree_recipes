@@ -23,15 +23,17 @@
           <% category_id = category_recipe_id(taxon) %>
           <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
           <div class="header-search d-none d-sm-block">
-            <%= search_field_tag :q,
-                                params[:q],
-                                placeholder: "Search recipes",
-                                class: "form-control",
-                                id: "recipe-search",
-                                autocomplete: "off" %>
-          </div>
+            <%= search_field_tag(
+                "q[name_cont]",
+                params.dig(:q, :name_cont),
+                placeholder: "Search recipes",
+                class: "form-control",
+                id: "recipe-search",
+                autocomplete: "off"
+              ) %>
         <% end %>
         </div>
       </div>
+    </div>
     </div>
   </div>

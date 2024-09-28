@@ -22,8 +22,7 @@ module Spree
         @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
 
         if params[:q].present?
-          @q = @taxon.recipes.ransack(name_matches: "%#{params[:q]}%")
-          recipes = @q.result
+          recipes = @taxon.recipes.search(params[:q])
         elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
           recipes = @taxon.recipes.order(name: :desc)
         else

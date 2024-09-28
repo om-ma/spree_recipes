@@ -9,49 +9,6 @@
   <%= render "top_eight_categories", recipe_taxons: @top_eight_categories if @top_eight_categories.present? %>
 </div>
 <%= render "top_four_popular_recipes", recipe_taxons: @top_four_categories if @top_four_categories.present? %>
-<%= render "feature_recipe_video", recipe: @first_recipe if @first_recipe.present? %>
+<%= render "feature_recipe_video", recipe: @first_recipe %>
 <%= render "home_blog" %>
-<script>
-  $(document).ready(function() {
-    $('#blog-slider').lightSlider({
-        item: 2,
-        loop: false,
-        slideMove: 1,
-        easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-        speed: 600,
-    slideMargin: 120,
-    enableTouch: true,
-    pager: false,
-        onSliderLoad: function (el) {
-      var parent = el.parent();
-      var action = parent.find('.lSAction');
-      action.insertBefore(parent);
-      },
-        responsive : [
-        {
-          breakpoint:1199,
-          settings: {
-            slideMargin: 40,
-          }
-        },
-        {
-          breakpoint:991,
-          settings: {
-            item: 2,
-            slideMove: 1,
-            slideMargin: 30
-          }
-        },
-        {
-          breakpoint:575,
-          settings: {
-            item: 1,
-            slideMargin: 20
-          }
-        }
-      ]
-    });
-  });  
-</script> 
-
-
+ 

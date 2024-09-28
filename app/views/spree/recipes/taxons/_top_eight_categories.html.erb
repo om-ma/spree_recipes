@@ -8,12 +8,14 @@
       </div>
       <div class="header-search d-none d-sm-block">
         <%= form_tag recipe_search_path, method: :get, id: 'recipe-search-form' do %>
-          <%= search_field_tag :q, 
-                              params[:q], 
-                              placeholder: "Search recipes", 
-                              class: "form-control", 
-                              id: "recipe-search", 
-                              autocomplete: "off" %>
+          <%= search_field_tag(
+                "q[name_cont]",
+                params.dig(:q, :name_cont),
+                placeholder: "Search recipes",
+                class: "form-control",
+                id: "recipe-search",
+                autocomplete: "off"
+              ) %>
         <% end %>
       </div>
     </div>
@@ -32,12 +34,14 @@
     </div>
     <div class="header-search d-block d-sm-none">
       <%= form_tag recipe_search_path, method: :get, id: 'recipe-search-form' do %>
-          <%= search_field_tag :q, 
-                              params[:q], 
-                              placeholder: "Search recipes", 
-                              class: "form-control", 
-                              id: "recipe-search", 
-                              autocomplete: "off" %>
-      <% end %>
+          <%= search_field_tag(
+                "q[name_cont]",
+                params.dig(:q, :name_cont),
+                placeholder: "Search recipes",
+                class: "form-control",
+                id: "recipe-search",
+                autocomplete: "off"
+              ) %>
+        <% end %>
     </div>
   </div>

@@ -31,8 +31,7 @@ module Spree
     end
 
     def search
-      @q = Spree::Recipe.ransack(name_matches: "%#{params[:q]}%")
-      @recipes = @q.result
+      @recipes = Spree::Recipe.search(params[:q])
     end
 
     def add_to_cart

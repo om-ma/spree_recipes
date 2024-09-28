@@ -34,6 +34,10 @@ module Spree
       recipe_image.my_cf_image_url(:plp) if recipe_image.present?
     end
 
+    def self.search(query)
+      ransack(query).result
+    end
+
     def recipe_attachment
       recipe_image.try(:attachment)
     end
