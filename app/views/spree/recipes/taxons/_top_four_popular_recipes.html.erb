@@ -1,26 +1,25 @@
-<div class="popular-categories-wrapper">
-    <% recipe_taxons.each do |category| %>
-      <div class="container">
-        <div class="wrap">
-          <div class="d-flex align-items-center justify-content-between mb-20">
-            <div class="title-wrap">
-              <h2 class="title">Most popular in <%= category.name %></h2>
-              <p class="d-none d-sm-block">
-                He goes on adventures around the world in search of new flavors
-              </p>
-            </div>
-            <% category_recipe_id = category_recipe_id(category) %>
+<% recipe_taxons.each do |category| %>
+  <div class="container">
+    <div class="wrap">
+      <div class="d-flex align-items-center justify-content-between mb-20">
+        <div class="title-wrap">
+          <h2 class="title">Most popular in <%= category.name %></h2>
+          <p class="d-none d-sm-block">
+            He goes on adventures around the world in search of new flavors
+          </p>
+        </div>
+        <% category_recipe_id = category_recipe_id(category) %>
             <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline d-none d-sm-block" do %>
               <span>See More</span>
             <% end %>
-          </div>
-          <div class="row">
-          <% if category.top_four_pop_recipes.present? %>
+      </div>
+      <div class="row">
+        <% if category.top_four_pop_recipes.present? %>
             <% category.top_four_pop_recipes.each do |recipe| %>
               <div class="col-lg-3 col-6">
                 <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
                   <div class="product-img">
-                    <span class="badge">Spring</span>
+                    <%# <span class="badge">Spring</span> %>
                   </div>
                   <div class="product-desc text-center wrap-long-words">
                     <h4><%= recipe.name if recipe.present? %></h4>
@@ -35,13 +34,12 @@
               </div>
             <% end %>
           <% end %>
-        </div>
-        <div class="text-center d-block d-sm-none">
-          <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline d-none d-sm-block" do %>
-            <span>See More</span>
-          <% end %>
-        </div>
       </div>
+      <div class="text-center d-block d-sm-none">
+        <%= link_to nested_recipe_taxons_path(category_recipe_id), data: { turbolinks: false }, class: "btn btn-black outline" do %>
+          <span>See More</span>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
+<% end %>

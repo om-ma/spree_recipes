@@ -1,14 +1,16 @@
-<div class="recipes-hero-banners">
-  <div class="container">
-    <div class="row">
-      <%= render "slider", recipe_slide_locations: @recipe_slide_locations if @recipe_slide_locations.present? %>
+  <div class="recipes-hero-banners">
+    <div class="container">
+      <div class="row">
+        <%= render "slider", recipe_slide_locations: @recipe_slide_locations if @recipe_slide_locations.present? %>
+      </div>
     </div>
   </div>
-</div>
-<div class="category-search-wrapper">
-  <%= render "top_eight_categories", recipe_taxons: @top_eight_categories if @top_eight_categories.present? %>
-</div>
-<%= render "top_four_popular_recipes", recipe_taxons: @top_four_categories if @top_four_categories.present? %>
-<%= render "feature_recipe_video", recipe: @first_recipe %>
+  <div class="category-search-wrapper">
+    <%= render "top_eight_categories", recipe_taxons: @top_eight_categories if @top_eight_categories.present? %>
+  </div>
+  
+  <div class="popular-categories-wrapper">
+    <%= render "top_four_popular_recipes", recipe_taxons: @top_four_categories if @top_four_categories.present? %>
+  </div>
+ <%= render "feature_recipe_video", recipe: @first_recipe %>
 <%= render "home_blog" %>
- 
