@@ -48,7 +48,7 @@ $(".js-recipe-quantity-field").on("change", function(){
   $("#product-selected-variant-quantity-" +  productId).val($(this).val())
 });
 
-$("#addToCartRecipe").on('click', function() {
+$(".jsAddToCartProduct").on('click', function() {
   let productId = $(this).data("product-id")
   let variantQty = $("#product-selected-variant-quantity-" +  productId).val()
   let variantId = $("#product-selected-variant-" +  productId).val()

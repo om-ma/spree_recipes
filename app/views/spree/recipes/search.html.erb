@@ -21,11 +21,11 @@
         </div>
       </div>
     <% end %>
-  </div>
-  <div class="pagination-wrap">
-    <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon }  %>
-  </div>
 </main>
+
+<div class="pagination-wrap">
+  <%= render partial: 'spree/recipes/pagination', locals: { pagy: @pagy, recipe: @recipes }  %>
+</div>
 
 
 
