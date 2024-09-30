@@ -22,6 +22,9 @@
       </div>
     <% end %>
   </div>
+  <div class="pagination-wrap">
+    <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon }  %>
+  </div>
 </main>
 
 
