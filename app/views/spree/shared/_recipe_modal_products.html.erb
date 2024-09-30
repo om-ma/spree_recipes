@@ -50,7 +50,7 @@
           
           <div class="dropdown listed-items">
             <button type="button" class="btn btn-secondary" data-toggle="dropdown">
-              <div class="d-flex justify-content-between align-items-center bg-black text-white default-variant-design" id="selectedVariantDetail">
+              <div class="d-flex justify-content-between align-items-center bg-black text-white default-variant-design" id="selectedVariantDetail-<%= product.id %>">
                 <span><%= default_variant.display_amount %></span>
                 <span> <%= default_variant.option_values.map{ |o| o.presentation }.join(", ") %> </span>
               </div>

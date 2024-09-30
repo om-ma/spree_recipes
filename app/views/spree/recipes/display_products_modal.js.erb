@@ -35,7 +35,7 @@ $(".dropdown-item").on('click', function() {
   $(".js-product-price-" + productId).html(variantPrice)
   $(".js-product-sku-" + productId).html($(this).data("variant-sku"))
   $("#product-selected-variant-" + productId).val($(this).data("variant-id"))
-  $("#selectedVariantDetail").html("<span>" + variantPrice + "</span><span>" + variantOptionValue + "</span>")
+  $("#selectedVariantDetail-" + productId).html("<span>" + variantPrice + "</span><span>" + variantOptionValue + "</span>")
 });
 
 $(".js-recipe-qunatity-select").on("change", function(){
