@@ -32,6 +32,11 @@ module Spree
 
     def search
       @recipes = Spree::Recipe.search(params[:q])
+      if browser.device.mobile? || browser.device.tablet?
+        @pagy, @recipes = pagy_array(@recipes, size: Pagy::DEFAULT[:size_mobile])
+      else
+        @pagy, @recipes = pagy_array(@recipes)
+      end
     end
 
     def add_to_cart
