@@ -76,7 +76,7 @@ end
         ), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end
 
-      # breadcrumbs for product agar exist karta hai
+      # breadcrumbs for product
       if product
         crumbs << content_tag(:li, content_tag(
           :span, content_tag(
@@ -85,7 +85,7 @@ end
         ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: recipe_product_path(product, taxon_id: taxon&.id)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end
     else
-      # breadcrumbs for product agar sirf PDP pe hain
+      # breadcrumbs for product on PDP
       crumbs << content_tag(:li, content_tag(
         :span, Spree.t(:products), itemprop: 'item'
       ) << content_tag(:meta, nil, itemprop: 'position', content: '1'), class: 'active', itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement')
