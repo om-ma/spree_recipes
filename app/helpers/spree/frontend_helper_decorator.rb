@@ -111,6 +111,6 @@ end
                   asset_path("product-thumb-1.jpg")
                 end
 
-    image_tag(image_url, alt: "#{category.name} Image", size: "160x160")
+    image_tag(image_url, alt: "#{category.name} Image")
   end
 end

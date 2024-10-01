@@ -21,7 +21,9 @@ module Spree
       def show
         @taxon = current_store.taxons.friendly.find("recipes/#{params[:id]}")
 
-        if params[:q].present?
+       if params[:q].present? && params[:sort_by].present?
+          recipes = @taxon.recipes.search(params[:q]).order(name: (params[:sort_by] == "name-z-a" ? :desc : :asc))
+        elsif params[:q].present?
           recipes = @taxon.recipes.search(params[:q])
         elsif params[:sort_by].present? && params[:sort_by] == "name-z-a"
           recipes = @taxon.recipes.order(name: :desc)

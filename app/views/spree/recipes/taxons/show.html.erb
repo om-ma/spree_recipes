@@ -1,5 +1,4 @@
 <% cache [cache_key_for_taxon_show(@taxon), params[:sort_by]] do %>
-
   <main class="page-contents">
     <div class="category-wrapper">
       <div class="row no-gutters">
@@ -43,14 +42,16 @@
             <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
             <div class="category-mobile-filter phone-visible">
               <div class="header-search">
-                <% category_id = category_recipe_id(@taxon) %> %>
+                <% category_id = category_recipe_id(@taxon) %>
                 <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
-                  <%= search_field_tag :q,
-                                          params[:q],
-                                          placeholder: "Search recipes",
-                                          class: "form-control",
-                                          id: "recipe-search",
-                                          autocomplete: "off" %>
+                  <%= search_field_tag(
+                  "q[name_cont]",
+                  params.dig(:q, :name_cont),
+                  placeholder: "Search recipes",
+                  class: "form-control",
+                  id: "recipe-search",
+                  autocomplete: "off"
+                ) %>
                 <% end %>
               </div>
             </div>
@@ -78,18 +79,4 @@
       </div>
     </div>
   </main>
-  <!-- mobile search menu -->
-  <div class="mobile-search-menu">
-    <div class="search-wrap">
-      <% category_recipe_id = @taxon.permalink.sub("recipes/", "") %>
-      <%= form_tag nested_recipe_taxons_path(category_recipe_id), method: :get, id: 'recipe-search-form' do %>
-        <%= search_field_tag :q,
-                                params[:q],
-                                placeholder: "Search recipes",
-                                class: "form-control",
-                                id: "recipe-search",
-                                autocomplete: "off" %>
-      <% end %>
-    </div>
-  </div>
 <% end %>
