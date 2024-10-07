@@ -20,10 +20,14 @@
                   </div>
                 </div>
                 <div class="col-xl-8 col-lg-7">
-                    <%= spree_recipe_breadcrumbs(@taxon) %>
-                  <h1 class="title"><%= @taxon.title %></h1>
+                  <div class=" recipe-breadcrumb">
+                   <%= spree_recipe_breadcrumbs(@taxon) %>
+                   </div>
+                  <h1 class="title"><%= @taxon.title&.titleize %></h1>
                   <div class="mobile-categories-wrap phone-visible">
-                   <div class="header"><a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a></div>
+                    <div class="header">
+                      <a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a>
+                    </div>
                     <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
                   </div>
                   <div class="category-intro more wrap-long-words">
@@ -37,29 +41,29 @@
                 </div>
               </div>
               <%= render "popular_recipes", taxon: @taxon %>
-            </div>
-            <%= render partial: 'filters', locals: { taxon: @taxon } %>
-            <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
-            <div class="category-mobile-filter phone-visible">
-              <div class="header-search">
-                <% category_id = category_recipe_id(@taxon) %>
-                <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
-                  <%= search_field_tag(
-                  "q[name_cont]",
-                  params.dig(:q, :name_cont),
-                  placeholder: "Search recipes",
-                  class: "form-control",
-                  id: "recipe-search",
-                  autocomplete: "off"
-                ) %>
-                <% end %>
+              <%= render partial: 'filters', locals: { taxon: @taxon } %>
+              <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
+              <div class="category-mobile-filter phone-visible">
+                <div class="header-search">
+                  <% category_id = category_recipe_id(@taxon) %>
+                  <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
+                    <%= search_field_tag(
+                      "q[name_cont]",
+                      params.dig(:q, :name_cont),
+                      placeholder: "Search recipes",
+                      class: "form-control",
+                      id: "recipe-search",
+                      autocomplete: "off"
+                    ) %>
+                  <% end %>
+                </div>
               </div>
+              <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
             </div>
-             <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
-          </div>
-          <!-- /.Best seller products -->
-          <div class="pagination-wrap">
-            <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon }  %>
+            <!-- /.Best seller products -->
+            <div class="pagination-wrap">
+              <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon } %>
+            </div>
           </div>
         </div>
       </div>

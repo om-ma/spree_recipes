@@ -19,14 +19,14 @@ Spree::FrontendHelper.class_eval do
       content_tag :li do
         css_class = taxon.children.present? ? 'dropdown-toggle tab-width border-0 p-0' : 'border-0 p-0'
 
-        link_to(taxon.name, nested_recipe_taxons_path(taxon.permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Category ' + taxon.name, class: selected_taxon_klass) +
+        link_to(taxon.name&.titleize, nested_recipe_taxons_path(taxon.permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Category ' + taxon.name&.titleize, class: selected_taxon_klass) +
         (taxon.children.any? ?
           content_tag(:button, 'Toggle me', type: 'button', class: 'dropdown-toggle', data: { toggle: 'dropdown' }) +
           content_tag(:ul, class: 'dropdown-menu') do
             safe_join(taxon.children.map do |sub_taxon|
               sub_taxon_permalink = sub_taxon.permalink
               content_tag(:li) do
-                link_to(sub_taxon.name, nested_recipe_taxons_path(sub_taxon_permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Subcategory ' + sub_taxon.name)
+                link_to(sub_taxon.name&.titleize, nested_recipe_taxons_path(sub_taxon_permalink.sub("recipes/", "")), data: { turbolinks: false }, 'aria-label': 'Subcategory ' + sub_taxon.name&.titleize)
               end
             end, "\n")
           end
@@ -54,7 +54,7 @@ end
       crumbs << ancestors.each_with_index.map do |ancestor, index|
         content_tag(:li, content_tag(
           :a, content_tag(
-            :span, ancestor.name, itemprop: 'name'
+            :span, ancestor.name&.titleize, itemprop: 'name'
           ) << content_tag(:meta, nil, itemprop: 'position', content: index + 1), itemprop: 'url', href: nested_recipe_taxons_path(ancestor.permalink.sub("recipes/", ""), params: permitted_product_params)
         ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: nested_recipe_taxons_path(ancestor.permalink.sub("recipes/", ""), params: permitted_product_params)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end
@@ -64,14 +64,14 @@ end
         # Agar product exist karta hai, taxon clickable ho ga
         crumbs << content_tag(:li, content_tag(
           :a, content_tag(
-            :span, taxon.name, itemprop: 'name'
+            :span, taxon.name&.titleize, itemprop: 'name'
           ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 1), itemprop: 'url', href: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)
         ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: nested_recipe_taxons_path(taxon.permalink.sub("recipes/", ""), params: permitted_product_params)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       else
         # Agar sirf taxon hai, link ke bagair show hoga
         crumbs << content_tag(:li, content_tag(
           :span, content_tag(
-            :span, taxon.name, itemprop: 'name'
+            :span, taxon.name&.titleize, itemprop: 'name'
           ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 1)
         ), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end
@@ -80,7 +80,7 @@ end
       if product
         crumbs << content_tag(:li, content_tag(
           :span, content_tag(
-            :span, product.name, itemprop: 'name'
+            :span, product.name&.titleize, itemprop: 'name'
           ) << content_tag(:meta, nil, itemprop: 'position', content: ancestors.size + 2), itemprop: 'url', href: recipe_product_path(product, taxon_id: taxon&.id)
         ) << content_tag(:span, nil, itemprop: 'item', itemscope: 'itemscope', itemtype: 'https://schema.org/Thing', itemid: recipe_product_path(product, taxon_id: taxon&.id)), itemscope: 'itemscope', itemtype: 'https://schema.org/ListItem', itemprop: 'itemListElement', class: 'breadcrumb-item')
       end

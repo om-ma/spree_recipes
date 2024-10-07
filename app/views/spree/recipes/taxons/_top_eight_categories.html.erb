@@ -19,7 +19,7 @@
         <% end %>
       </div>
     </div>
-    <div class="wrap d-flex align-items-center justify-content-between">
+    <div class="wrap d-flex align-items-center">
       <% recipe_taxons.each do |category| %>
         <% category_id = category_recipe_id(category) %>
         <div class="recipe-category text-center">
@@ -27,7 +27,7 @@
             <div class="img">
               <%= category_image(category) %>
             </div>
-            <h4><%= category.name.humanize %></h4>
+            <div class="recip-category-title"><h4 class=""><%= category.name.humanize %></h4></div>  
           <% end %>
         </div>
       <% end %>

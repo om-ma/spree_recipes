@@ -1,11 +1,11 @@
 <div class="popular-categories-wrapper">
-  <div class="title-wrap mb-30">
-    <h2 class="title padding-0">Most popular in category</h2>
-    <p class="d-none d-sm-block">
-      He goes on adventures around the world in search of new flavors
-    </p>
-  </div>
   <% if taxon.popular_recipes.present? %>
+    <div class="title-wrap mb-30">
+      <h2 class="title padding-0">Most popular in category</h2>
+      <p class="d-none d-sm-block">
+        He goes on adventures around the world in search of new flavors
+      </p>
+    </div>
     <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
       <%  taxon.popular_recipes.each do |recipe| %>
         <div class="col col-6">
