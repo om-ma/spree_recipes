@@ -1,34 +1,33 @@
 <% @body_id = 'recipe-details' %>
-    <main class="page-contents">
-      <div class="row no-gutters">
-        <div class="col-xl-1 col-lg-2 phone-hide"></div>
-        <div class="col-xl-10 col-lg-8">
-          <div class="recipe-details-wrapper">
-            <ol class="breadcrumb" style="margin-left: -13px;">
-              <%= spree_recipe_breadcrumbs(@taxon, "", @recipe) %>
-            </ol>
-            <div class="ratings">
-              <%= image_tag asset_path("star.svg"), alt: "star" %>
-              <%= image_tag asset_path("star.svg"), alt: "star" %>
-              <%= image_tag asset_path("star.svg"), alt: "star" %>
-              <%= image_tag asset_path("star.svg"), alt: "star" %>
-              <%= image_tag asset_path("star.svg"), alt: "star" %>
-              <span>5 Reviews</span>
-            </div>
-            <div class="row">
-              <div class="col-xl-6">
-                <div class="recipe-gallery-wrap">
-                  <div id="gallery-slider" class="carousel slide" data-ride="carousel">
-                    <%= render "recipe_gallery_slider", recipe: @recipe %>
-                  </div>
-                </div>
+<main class="page-contents">
+  <div class="row no-gutters">
+    <div class="col-xl-1 col-lg-2 phone-hide"></div>
+    <div class="col-xl-10 col-lg-8">
+      <div class="recipe-details-wrapper">
+        <ol class="breadcrumb" style="margin-left: -13px;">
+          <%= spree_recipe_breadcrumbs(@taxon, "", @recipe) %>
+        </ol>
+        <div class="ratings">
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <span>5 Reviews</span>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="recipe-gallery-wrap">
+              <div id="gallery-slider" class="carousel slide" data-ride="carousel">
+                <%= render "recipe_gallery_slider", recipe: @recipe %>
               </div>
-              <%= render "recipe_detail", recipe: @recipe %>
             </div>
           </div>
+          <%= render "recipe_detail", recipe: @recipe %>
         </div>
-        <div class="col-xl-1 col-lg-2 phone-hide"></div>
       </div>
-      <%= render 'spree/shared/recipe_added_modal' %>
-    </main>
+    </div>
+    <div class="col-xl-1 col-lg-2 phone-hide"></div>
   </div>
+  <%= render 'spree/shared/recipe_added_modal' %>
+</main>
