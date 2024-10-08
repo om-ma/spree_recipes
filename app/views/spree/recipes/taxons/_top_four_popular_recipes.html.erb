@@ -25,7 +25,7 @@
                   <h4><%= recipe.name if recipe.present? %></h4>
                   <div class="d-none d-sm-block">
                     <% if recipe.present? && recipe.description.present? %>
-                      <%= recipe.description.truncate(160, omission: '...').html_safe %>
+                      <%= recipe.description.html_safe%>
                     <% end %>
                   </div>
                   <%= link_to 'See More', recipe_product_path(recipe, taxon_id: category.id), class: "btn btn-primary d-none d-sm-block", data: { turbolinks: false } if recipe.present? %>
