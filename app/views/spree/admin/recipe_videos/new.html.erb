@@ -1,0 +1,17 @@
+<%= render 'spree/admin/shared/recipe_tabs', current: :recipe_videos %>
+<%= render 'spree/admin/shared/error_messages', target: @object %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:new_icon) %>
+<% end %>
+<%= form_for [:admin, @recipe, @recipe_video], as: :recipe_video, url: spree.admin_recipe_recipe_videos_path(@recipe), html: { multipart: true } do |f| %>
+  <fieldset data-hook="new_icon">
+    <%= render partial: 'form', locals: { f: f } %>
+
+    <div class="form-actions" data-hook="buttons">
+      <%= button Spree.t('actions.create'), 'save.svg' %>
+      <span class="or"><%= Spree.t(:or) %></span>
+      <%= button_link_to Spree.t('actions.cancel'), spree.admin_recipe_recipe_videos_url(@recipe), icon: 'delete.svg', id: 'cancel_link' %>
+    </div>
+  </fieldset>
+<% end %>

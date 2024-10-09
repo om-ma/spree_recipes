@@ -4,8 +4,6 @@
     <div class="img">
       <% if slide && slide.image && slide.image.attached? %>
         <%= image_tag(main_app.url_for(slide.image), class: "recipe_image", alt: slide.name) %>
-      <% else %>
-        <%= image_tag(asset_path('product-thumb-1.jpg'), alt: slide ? slide.name : "") %>
       <% end %>
     </div>
     <% if slide && slide.link_url.present? %> 

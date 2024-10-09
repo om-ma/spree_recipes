@@ -1,0 +1,49 @@
+<%= render 'spree/admin/shared/recipe_tabs', current: :recipe_icons %>
+<%= render 'spree/admin/shared/error_messages', target: @recipe %>
+
+<% content_for :page_actions do %>
+  <%= yield :page_actions %>
+  <%= button_link_to(Spree.t(:new_image), spree.new_admin_recipe_recipe_icon_url(@recipe), { class: "btn-success", icon: 'add.svg', id: 'new_recipe_icon_link' }) %>
+<% end %>
+
+
+<% unless @recipe.recipe_icons.any? %>
+  <div class="alert alert-warning">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::RecipeIcon)) %>.
+  </div>
+<% else %>
+<div class="table-responsive">
+  <table class="table sortable" data-hook="images_table">
+    <thead>
+      <tr data-hook="images_header">
+        <th class="text-center">
+          <%= Spree.t(:thumbnail) %>
+        </th>
+        <th>
+          <%= Spree.t(:alt_text) %>
+        </th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+
+    <tbody id="sortVert">
+      <% (@recipe.recipe_icons).each do |image| %>
+        <tr id="<%= spree_dom_id image %>" data-hook="images_row">
+          <td class="">
+            <div class="admin-product-image-container small-img">
+              <%= link_to image_tag(main_app.url_for(image.url(:product))), main_app.rails_blob_url(image.attachment) %>
+            </div>
+          </td>
+          <td><%= image.alt %></td>
+          <td class="actions">
+            <span class="d-flex justify-content-end">
+              <%= link_to_with_icon('edit.svg', Spree.t(:edit), spree.edit_admin_recipe_recipe_icon_url(@recipe, image), class: 'btn btn-primary btn-sm', no_text: true, data: { action: 'edit' }) if can? :edit, image %>
+              <%= link_to_delete(image, { url: spree.admin_recipe_recipe_icon_url(@recipe, image), no_text: true }) if can? :destroy, image %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>

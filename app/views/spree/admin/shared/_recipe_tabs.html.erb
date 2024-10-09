@@ -18,7 +18,7 @@
         <%= link_to_with_icon 'adjust.svg',
           Spree.t(:Ingredients),
           spree.admin_recipe_ingredients_url(@recipe),
-          class: "nav-link" %>
+          class: "nav-link #{'active' if current == :ingredients}" %>
   
       <% end if can?(:admin, Spree::Ingredient) %>
   
@@ -26,9 +26,26 @@
         <%= link_to_with_icon 'list.svg',
           Spree.t(:instructions),
           spree.admin_recipe_instructions_url(@recipe),
-          class: "nav-link" %>
+          class: "nav-link #{'active' if current == :instructions}" %>
   
       <% end if can?(:admin, Spree::Instruction) %>
+
+      <%= content_tag :li do %>
+        <%= link_to_with_icon 'images.svg',
+          Spree.t(:images),
+          spree.admin_recipe_recipe_icons_url(@recipe),
+          class: "nav-link #{'active' if current == :recipe_icons}" %>
+
+      <% end if can?(:admin, Spree::Image) %>
+
+      <%= content_tag :li do %>
+        <%= link_to_with_icon 'images.svg',
+          Spree.t(:videos),
+          spree.admin_recipe_recipe_videos_url(@recipe),
+          class: "nav-link #{'active' if current == :recipe_videos}" %>
+
+      <% end if can?(:admin, Spree::Image) %>
+
     </ul>
   <% end %>
   
