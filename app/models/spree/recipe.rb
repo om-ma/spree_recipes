@@ -3,19 +3,21 @@ module Spree
 
     extend FriendlyId
 
-    validates_associated :recipe_icon
+    validates_associated :recipe_icons
 
-    has_one :recipe_icon, as: :viewable, dependent: :destroy, class_name: 'Spree::RecipeImage'
+    has_many :recipe_icons, as: :viewable, dependent: :destroy, class_name: 'Spree::RecipeImage'
     has_many :recipes_taxons
     has_many :taxons, through: :recipes_taxons
     has_many :ingredients
     has_many :instructions
+    has_many :recipe_videos
 
     friendly_id :name, use: :history
     before_validation :set_slug, on: :create, if: :name
 
     after_destroy :punch_slug
     # after_restore :update_slug_history
+    validates :name, presence: true, uniqueness: true
 
     before_validation :downcase_slug
     before_validation :normalize_slug, on: :update
@@ -23,6 +25,22 @@ module Spree
     validates :slug, presence: true, uniqueness: { allow_blank: true, case_sensitive: true }
 
     self.whitelisted_ransackable_attributes =  %w[name]
+
+    def recipe_image
+      recipe_icons.first if recipe_icons.present?
+    end
+
+    def recipe_image_tag
+      recipe_image.my_cf_image_url(:plp) if recipe_image.present?
+    end
+
+    def self.search(query)
+      ransack(query).result
+    end
+
+    def recipe_attachment
+      recipe_image.try(:attachment)
+    end
 
     accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: ->(pp) { pp[:name].blank? }
     accepts_nested_attributes_for :instructions, allow_destroy: true, reject_if: ->(pp) { pp[:description].blank? }

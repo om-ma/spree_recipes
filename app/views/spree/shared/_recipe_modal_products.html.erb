@@ -50,7 +50,7 @@
           
           <div class="dropdown listed-items">
             <button type="button" class="btn btn-secondary" data-toggle="dropdown">
-              <div class="d-flex justify-content-between align-items-center bg-black text-white default-variant-design" id="selectedVariantDetail">
+              <div class="d-flex justify-content-between align-items-center bg-black text-white default-variant-design" id="selectedVariantDetail-<%= product.id %>">
                 <span><%= default_variant.display_amount %></span>
                 <span> <%= default_variant.option_values.map{ |o| o.presentation }.join(", ") %> </span>
               </div>
@@ -73,7 +73,7 @@
         </div>
       <% end %>
       <%= link_to "", recipe_add_to_cart_path(id: default_variant.id, quantity: 1),method: :post , remote: true, id: "jsAddToCart-#{product.id}" %>
-      <%= link_to "javascript:void(0);", class: 'mt-3 mt-lg-0 ml-lg-4 btn btn-primary w-100 font-weight-bold text-uppercase product-added-modal-button', id: "addToCartRecipe", data: {product_id: product.id} do %>
+      <%= link_to "javascript:void(0);", class: 'mt-3 mt-lg-0 ml-lg-4 btn btn-primary w-100 font-weight-bold text-uppercase product-added-modal-button jsAddToCartProduct', id: "addToCartRecipe-#{product.id}>", data: {product_id: product.id} do %>
         <%= Spree.t(:add_to_cart) %>
       <% end %>
     </div>

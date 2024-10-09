@@ -4,11 +4,13 @@ module Spree
     include Spree::CacheHelper
     helper 'spree/products'
 
+    after_action :update_recipe_popularity, only: :show
+
     def show
       @recipe = Spree::Recipe.friendly.find(params[:id])
       @taxon = params[:taxon_id].present? ? Spree::Taxon.find_by_id(params[:taxon_id]) : @recipe&.taxons&.first
       @related_recipes = Rails.cache.fetch("@related_recipes", expires_in: Rails.configuration.x.cache.expiration, race_condition_ttl: 30.seconds) do 
-        @taxon.recipes.where.not(id: @recipe.id).first(4)
+      @taxon.recipes.where.not(id: @recipe.id).first(4) if @taxon && @taxon.recipes.present?
       end
     end
 
@@ -28,6 +30,15 @@ module Spree
       end
     end
 
+    def search
+      @recipes = Spree::Recipe.search(params[:q])
+      if browser.device.mobile? || browser.device.tablet?
+        @pagy, @recipes = pagy_array(@recipes, size: Pagy::DEFAULT[:size_mobile])
+      else
+        @pagy, @recipes = pagy_array(@recipes)
+      end
+    end
+
     def add_to_cart
       variant = Spree::Variant.find_by(id:params[:id])
       quantity = params[:quantity] || 1
@@ -44,6 +55,14 @@ module Spree
       respond_to do |format|
         format.html { redirect_to request.referer }
         format.js
+      end
+    end
+
+    private
+    def update_recipe_popularity
+      ActiveRecord::Base.connected_to(role: :writing) do
+        @recipe.popularity += 1
+        @recipe.save
       end
     end
 

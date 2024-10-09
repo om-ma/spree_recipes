@@ -35,7 +35,7 @@ $(".dropdown-item").on('click', function() {
   $(".js-product-price-" + productId).html(variantPrice)
   $(".js-product-sku-" + productId).html($(this).data("variant-sku"))
   $("#product-selected-variant-" + productId).val($(this).data("variant-id"))
-  $("#selectedVariantDetail").html("<span>" + variantPrice + "</span><span>" + variantOptionValue + "</span>")
+  $("#selectedVariantDetail-" + productId).html("<span>" + variantPrice + "</span><span>" + variantOptionValue + "</span>")
 });
 
 $(".js-recipe-qunatity-select").on("change", function(){
@@ -48,7 +48,7 @@ $(".js-recipe-quantity-field").on("change", function(){
   $("#product-selected-variant-quantity-" +  productId).val($(this).val())
 });
 
-$("#addToCartRecipe").on('click', function() {
+$(".jsAddToCartProduct").on('click', function() {
   let productId = $(this).data("product-id")
   let variantQty = $("#product-selected-variant-quantity-" +  productId).val()
   let variantId = $("#product-selected-variant-" +  productId).val()

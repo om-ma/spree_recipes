@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-20">
+      <div class="title-wrap">
+        <h2 class="title">All Categories</h2>
+        <p class="d-none d-sm-block">
+          He goes on adventures around the world in search of new flavors
+        </p>
+      </div>
+      <div class="header-search d-none d-sm-block">
+        <%= form_tag recipe_search_path, method: :get, id: 'recipe-search-form' do %>
+          <%= search_field_tag(
+                "q[name_cont]",
+                params.dig(:q, :name_cont),
+                placeholder: "Search recipes",
+                class: "form-control",
+                id: "recipe-search",
+                autocomplete: "off"
+              ) %>
+        <% end %>
+      </div>
+    </div>
+    <div class="wrap d-flex align-items-center">
+      <% recipe_taxons.each do |category| %>
+        <% category_id = category_recipe_id(category) %>
+        <div class="recipe-category text-center">
+          <%= link_to nested_recipe_taxons_path(category_id), data: { turbolinks: false }, title: "All #{category.name} Products" do %>
+            <div class="img">
+              <%= category_image(category) %>
+            </div>
+            <div class="recip-category-title"><h4 class=""><%= category.name.humanize %></h4></div>  
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="header-search d-block d-sm-none">
+      <%= form_tag recipe_search_path, method: :get, id: 'recipe-search-form' do %>
+          <%= search_field_tag(
+                "q[name_cont]",
+                params.dig(:q, :name_cont),
+                placeholder: "Search recipes",
+                class: "form-control",
+                id: "recipe-search",
+                autocomplete: "off"
+              ) %>
+        <% end %>
+    </div>
+  </div>

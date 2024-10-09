@@ -1,0 +1,13 @@
+<% recipe_slide_locations.each do |location| %>
+  <% slide = slide(location) %>
+  <div class="col-lg-3 col-6 mb-50">
+    <div class="img">
+      <% if slide && slide.image && slide.image.attached? %>
+        <%= image_tag(main_app.url_for(slide.image), class: "recipe_image", alt: slide.name) %>
+      <% end %>
+    </div>
+    <% if slide && slide.link_url.present? %> 
+      <a href="<%= slide.link_url %>"><h4><%= slide.name %></h4></a>
+    <% end %>
+  </div>
+<% end %>

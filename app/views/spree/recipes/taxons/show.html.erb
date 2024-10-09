@@ -1,46 +1,86 @@
-<% cache [cache_key_for_taxon_show, params[:sort_by]] do %>
-  <div class="category-wrapper">
-    <div class="row no-gutters">
-      <div class="col-xl-2 col-lg-3 phone-hide">
-        <div class="sidebar-categories">
-            <div class="sidebar-categories-title">Categories:</div>
-            <%= render partial: 'taxonomies', locals: { taxon: @taxon }%>
+<% cache [cache_key_for_taxon_show(@taxon), params[:sort_by]] do %>
+  <main class="page-contents">
+    <div class="category-wrapper">
+      <div class="row no-gutters">
+        <div class="col-xl-2 col-lg-3 phone-hide">
+          <div class="sidebar-categories">
+            <h4>Categories:</h4>
+            <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
+          </div>
+        </div>
+        <div class="col-xl-10 col-lg-9">
+          <div class="recipes-wrapper">
+            <div class="category-intro-wrapper">
+              <div class="row">
+                <div class="col-xl-4 col-lg-5">
+                  <div class="category-banner mb-20">
+                    <div class="img">
+                      <%= category_image(@taxon) %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-8 col-lg-7">
+                  <div class=" recipe-breadcrumb">
+                   <%= spree_recipe_breadcrumbs(@taxon) %>
+                   </div>
+                  <h1 class="title"><%= @taxon.title&.titleize %></h1>
+                  <div class="mobile-categories-wrap phone-visible">
+                    <div class="header">
+                      <a href="#" class="mobile-category-toggle" role="button" aria-label="mobile category toggle">Categories:</a>
+                    </div>
+                    <%= render partial: 'taxonomies', locals: { taxon: @taxon } %>
+                  </div>
+                  <div class="category-intro more wrap-long-words">
+                    <%= raw(@taxon.short_description) %>
+                    <% if @taxon.description.present? %>
+                      <a href="#more-category-description" data-turbolinks="false" aria-label="More About <%= @taxon.name %>">
+                        <strong>Read more</strong>
+                      </a>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <%= render "popular_recipes", taxon: @taxon %>
+              <%= render partial: 'filters', locals: { taxon: @taxon } %>
+              <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
+              <div class="category-mobile-filter phone-visible">
+                <div class="header-search">
+                  <% category_id = category_recipe_id(@taxon) %>
+                  <%= form_tag nested_recipe_taxons_path(category_id), method: :get, id: 'recipe-search-form' do %>
+                    <%= search_field_tag(
+                      "q[name_cont]",
+                      params.dig(:q, :name_cont),
+                      placeholder: "Search recipes",
+                      class: "form-control",
+                      id: "recipe-search",
+                      autocomplete: "off"
+                    ) %>
+                  <% end %>
+                </div>
+              </div>
+              <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
+            </div>
+            <!-- /.Best seller products -->
+            <div class="pagination-wrap">
+              <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon } %>
+            </div>
+          </div>
         </div>
       </div>
-      <div class= "col-xl-10 col-lg-9">
-        <div class="products-wrapper">
-          <div class="category-banner phone-visible">
-            <% if browser.device.mobile? %>
-                <% if @taxon.icon.present? %>
-                  <%= image_tag @taxon.icon.my_cf_image_url(:small), alt:"#{@recipe_taxon.name}" %> 
-                <% else %>
-                  <%= image_tag "noimage/default-category-image-small.jpg", alt:"#{@taxon.name}" %>
-                <% end %>
-            <% else %>
-              <% if @taxon.icon.present? %>
-                <%= image_tag @taxon.icon.my_cf_image_url(:large), alt:"#{@taxon.name}" %> 
-              <% else %>
-                <%= image_tag "noimage/default-category-image.jpg", alt:"#{@taxon.name}" %>
+      <div class="category-intro-footer">
+        <div class="row no-gutters">
+          <div class="col-xl-2 col-lg-3 phone-hide"></div>
+          <div class="col-xl-10 col-lg-9">
+            <div class="text-block wrap-long-words">
+              <% if @taxon.description.present? %>
+                <span id="more-category-description" class="more">More about <%= @taxon.name %></span><br><br>
+                <%= raw(@taxon.description) %>
               <% end %>
-            <% end %>
+              </p>
+            </div>
           </div>
-          <%= render partial: 'introduction', locals: { taxon: @taxon } %>
-          <%= render partial: 'filters', locals: { taxon: @taxon } %>
-          <%= render partial: 'mobile_filters', locals: { taxon: @taxon } %>
-          <% if @recipes.present? %>
-            <%= render partial: 'spree/shared/recipes', locals: { recipes: @recipes, taxon: @taxon } %>
-          <% end %>
         </div>
-        <% if @recipes.present? %>
-          <%= render partial: 'spree/taxons/pagination', locals: { pagy: @pagy, taxon: @taxon }  %>
-        <%end%>
       </div>
     </div>
-  </div>
-  <div class="category-intro-footer" id="footer-text">
-    <% if @taxon.description.present? %>
-      <span id="more-category-description" class="more">More about <%= @taxon.name %></span><br><br>
-      <%= raw(@taxon.description) %>
-    <% end %>
-  </div>
+  </main>
 <% end %>

@@ -1,0 +1,20 @@
+<%= render 'spree/admin/shared/recipe_tabs', current: :recipe_videos %>
+<%= render 'spree/admin/shared/error_messages', target: @recipe %>
+
+<%= form_for [:admin, @recipe, @recipe_video], as: :recipe_video, url: spree.admin_recipe_recipe_video_path, html: { multipart: true } do |f| %>
+  <div data-hook="edit_video" class="card mb-3">
+    <div class="card-body">
+      <div class="form-group">
+        <div class="col-12">
+          <%= render partial: 'form', locals: { f: f } %>
+        </div>
+
+        <div class="form-actions" data-hook="buttons">
+          <%= button Spree.t('actions.update'), 'save.svg' %>
+          <span class="or"><%= Spree.t(:or) %></span>
+          <%= button_link_to Spree.t('actions.cancel'), spree.admin_recipe_recipe_videos_url(@recipe), id: 'cancel_link', icon: 'cancel.svg' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

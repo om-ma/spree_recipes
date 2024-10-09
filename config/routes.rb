@@ -12,6 +12,8 @@ Spree::Core::Engine.add_routes do
           post :update_positions
         end
       end
+      resources :recipe_icons
+      resources :recipe_videos
     end
   end
 
@@ -20,6 +22,8 @@ Spree::Core::Engine.add_routes do
   get "recipe/*id", to: 'recipes#show', as: :recipe_product
   get "generate_pdf/*id", to: 'recipes#generate_pdf', as: :recipe_pdf
   post 'recipe_add_to_cart/:id', to: 'recipes#add_to_cart', as: :recipe_add_to_cart
+  get '/recipes_search', to: 'recipes#search', as: :recipe_search
+  
 
   get "products_modal/*id", to: 'recipes#display_products_modal', as: :display_recipe_products_modal
   

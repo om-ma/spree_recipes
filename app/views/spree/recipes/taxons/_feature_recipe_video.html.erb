@@ -1,0 +1,31 @@
+<div class="featured-recipe-video">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xujDlx5E94g" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="text-block text-center">
+          <h6>Featured Video</h6>
+          <h2 class="title mb-20">Extracts and Flavorings</h2>
+          <p>
+            Nature's Flavors has been producing natural and organic
+            flavorings for over 40 years. We specialize in custom-made,
+            all-natural and organic flavorings for the food and beverage
+            industry. Our CEO and Founder
+          </p>
+          <p>
+            <strong>What else makes Nature’s Flavors so special?</strong>
+            <br />
+            There’s no middle man… <a href="#">more</a>
+          </p>
+          <% if recipe.present? %>
+            <%= link_to 'Get the Recipe', recipe_product_path(recipe), class: 'btn btn-primary', data: { turbolinks: false } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

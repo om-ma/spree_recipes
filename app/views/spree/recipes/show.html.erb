@@ -1,88 +1,33 @@
 <% @body_id = 'recipe-details' %>
-
 <main class="page-contents">
-  <div class="container bg-white pt-4 product-details">
-    <div class="container mb-3">
-      <%= spree_recipe_breadcrumbs(@taxon, '', @recipe) %>
-    </div>
-    <div class="row" data-hook="product_show">
-      <%= render partial: 'gallery' %>
-      <div class="col-12 col-md-5" data-hook="product_right_part">
-        <div class="" id="product-description" data-hook="product_right_part_wrap">
-          <h2 class="mt-3 mt-md-0">
-            <%= @recipe.name %>
-          </h2>
-          
-          <div class="mt-4" >
-            <% if @recipe.ingredients.present? %>
-              <div>
-                <h4>INGREDIENTS</h4>
-                <ul class="mt-2" >
-                  <% @recipe.ingredients.each do |ingredient| %>
-                    <li>
-                      <%= ingredient.amount %> <%= ingredient.unit %>. 
-                      <% if ingredient.product.present? %>
-                        <% product = ingredient.product %>
-                        <%= link_to spree.product_path(product) , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= ingredient.name %>
-                        <% end %>
-                      <% elsif ingredient.external_link.present? %>
-                        <%= link_to ingredient.external_link , class: "ml-1", data: { turbolinks: false } do %>
-                          <%= ingredient.name %>
-                        <% end %>
-                      <% else %>
-                        <%= ingredient.name %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>  
+  <div class="row no-gutters">
+    <div class="col-xl-1 col-lg-2 phone-hide"></div>
+    <div class="col-xl-10 col-lg-8">
+      <div class="recipe-details-wrapper">
+        <ol class="breadcrumb" style="margin-left: -13px;">
+          <%= spree_recipe_breadcrumbs(@taxon, "", @recipe) %>
+        </ol>
+        <div class="ratings">
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <%= image_tag asset_path("star.svg"), alt: "star" %>
+          <span>5 Reviews</span>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="recipe-gallery-wrap">
+              <div id="gallery-slider" class="carousel slide" data-ride="carousel">
+                <%= render "recipe_gallery_slider", recipe: @recipe %>
               </div>
-            <% end %>
-            <div class="mt-4" >
-              <%= @recipe&.description&.html_safe %>
             </div>
-            <div class="mt-4 mb-4" >
-              <%= link_to "SHOP THE FLAVOR", display_recipe_products_modal_path(@recipe), class: "btn btn-primary", remote: true, id: "js-recipe-product-modal" %>
-              
-              <%= link_to "Print / save recipe", recipe_pdf_path(@recipe, format: :pdf), class: "ml-sm-2 mt-2 mt-sm-0 btn btn-primary", target: '_blank' %>
-            </div>
-            <% if @recipe.instructions.present? %>
-              <div class="mt-4" >
-                <h4>INSTRUCTIONS</h4>
-                <ol class="mt-2" >
-                  <% @recipe.instructions.each do |instruction| %>
-                    <li>
-                      <%= instruction.description %>
-                    </li>
-                  <% end %>
-                </ol>
-              </div>
-            <% end %>
           </div>
+          <%= render "recipe_detail", recipe: @recipe %>
         </div>
       </div>
     </div>
+    <div class="col-xl-1 col-lg-2 phone-hide"></div>
   </div>
-
-  <% if @related_recipes.present? %>
-    <div id="related-products">
-      <div class="product-tabs-wrapper">
-        <div class="row no-gutters">
-          <div class="col-xl-1 tablet-hide"></div>
-          <div class="col-xl-11">
-            <div class="latest-deals">
-              <h3>Related Recipes</h3>
-              <div class="products-wrapper d-sm-flex align-items-start">
-                <% @related_recipes.each do |recipe| %>
-                  <%= render 'spree/shared/recipe', recipe: recipe, image_class: 'product-component-plp-image', taxon: @taxon %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
   <%= render 'spree/shared/recipe_added_modal' %>
 </main>
