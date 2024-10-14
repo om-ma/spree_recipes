@@ -1,4 +1,4 @@
-<% cache cache_key_for_recipe_wihtout_version(@recipe) do %>
+<%# cache cache_key_for_recipe_wihtout_version(recipe) do %>
   <div class="col col-12">
     <div class="product-wrap" id="recipe_<%= recipe.id %>" data-hook="recipes_list_item">
       <%= link_to recipe_product_path(recipe, taxon_id: taxon.id), data: { turbolinks: false } do %>
@@ -17,4 +17,4 @@
       <% end %>
     </div>
   </div>
-<% end %>
+<%# end %>
