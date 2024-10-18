@@ -19,15 +19,15 @@
         <% end %>
       </div>
     </div>
-    <div class="wrap d-flex align-items-center">
+    <div class="wrap d-flex ">
       <% recipe_taxons.each do |category| %>
         <% category_id = category_recipe_id(category) %>
-        <div class="recipe-category text-center">
+        <div class="recipe-category ">
           <%= link_to nested_recipe_taxons_path(category_id), data: { turbolinks: false }, title: "All #{category.name} Products" do %>
             <div class="img">
               <%= category_image(category) %>
             </div>
-            <div class="recip-category-title"><h4 class=""><%= category.name.humanize %></h4></div>  
+            <div class="recipe-category-title "><h4 class=""><%= category.name.humanize %></h4></div>  
           <% end %>
         </div>
       <% end %>

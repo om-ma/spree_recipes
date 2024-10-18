@@ -1,32 +1,35 @@
+
 <div class="popular-categories-wrapper">
   <% if taxon.popular_recipes.present? %>
     <div class="title-wrap mb-30">
-      <h2 class="title padding-0">Most popular in category</h2>
+      <h2 class="title padding-0">Most popular in <%= taxon.name %></h2>
       <p class="d-none d-sm-block">
         He goes on adventures around the world in search of new flavors
       </p>
     </div>
     <div class="row row-cols-xl-6 row-cols-lg-4 row-cols-sm-2">
       <%  taxon.popular_recipes.each do |recipe| %>
-        <div class="col col-6">
-          <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-            <div class="product-img">
-              <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
-                <% if recipe.recipe_icons.present? %>
-                <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
-            <% else %>
-                <%= image_tag "product-thumb-1.jpg", alt:"#{recipe.name} Image" %>
-            <% end %>
-              <% end %>
-            </div>
-            <div class="product-desc text-center">
-              <h4>
+        <% cache cache_key_for_recipe_wihtout_version(recipe) do %>
+          <div class="col col-6">
+            <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
+              <div class="product-img pop-img">
                 <%= link_to recipe_product_path(recipe, taxon_id: @taxon.id), data: { turbolinks: false } do %>
-                  <%= recipe.name %></a></h4>
+                  <% if recipe.recipe_icons.present? %>
+                    <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
+                  <% else %>
+                    <%= image_tag "product-thumb-1.jpg", alt:"#{recipe.name} Image" %>
+                  <% end %>
                 <% end %>
+              </div>
+              <div class="product-desc text-center wrap-long-words">
+                <h4>
+                  <%= link_to recipe_product_path(recipe, taxon_id: taxon.id), data: { turbolinks: false } do %>
+                    <%= recipe.name %></h4>
+                  <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% end %>
