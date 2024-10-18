@@ -12,6 +12,8 @@ Spree::Core::Engine.add_routes do
           post :update_positions
         end
       end
+      resources :recipe_icons
+      resources :recipe_videos
     end
   end
 

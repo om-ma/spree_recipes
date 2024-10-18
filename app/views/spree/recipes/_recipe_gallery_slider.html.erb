@@ -17,14 +17,16 @@
       <% if !active_class_assigned %> <!-- Only assign active class to first video if no image was active -->
         <div class="carousel-item active">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="<%= video.video_url %>" allowfullscreen></iframe>
+            <% video_id = video.video_url&.split("v=")&.last&.split("&")&.first %>
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= video_id %>" allowfullscreen></iframe>
           </div>
         </div>
         <% active_class_assigned = true %> 
       <% else %>
         <div class="carousel-item">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="<%= video.video_url %>" allowfullscreen></iframe>
+            <% video_id = video.video_url&.split("v=")&.last&.split("&")&.first %>
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= video_id %>" allowfullscreen></iframe>
           </div>
         </div>
       <% end %>
