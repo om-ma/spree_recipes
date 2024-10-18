@@ -3,11 +3,28 @@
   <div class="col-lg-3 col-6 mb-50">
     <div class="img">
       <% if slide && slide.image && slide.image.attached? %>
-        <%= image_tag(main_app.url_for(slide.image), class: "recipe_image", alt: slide.name) %>
+        <% if slide.link_url.present? %>
+          <a href="<%= slide.link_url %>">
+            <%= image_tag(main_app.url_for(slide.image), class: "recipe_image", alt: slide.name) %>
+          </a>
+        <% else %>
+          <%= image_tag(main_app.url_for(slide.image), class: "recipe_image", alt: slide.name) %>
+        <% end %>
+      <% else %>
+        <% if slide && slide.link_url.present? %>
+          <a href="<%= slide.link_url %>">
+            <%= image_tag(asset_path('product-thumb-1.jpg'), alt: slide ? slide.name : "") %>
+          </a>
+        <% else %>
+          <%= image_tag(asset_path('product-thumb-1.jpg'), alt: slide ? slide.name : "") %>
+        <% end %>
       <% end %>
     </div>
-    <% if slide && slide.link_url.present? %> 
-      <a href="<%= slide.link_url %>"><h4><%= slide.name %></h4></a>
+
+    <% if slide && slide.link_url.present? %>
+      <a href="<%= slide.link_url %>">
+        <h4><%= slide.name %></h4>
+      </a>
     <% end %>
   </div>
 <% end %>

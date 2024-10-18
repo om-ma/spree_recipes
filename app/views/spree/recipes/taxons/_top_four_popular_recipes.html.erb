@@ -18,14 +18,21 @@
           <% category.top_four_pop_recipes.each do |recipe| %>
             <div class="col-lg-3 col-6">
               <div class="product-wrap" data-aos="fade-in" data-aos-once="true" data-aos-duration="500">
-                <div class="product-img">
+                <div class="product-img pop-img">
+                  <% if browser.device.mobile? || !browser.device.tablet? %>
+                    <% if recipe.recipe_icons.present? %>
+                        <%= image_tag recipe.recipe_image_tag, alt:"#{recipe.name} Image" %>
+                    <% else %>
+                        <%= image_tag "product-thumb-1.jpg", alt:"#{recipe.name} Image" %>
+                    <% end %>
+                  <% end %>
                   <%# <span class="badge">Spring</span> %>
                 </div>
                 <div class="product-desc text-center wrap-long-words">
                   <h4><%= recipe.name if recipe.present? %></h4>
                   <div class="d-none d-sm-block">
                     <% if recipe.present? && recipe.description.present? %>
-                      <%= recipe.description.html_safe %>
+                      <%= recipe.description.html_safe%>
                     <% end %>
                   </div>
                   <%= link_to 'See More', recipe_product_path(recipe, taxon_id: category.id), class: "btn btn-primary d-none d-sm-block", data: { turbolinks: false } if recipe.present? %>
